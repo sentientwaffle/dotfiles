@@ -24,7 +24,7 @@ set mouse=a
 " Indentation
 " -----------------------------------------------------------------------------
 set autoindent
-set smartindent
+" set smartindent
 set nowrap
 set softtabstop=2
 set shiftwidth=2
