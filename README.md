@@ -11,3 +11,5 @@ and `ls`.
 
 You will need to manually link/initialize the `.bashrc` file.
 
+    source ~/dotfile/bash/.bashrc
+
