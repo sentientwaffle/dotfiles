@@ -7,13 +7,11 @@ syntax on
 " -----------------------------------------------------------------------------
 " General
 " -----------------------------------------------------------------------------
+" Backspace over anything
 set backspace=indent,eol,start
 
-" dont fold
+" No folding
 set nofoldenable
-
-" CWD is always the current file's directory
-" set autochdir
 
 " -----------------------------------------------------------------------------
 " Mouse
@@ -33,6 +31,11 @@ set expandtab
 
 set wildmenu " command-line completion
 set title " show flename in window titlebar
+
+" Extention matching
+autocmd FileType python setlocal expandtab shiftwidth=4 softtabstop=4
+autocmd FileType make setlocal noexpandtab shiftwidth=8 softtabstop=8
+autocmd FileType gitconfig setlocal noexpandtab shiftwidth=8 softtabstop=8
 
 " -----------------------------------------------------------------------------
 " UI
@@ -55,13 +58,11 @@ colorscheme solarized
 
 " Invisible characters
 set listchars=tab:▸\ ,trail:·,nbsp:_
-" set listchars=tab:▸\ ,trail:·,eol:¬,nbsp:_
 set list
 
 " 80 char margin
 highlight OverLength ctermbg=red ctermfg=white guibg=#592929
 match OverLength /\%81v.\+/
-
 
 " -----------------------------------------------------------------------------
 " Backups
@@ -80,11 +81,6 @@ imap <Nul> <C-p>
 " -----------------------------------------------------------------------------
 " Reload .vimrc when saved.
 autocmd bufwritepost .vimrc source $MYVIMRC
-
-" Extention matching
-autocmd FileType python setlocal expandtab shiftwidth=4 softtabstop=4
-autocmd FileType make setlocal noexpandtab shiftwidth=8 softtabstop=8
-autocmd FileType gitconfig setlocal noexpandtab shiftwidth=8 softtabstop=8
 
 
 " -----------------------------------------------------------------------------
