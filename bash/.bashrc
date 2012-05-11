@@ -3,17 +3,16 @@
 
 export HISTCONTROL=ignoredups:ignorespace
 export EDITOR=vim
-
 export DOTFILES=$HOME/dotfiles
 
-# #######
+# ##############################################################################
 # Path
-# #######
-
+# ##############################################################################
 export PATH=$DOTFILES/bin:$PATH
 
-
-
+# ##############################################################################
+# Load other configs.
+# ##############################################################################
 for config_file in $DOTFILES/**/aliases.sh
 do
   source $config_file
@@ -23,12 +22,18 @@ if [ -x /usr/bin/dircolors ]; then
   eval `dircolors --sh $DOTFILES/.dircolors`
 fi
 
+# ##############################################################################
+# Aliases
+# ##############################################################################
 alias v='vim'
 alias ..='cd ..'
 alias ...='cd ../..'
 alias la='ls -A'
 alias ll='ls -lAF'
 
+# ##############################################################################
+# Terminal colors
+# ##############################################################################
 if [ -n "$DISPLAY" -a "$TERM" == "xterm" ]; then
   export TERM=screen-256color
 fi
