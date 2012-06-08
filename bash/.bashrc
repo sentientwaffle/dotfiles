@@ -35,6 +35,7 @@ alias ..='cd ..'
 alias ...='cd ../..'
 alias la='ls -A'
 alias ll='ls -lAF'
+alias grep='grep --color'
 
 # ##############################################################################
 # Terminal colors
