@@ -5,6 +5,7 @@ alias gc='git commit'
 alias gcm='git commit -m'
 
 alias gd='git diff --color-words'
+alias gdc='gd --cached'
 
 alias gb='git branch'
 alias gco='git checkout'
