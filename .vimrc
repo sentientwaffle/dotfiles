@@ -61,7 +61,7 @@ set listchars=tab:▸\ ,trail:·,nbsp:_
 set list
 
 " 80 char margin
-highlight OverLength ctermbg=red ctermfg=white guibg=#592929
+highlight OverLength cterm=underline
 match OverLength /\%81v.\+/
 
 " Statusbar
