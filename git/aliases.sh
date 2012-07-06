@@ -9,6 +9,7 @@ alias gdc='gd --cached'
 
 alias gb='git branch'
 alias gco='git checkout'
+alias gm='git merge'
 
 alias ga='git add'
 
