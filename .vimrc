@@ -1,6 +1,5 @@
 call pathogen#infect()
 
-
 " set nocompatible
 syntax on
 
@@ -81,7 +80,7 @@ imap <Nul> <C-p>
 
 nmap <TAB> gt
 nmap <S-TAB> gT
-nmap <C-b> <C-a>
+nmap <C-]> <C-a>
 
 " -----------------------------------------------------------------------------
 " Auto
