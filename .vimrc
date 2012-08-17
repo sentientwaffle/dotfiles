@@ -52,7 +52,7 @@ set smartcase " strict case when upper in search term
 " Theming
 set background=dark
 let g:solarized_termcolors=256
-set t_Co=16
+set t_Co=256
 colorscheme solarized
 
 " Invisible characters
