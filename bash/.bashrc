@@ -33,6 +33,7 @@ fi
 alias v='vim -p'
 alias ..='cd ..'
 alias ...='cd ../..'
+alias ls='ls -G'
 alias la='ls -A'
 alias ll='ls -lAF'
 alias grep='grep --color'
