@@ -37,6 +37,7 @@ alias ls='ls -G'
 alias la='ls -A'
 alias ll='ls -lAF'
 alias grep='grep --color'
+alias s='search'
 
 # ##############################################################################
 # Terminal colors
