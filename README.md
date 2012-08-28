@@ -13,3 +13,10 @@ You will need to manually link/initialize the `.bashrc` file.
 
     source ~/dotfiles/bash/.bashrc
 
+## Dependencies (apt-get)
+
+  * tmux
+    * xclip
+  * cmus
+    * vorbis-tools (vorbiscomment)
+
