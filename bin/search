@@ -3,4 +3,4 @@
 var exec = require('child_process').exec
   , args = process.argv.slice(2).join(' ')
 
-exec("open 'https://duckduckgo.com/?q=" + encodeURIComponent(args) + "'")
+exec("xdg-open 'https://duckduckgo.com/?q=" + encodeURIComponent(args) + "'")
