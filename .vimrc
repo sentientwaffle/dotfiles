@@ -35,7 +35,7 @@ set title " show flename in window titlebar
 autocmd FileType python setlocal expandtab shiftwidth=4 softtabstop=4
 autocmd FileType make setlocal noexpandtab shiftwidth=8 softtabstop=8
 autocmd FileType gitconfig setlocal noexpandtab shiftwidth=8 softtabstop=8
-autocmd FileType go setlocal expandtab shiftwidth=8 softtabstop=8
+autocmd FileType go setlocal noexpandtab shiftwidth=8 softtabstop=8
 
 " -----------------------------------------------------------------------------
 " UI
