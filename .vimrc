@@ -84,6 +84,14 @@ nmap <S-TAB> gT
 " Increment.
 nmap <C-]> <C-a>
 
+" Disable Page Up & Page Down.
+nmap <PageUp> <Nop>
+nmap <PageDown> <Nop>
+imap <PageUp> <Nop>
+imap <PageDown> <Nop>
+vmap <PageUp> <Nop>
+vmap <PageDown> <Nop>
+
 " -----------------------------------------------------------------------------
 " Auto
 " -----------------------------------------------------------------------------
