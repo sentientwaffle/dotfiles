@@ -3,4 +3,12 @@
 var exec = require('child_process').exec
   , args = process.argv.slice(2).join(' ')
 
-exec("xdg-open 'https://duckduckgo.com/?q=" + encodeURIComponent(args) + "'")
+if (args) {
+  exec("xdg-open 'https://duckduckgo.com/?q=" + encodeURIComponent(args) + "'")
+} else {
+  console.log()
+  console.log("  Usage:")
+  console.log()
+  console.log("    $ search <query>")
+  console.log()
+}
