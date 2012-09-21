@@ -1,5 +1,3 @@
 #!/bin/sh
 
-read data
-echo -n $data | xclip -i -selection c
-
+xclip -i -selection c
