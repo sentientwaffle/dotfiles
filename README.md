@@ -22,3 +22,9 @@ You will need to manually link/initialize the `.bashrc` file.
   * cmus
     * vorbis-tools (vorbiscomment)
 
+## Programs
+### `copy`
+Usage:
+
+    $ cat foo.txt | copy
+
