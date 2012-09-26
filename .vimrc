@@ -83,6 +83,8 @@ nmap <TAB> gt
 nmap <S-TAB> gT
 " Increment.
 nmap <C-]> <C-a>
+" Clear search highlight.
+nmap <C-l> :noh<CR>
 
 " Disable Page Up & Page Down.
 nmap <PageUp> <Nop>
