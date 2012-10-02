@@ -28,3 +28,11 @@ Usage:
 
     $ cat foo.txt | copy
 
+### `gmail`
+Get the number of unread emails from gmail.
+
+The password is retreived from Ubuntu.
+Create an item on the Ubuntu "Passwords and Keys" manager named "Gmail"
+with your password.
+
+The username and poll interval are constants in `bin/gmail`.
