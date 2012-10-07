@@ -63,3 +63,4 @@ else
 fi
 
 echo "$msg" > "$NOW_PLAYING_PIPE"
+tmux refresh-client -S
