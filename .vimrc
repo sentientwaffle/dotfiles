@@ -37,6 +37,10 @@ autocmd FileType make setlocal noexpandtab shiftwidth=8 softtabstop=8
 autocmd FileType gitconfig setlocal noexpandtab shiftwidth=8 softtabstop=8
 autocmd FileType go setlocal noexpandtab shiftwidth=8 softtabstop=8
 
+" Spellchecking
+autocmd FileType mail setlocal spell
+autocmd FileType gitcommit setlocal spell
+
 " -----------------------------------------------------------------------------
 " UI
 " ------------------------------------------------------------------------------
