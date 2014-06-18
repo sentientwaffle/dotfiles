@@ -12,7 +12,8 @@ from sys import exit
 import gnomekeyring as gkey
 
 TMP = "/tmp/tmux-gmail.txt"
-USERNAME = "sentientwaffle"
+USERNAME1 = "sentientwaffle"
+USERNAME2 = "dj.gardiner@voxer.com"
 INTERVAL = 60
 now = int(time())
 
@@ -32,7 +33,7 @@ except IOError:
     pass
 
 
-def get_info():
+def get_info(name):
     """
 
     Get the gmail password.
@@ -42,7 +43,7 @@ def get_info():
     info = None
     for item in gkey.list_item_ids_sync("login"):
         info = gkey.item_get_info_sync(keyring, item)
-        if info.get_display_name() == "Gmail":
+        if info.get_display_name() == name:
             break
     return info
 
@@ -65,7 +66,6 @@ def unread(m):
     """
     _, res = m.status("Inbox", "(UNSEEN)")
     count = re.search("UNSEEN (\d+)", res[0]).group(1)
-    save(count)
     return count
 
 def save(count):
@@ -76,9 +76,13 @@ def save(count):
     """
     tmp("w").write(str(now) + ":" + str(count))
 
-info = get_info()
-if info == None:
+info1 = get_info("Gmail")
+info2 = get_info("GmailVox")
+if info1 == None or info2 == None:
     print "?"
 else:
-    mail = mailbox(USERNAME, info.get_secret())
-    print unread(mail)
+    mail1 = mailbox(USERNAME1, info1.get_secret())
+    mail2 = mailbox(USERNAME2, info2.get_secret())
+    out = unread(mail1) + "," + unread(mail2)
+    print out
+    save(out)

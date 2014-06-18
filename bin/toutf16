@@ -1,0 +1,19 @@
+#!/usr/bin/env node
+
+var data = []
+
+process.stdin.resume()
+process.stdin.on("data", data.push.bind(data))
+process.stdin.on("end", function() {
+  console.log(toUTF16(Buffer.concat(data).toString("utf8").trim()))
+  process.exit()
+})
+
+function toUTF16(str) {
+  var escaped = ""
+  for (var i = 0, l = str.length; i < str.length; i++) {
+    var hex = str.charCodeAt(i).toString(16).toUpperCase()
+    escaped += "\\u" + "0000".substr(hex.length) + hex
+  }
+  return escaped
+}

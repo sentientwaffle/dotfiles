@@ -1,3 +1,10 @@
-#!/bin/sh
+#!/usr/bin/env bash
 
-node -pe "Date.now()" | copy
+if [[ $# = 0 ]]; then
+  ts=$(node -pe "Date.now()")
+  echo -n $ts | copy
+  echo $ts
+else
+  num=${1//[^0-9]/}
+  node -pe "new Date($num);"
+fi
