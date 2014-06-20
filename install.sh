@@ -8,8 +8,7 @@ mkdir -p "$HOME/.cmus"
 ln -s "$PWD/.cmus/current-track.sh" "$HOME/.cmus/current-track.sh"
 ln -s "$PWD/.cmus/solarized.theme" "$HOME/.cmus/solarized.theme"
 
-if [ ! -f "$HOME/.gitconfig" ];
-then
-  cp "$PWD/.gitconfig" "$HOME/.gitconfig"
+if [ ! -f "$HOME/.gitconfig" ]; then
+  ln -s "$PWD/.gitconfig" "$HOME/.gitconfig"
 fi
 

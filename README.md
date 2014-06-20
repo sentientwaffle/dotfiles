@@ -42,3 +42,11 @@ Create an item on the Ubuntu "Passwords and Keys" manager named "Gmail"
 with your password.
 
 The username and poll interval are constants in `bin/gmail`.
+
+## dwm
+
+Reload config file:
+
+    $ cd ~/dwm
+    $ makepkg -efi
+
