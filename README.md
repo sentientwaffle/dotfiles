@@ -13,9 +13,9 @@ and `ls`.
 
 You will need to manually link/initialize the `.bashrc` file.
 
-    source ~/dotfiles/bash/.bashrc
+    source ~/dotfiles/.bashrc
 
-### Cmus
+#### Cmus
 
     :colorscheme solarized
     :set status_display_program=/home/x/.cmus/current-track.sh
@@ -28,7 +28,7 @@ You will need to manually link/initialize the `.bashrc` file.
   * cmus
     * vorbis-tools (vorbiscomment)
 
-## Programs
+## ./bin/
 ### `copy`
 Usage:
 
@@ -43,10 +43,18 @@ with your password.
 
 The username and poll interval are constants in `bin/gmail`.
 
+# Configs
 ## dwm
 
-Reload config file:
+Reload `config.h`:
 
     $ cd ~/dwm
     $ makepkg -efi
+    [MOD-Shift-Q]
+
+## X
+
+Reload `.Xresources`:
+
+    $ xrdb ~/.Xresources
 

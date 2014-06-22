@@ -4,10 +4,16 @@ var CLEAR = '\u001b[39m'
   , str   = ""
 
 for (var i = 0; i < 256; i++) {
-  if (i && i % 32 === 0) str += "\n"
-  str += color(i) + "X" + CLEAR
+  if (i && i % 16 === 0) str += "\n"
+  str += color(i) + pad3(i) + " " + CLEAR
 }
 
 console.log(str)
 
 function color(n) { return '\u001b[38;5;' + n + 'm' }
+
+function pad3(n) {
+  return (n <  10) ? "00" + n
+       : (n < 100) ? "0"  + n
+       : "" + n
+}
