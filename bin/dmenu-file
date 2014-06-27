@@ -1,0 +1,29 @@
+#!/usr/bin/env bash
+
+# Create a menu from a list of commands and labels.
+# Modelled after dmenu_run.
+
+# The text file's format should be:
+# <command label>  <command> [arguments]
+# <command label>  <command> [arguments]
+# ...
+
+if [[ $# = 0 ]]; then
+	echo "Usage: dmenu-file <text-file>"
+	exit 1
+fi
+
+# Sometimes a "~" can come in un-substituted because dwm is running this script.
+file=${1/\~/"/home/$USER"}
+
+command=$(cat $file |
+  cut -d" " -f1     |
+  dmenu)
+
+if [[ -z $command ]]; then
+	exit
+fi
+
+grep $command < $file |
+  sed 's/^\w\+ \+//g' |
+  ${SHELL:-"/bin/sh"}

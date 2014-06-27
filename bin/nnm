@@ -1,0 +1,107 @@
+#!/usr/bin/env bash
+
+# Juggle multiple Node.js builds.
+
+dir=$NNM_DIR
+current="$dir/current"
+arch=$(uname -m)
+arch=${arch/x86_64/x64}
+arch=${arch/i686/x86}
+
+usage() {
+	cat <<-EOF
+	usage: ${0##*/} <command> [arguments]
+
+	commands:
+	  ls
+	  use       <version>
+	  install   <version>
+	  uninstall <version>
+	EOF
+}
+
+usage_node_dir() {
+	cat <<-EOF
+	Set the \$NNM_DIR env variable, and add:
+
+	  export NNM_DIR="..."
+	  export PATH="\$NNM_DIR/current/bin:\$PATH"
+
+	to your ~/.bashrc
+	EOF
+}
+
+file_to_version() {
+	cut -d'-' -f2 <<<"$1"
+}
+
+version_to_dir() {
+	echo "$dir/node-v$1-linux-$arch"
+}
+
+cmd_list() {
+	local current=$(readlink "$dir/current")
+	[[ -n $current ]] && current=$(basename $current)
+	for path in "$dir"/*; do
+		file=${path##*/}
+		[[ $file == "current" ]] && continue
+		if [[ $file == $current ]]; then
+			echo "* $(file_to_version $file)"
+		else
+			echo "  $(file_to_version $file)"
+		fi
+	done
+}
+
+cmd_use() {
+	local file=$(version_to_dir $1)
+	if [[ -d $file ]]; then
+		rm -f "$current"
+		ln -s "$file" "$dir/current"
+	else
+		echo "v$1 is not installed" >&2
+		exit 1
+	fi
+}
+
+cmd_install() {
+	[[ -f $(version_to_dir $1) ]] && echo "already installed" && exit
+	tar="$dir/node-v${1}.tar.gz"
+	curl -o "$tar" "http://nodejs.org/dist/v$1/node-v$1-linux-${arch}.tar.gz"
+	tar -xzf "$tar" -C "$dir"
+	rm "$tar"
+	echo "v$1 installed"
+}
+
+cmd_uninstall() {
+	vdir=$(version_to_dir $1)
+	[[ ! -d "$vdir" ]] && echo "already uninstalled" && exit
+	rm -rf "$vdir"
+	echo "v$1 uninstalled"
+}
+
+if [[ "$arch" != "x86" && "$arch" != "x64" ]]; then
+	echo "error identifying arch" >&2
+	exit 1
+fi
+
+if [[ -z "$dir" ]]; then
+	usage_node_dir >&2
+	exit 1
+fi
+
+command=$1
+version=${2##v}
+
+fail() {
+	usage >&2
+	exit 1
+}
+
+case "$command" in
+	ls|list)      cmd_list ;;
+	use|u)        [[ -n $version ]] && cmd_use       $version || fail;;
+	install|i)    [[ -n $version ]] && cmd_install   $version || fail;;
+	uninstall|rm) [[ -n $version ]] && cmd_uninstall $version || fail;;
+	*)            fail ;;
+esac

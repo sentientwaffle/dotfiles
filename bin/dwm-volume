@@ -1,0 +1,48 @@
+#!/usr/bin/env bash
+
+# Wrap PulseAudio volume controls.
+
+sink=0
+
+usage() {
+	cat <<-EOF
+	usage: ${0##*/} <command>
+
+	commands:
+	  mute # Toggle mute/unmute
+	  up   # Increase volume
+	  down # Decrease volume
+	  get  # Get current volue
+	EOF
+}
+
+toggle_mute() {
+	pactl set-sink-mute 0 toggle
+}
+
+get_volume() {
+	sinks=$(pactl list sinks)
+	is_muted=$(grep "Mute:.yes" <<<"$sinks")
+	if [[ -n "$is_muted" ]]; then
+		echo "mute"
+	else
+		grep -o '[[:digit:]]*%' <<<"$sinks" | head -n1
+	fi
+}
+
+mod_volume() {
+	pactl set-sink-volume 0 -- "$1"
+}
+
+fail() {
+	usage >&2
+	exit 1
+}
+
+case "$1" in
+	mute) toggle_mute ;;
+	up)   mod_volume "+5%" ;;
+	down) mod_volume "-5%" ;;
+	get)  get_volume ;;
+	*)    fail ;;
+esac

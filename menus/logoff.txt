@@ -1,0 +1,4 @@
+lock      slock
+hibernate sudo systemctl hibernate
+reboot    sudo systemctl reboot
+poweroff  sudo systemctl poweroff

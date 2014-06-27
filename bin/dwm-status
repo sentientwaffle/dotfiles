@@ -1,0 +1,26 @@
+#!/usr/bin/env bash
+
+# Update DWM's status bar.
+
+refresh=10
+count=0
+stats=""
+
+volume() {
+	vol=$(dwm-volume get)
+	if [[ "$vol" != "mute" ]]; then
+		vol="vol=$vol"
+	fi
+	echo "$vol"
+}
+
+while true; do
+	if [[ $count -eq 0 ]]; then
+		stats=$(conky -i 1)
+	fi
+	stats_volume="<span foreground=\"#33aaff\">$(volume)</span>"
+	now="<span foreground=\"#dddddd\">$(date +"%a %b %d %H:%M:%S")</span>"
+	xsetroot -name "$stats_volume $stats $now"
+	let "count = (count + 1) % refresh"
+	sleep 1
+done
