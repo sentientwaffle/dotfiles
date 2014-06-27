@@ -38,9 +38,10 @@ alias ...='cd ../..'
 alias ls='ls -AG --color'
 alias ll='ls -lAF'
 alias grep='grep --color'
+alias ssh='ssh-add -l > /dev/null || ssh-add && ssh'
+
 alias s='search'
 alias http='python -m SimpleHTTPServer'
-
 alias winfo='xwininfo -display :0'
 
 # Git
@@ -78,11 +79,11 @@ fi
 
 redwm() {
 	# cd ~/dwm && makepkg -efi --noconfirm
-	cd ~/dwm-git && make clean && sudo make install
+	cd ~/Code/dwm && make clean && sudo make install
 }
 
 # Start X at login.
 # https://wiki.archlinux.org/index.php/Start_X_at_Login
-if [[ -z $DISPLAY && $XDG_VTNR -eq 1 ]]; then
+if [[ $XDG_VTNR -eq 1 && -z $DISPLAY ]]; then
 	exec startx
 fi

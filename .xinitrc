@@ -30,7 +30,8 @@ dwm-status &
 # Lock screen after inactivity.
 xautolock -time 10 -locker slock &
 
-# Start gpg-agent
+# Start ssh-agent and gpg-agent
+eval "$(ssh-agent)"
 eval "$(gpg-agent --daemon)"
 
 # PulseAudio
