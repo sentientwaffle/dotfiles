@@ -8,29 +8,25 @@
 # Environment
 # ##############################################################################
 
+
 export HISTCONTROL=ignoredups:ignorespace
 export EDITOR="vim"
-export DOTFILES=$HOME/dotfiles
+export DOTFILES=$(dirname $BASH_SOURCE)
 export HISTSIZE=5000
 export PAGER='less'
 
-
-# ##############################################################################
 # Prompt
-# ##############################################################################
 export PS1="\u@\h:\w\$(git symbolic-ref HEAD 2>&- | sed 's|refs/heads/\(.*\)$| \1|')\\$ "
 
-# ##############################################################################
 # Path
-# ##############################################################################
 export PATH=$DOTFILES/bin:$PATH
 
 # ##############################################################################
 # Load other configs.
 # ##############################################################################
 
-if [ -x /usr/bin/dircolors ]; then
-  eval `dircolors --sh $DOTFILES/.dircolors`
+if [[ -x /usr/bin/dircolors ]]; then
+	eval $(dircolors --sh "$DOTFILES/.dircolors")
 fi
 
 # ##############################################################################
@@ -74,40 +70,19 @@ alias gsl='git stash list'
 # ##############################################################################
 # Terminal colors
 # ##############################################################################
-if [ -n "$DISPLAY" -a "$TERM" == "xterm" ]; then
-  export TERM=screen-256color
+if [[ -n "$DISPLAY" && "$TERM" == "xterm" ]]; then
+	export TERM=screen-256color
 fi
 
-# Platform-independent interfaces
-# via https://github.com/bahamas10/dotfiles/blob/master/bashrc
-interfaces() {
-  node <<-EOF
-  var os = require('os');
-  var i = os.networkInterfaces();
-  var ret = {};
-  Object.keys(i).forEach(function(name) {
-    var ip4 = null;
-    i[name].forEach(function(int) {
-      if (int.family === 'IPv4') {
-        ip4 = int.address;
-        return;
-      }
-    });
-    ret[name] = ip4;
-  });
-  console.log(JSON.stringify(ret, null, 2));
-EOF
-}
+# ##############################################################################
 
 redwm() {
-  # cd ~/dwm && makepkg -efi --noconfirm
-  cd ~/dwm-git && make clean && sudo make install
+	# cd ~/dwm && makepkg -efi --noconfirm
+	cd ~/dwm-git && make clean && sudo make install
 }
-
-# ##############################################################################
 
 # Start X at login.
 # https://wiki.archlinux.org/index.php/Start_X_at_Login
 if [[ -z $DISPLAY && $XDG_VTNR -eq 1 ]]; then
-  exec startx
+	exec startx
 fi

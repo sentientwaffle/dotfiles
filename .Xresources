@@ -1,0 +1,23 @@
+! Xft settings
+
+Xft.dpi:       96
+!Xft.antialias: false
+Xft.rgba:      rgb
+Xft.hinting:   true
+Xft.hintstyle: hintslight
+Xft.lcdfilter: lcddefault
+
+Xft.antialias: true
+Xft.autohint:  0
+
+! URxvt settings
+
+URxvt.font:        xft:Inconsolata:size=12,\
+                   xft:DejaVu Sans Mono
+URxvt.background:  #000000
+URxvt.foreground:  #ffffff
+URxvt.cursorBlink: true
+URxvt.iso14755:    false
+
+URxvt.scrollBar: false
+URxvt.saveLines: 0

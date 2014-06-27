@@ -1,0 +1,19 @@
+#!/usr/bin/env node
+
+// Platform-independent interfaces.
+//
+// via https://github.com/bahamas10/dotfiles/blob/master/bashrc
+
+var os  = require('os')
+  , i   = os.networkInterfaces()
+  , ret = {}
+
+Object.keys(i).forEach(function(name) {
+  var ip4 = null
+  i[name].forEach(function(int) {
+    if (int.family === 'IPv4') ip4 = int.address
+  })
+  ret[name] = ip4
+})
+
+console.log(JSON.stringify(ret, null, 2))
