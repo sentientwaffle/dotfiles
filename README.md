@@ -15,12 +15,6 @@ You will need to manually link/initialize the `.bashrc` file.
 
     source ~/dotfiles/.bashrc
 
-#### Cmus
-
-    :colorscheme solarized
-    :set status_display_program=/home/x/.cmus/current-track.sh
-    :save
-
 ## Dependencies (apt-get)
 
   * tmux

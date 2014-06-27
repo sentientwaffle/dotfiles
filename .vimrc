@@ -42,10 +42,7 @@ set title " show filename in window titlebar
 
 " Extention matching
 autocmd FileType python setlocal expandtab shiftwidth=4 softtabstop=4
-autocmd FileType make setlocal noexpandtab shiftwidth=8 softtabstop=8
-autocmd FileType gitconfig setlocal noexpandtab shiftwidth=8 softtabstop=8
-autocmd FileType go setlocal noexpandtab shiftwidth=8 softtabstop=8
-autocmd FileType c,cpp setlocal noexpandtab shiftwidth=8 softtabstop=8
+autocmd FileType go,make,c,cpp,sh,gitconfig setlocal noexpandtab shiftwidth=8 softtabstop=8
 
 autocmd BufNewFile,BufRead *.glsl,*.geom,*.vert,*.frag,*.gsh,*.vsh,*.fsh set filetype=c
 
