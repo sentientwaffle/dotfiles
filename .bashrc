@@ -77,11 +77,6 @@ fi
 
 # ##############################################################################
 
-redwm() {
-	# cd ~/dwm && makepkg -efi --noconfirm
-	cd ~/Code/dwm && make clean && sudo make install
-}
-
 # Start X at login.
 # https://wiki.archlinux.org/index.php/Start_X_at_Login
 if [[ $XDG_VTNR -eq 1 && -z $DISPLAY ]]; then

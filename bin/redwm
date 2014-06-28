@@ -1,0 +1,4 @@
+#!/usr/bin/env bash
+
+# cd ~/dwm && makepkg -efi --noconfirm
+cd ~/Code/dwm && make clean && sudo make install
