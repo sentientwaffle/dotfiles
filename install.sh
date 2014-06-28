@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-dotfiles=$(dirname $BASH_SOURCE)
+dotfiles="$(cd "$(dirname $BASH_SOURCE)" && pwd)"
 
 symlink() {
 	ln -sf "$dotfiles/$1" "$2"
