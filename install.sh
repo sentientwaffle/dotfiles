@@ -1,7 +1,9 @@
 #!/usr/bin/env bash
 
+dotfiles=$(dirname $BASH_SOURCE)
+
 symlink() {
-	ln -sf "$DOTFILES/$1" "$2"
+	ln -sf "$dotfiles/$1" "$2"
 }
 
 symlink ".conkyrc"    "$HOME/.conkyrc"
