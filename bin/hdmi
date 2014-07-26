@@ -1,0 +1,13 @@
+#!/usr/bin/env bash
+
+internal="eDP1"
+external=$(xrandr | awk '/ connected/ { print $1 }' | tail -n1)
+previous=$(xrandr | awk '/ disconnected.*0mm x 0mm/ { print $1 }' | tail -n1)
+
+if [[ -n "$previous" ]]; then
+	xrandr --output $internal --auto --output $previous --off
+fi
+
+if [[ -n "$external" ]]; then
+	xrandr --output $internal --auto --primary --output $external --auto --above $internal
+fi

@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 # Create a menu from a list of commands and labels.
-# Modelled after dmenu_run.
+# Modeled after dmenu_run.
 
 # The text file's format should be:
 # <command label>  <command> [arguments]

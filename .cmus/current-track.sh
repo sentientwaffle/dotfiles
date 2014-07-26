@@ -6,6 +6,7 @@ stat="stopped"
 while [[ -n "$1" ]]; do
 	case "$1" in
 		title)  title="$2" ;;
+		album)  album="$2" ;;
 		artist) artist="$2" ;;
 		status) stat="$2" ;;
 		file)   file="$2" ;;
@@ -29,7 +30,7 @@ else
 		fi
 	fi
 
-	[[ -n "$artist" ]]        && msg="$artist - $msg"
+	[[ -n "$artist" ]]        && msg="$artist / $msg"
 	[[ "$stat" == "paused" ]] && msg="$msg [paused]"
 fi
 

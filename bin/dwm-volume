@@ -20,6 +20,10 @@ toggle_mute() {
 	pactl set-sink-mute 0 toggle
 }
 
+toggle_mute_mic() {
+	pactl set-source-mute 1 toggle
+}
+
 get_volume() {
 	sinks=$(pactl list sinks)
 	is_muted=$(grep "Mute:.yes" <<<"$sinks")
@@ -41,6 +45,7 @@ fail() {
 
 case "$1" in
 	mute) toggle_mute ;;
+	mic)  toggle_mute_mic ;;
 	up)   mod_volume "+5%" ;;
 	down) mod_volume "-5%" ;;
 	get)  get_volume ;;

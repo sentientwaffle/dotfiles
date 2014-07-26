@@ -43,6 +43,7 @@ cmd_list() {
 	local current=$(readlink "$dir/current")
 	[[ -n $current ]] && current=$(basename $current)
 	for path in "$dir"/*; do
+		test -e "$path" || continue
 		file=${path##*/}
 		[[ $file == "current" ]] && continue
 		if [[ $file == $current ]]; then

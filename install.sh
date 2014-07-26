@@ -1,12 +1,11 @@
 #!/usr/bin/env bash
 
-dotfiles="$(cd "$(dirname $BASH_SOURCE)" && pwd)"
+dotfiles="$(cd "$(dirname $BASH_SOURCE)" && echo "$PWD")"
 
 symlink() {
 	ln -sf "$dotfiles/$1" "$2"
 }
 
-symlink ".conkyrc"    "$HOME/.conkyrc"
 symlink ".gitconfig"  "$HOME/.gitconfig"
 symlink ".gtkrc-2.0"  "$HOME/.gtkrc-2.0"
 symlink ".tmux.conf"  "$HOME/.tmux.conf"
@@ -23,3 +22,4 @@ symlink ".config/fontconfig/fonts.conf" "$HOME/.config/fontconfig/fonts.conf"
 
 mkdir -p "$HOME/.gnupg"
 symlink ".gnupg/gpg.conf" "$HOME/.gnupg/gpg.conf"
+symlink ".gnupg/gpg-agent.conf" "$HOME/.gnupg/gpg-agent.conf"

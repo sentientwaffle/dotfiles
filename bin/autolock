@@ -1,0 +1,23 @@
+#!/usr/bin/env bash
+
+# Toggle enable/disable xautolock.
+# When disabled, write the file /tmp/autolock so that dwm-status can detect it.
+
+usage() {
+	cat <<-EOF
+	usage: ${0##*/} <on|off>
+
+	Enable/disable screen locking.
+	EOF
+}
+
+if [[ $1 == "on" ]]; then
+	xautolock -enable
+	rm -f "/tmp/autolock"
+elif [[ $1 == "off" ]]; then
+	xautolock -disable
+	touch "/tmp/autolock"
+else
+	usage >&2
+	exit 1
+fi

@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python2
 """
 
 Print the number of unread messages.
@@ -7,13 +7,15 @@ Print the number of unread messages.
 
 import imaplib
 import re
+import subprocess
 from time import time
 from sys import exit
-import gnomekeyring as gkey
 
 TMP = "/tmp/tmux-gmail.txt"
 USERNAME1 = "sentientwaffle"
 USERNAME2 = "dj.gardiner@voxer.com"
+EMAIL1 = "sentientwaffle@gmail.com"
+EMAIL2 = "dj@voxer.com"
 INTERVAL = 60
 now = int(time())
 
@@ -33,19 +35,13 @@ except IOError:
     pass
 
 
-def get_info(name):
+def get_passwd(name):
     """
 
     Get the gmail password.
 
     """
-    keyring = "login"
-    info = None
-    for item in gkey.list_item_ids_sync("login"):
-        info = gkey.item_get_info_sync(keyring, item)
-        if info.get_display_name() == name:
-            break
-    return info
+    return subprocess.check_output(["pass", "google/tmux/" + name])
 
 def mailbox(username, password):
     """
@@ -76,13 +72,13 @@ def save(count):
     """
     tmp("w").write(str(now) + ":" + str(count))
 
-info1 = get_info("Gmail")
-info2 = get_info("GmailVox")
-if info1 == None or info2 == None:
+passwd1 = get_passwd(EMAIL1)
+passwd2 = get_passwd(EMAIL2)
+if passwd1 == "" or passwd2 == "":
     print "?"
 else:
-    mail1 = mailbox(USERNAME1, info1.get_secret())
-    mail2 = mailbox(USERNAME2, info2.get_secret())
+    mail1 = mailbox(USERNAME1, passwd1)
+    mail2 = mailbox(USERNAME2, passwd2)
     out = unread(mail1) + "," + unread(mail2)
     print out
     save(out)
