@@ -12,12 +12,17 @@ Xft.autohint:  0
 
 ! URxvt settings
 
-URxvt.font:        xft:Inconsolata:size=12,\
-                   xft:DejaVu Sans Mono
-URxvt.background:  #000000
-URxvt.foreground:  #ffffff
-URxvt.cursorBlink: true
-URxvt.iso14755:    false
+URxvt.font:         xft:Inconsolata:size=12,\
+                    xft:DejaVu Sans Mono
+URxvt.background:   #000000
+URxvt.foreground:   #ffffff
+URxvt.cursorBlink:  true
+URxvt.iso14755:     false
+URxvt.pointerBlank: true
 
 URxvt.scrollBar: false
 URxvt.saveLines: 0
+
+! Disable perl extensions
+URxvt.perl-ext:
+URxvt.perl-ext-common:

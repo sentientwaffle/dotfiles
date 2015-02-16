@@ -41,7 +41,7 @@ set wildmode=longest:full " Better autocompletion
 set title " show filename in window titlebar
 
 " Extention matching
-autocmd FileType python setlocal expandtab shiftwidth=4 softtabstop=4
+autocmd FileType python,rust setlocal expandtab shiftwidth=4 softtabstop=4
 autocmd FileType go,make,c,cpp,sh,gitconfig setlocal noexpandtab shiftwidth=8 softtabstop=8
 
 autocmd BufNewFile,BufRead *.glsl,*.geom,*.vert,*.frag,*.gsh,*.vsh,*.fsh set filetype=c
@@ -164,5 +164,6 @@ autocmd FileType go abbreviate qfunc func() {<CR><TAB><CR><BACKSPACE>}<ESC>kk$F(
 " Commands
 " -----------------------------------------------------------------------------
 
-
+" Save file as sudo.
+command W w !sudo tee % >/dev/null
 

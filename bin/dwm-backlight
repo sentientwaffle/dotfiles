@@ -1,0 +1,34 @@
+#!/usr/bin/env bash
+
+# Wrap xbacklight brightness controls.
+
+usage() {
+	cat <<-EOF
+	usage: ${0##*/} <command>
+
+	commands:
+	  up   [major|minor] # Increase brightness
+	  down [major|minor] # Decrease brightness
+	  get                # Get current brightness
+	EOF
+}
+
+fail() {
+	usage >&2
+	exit 1
+}
+
+get_delta() {
+	if [[ $1 == "minor" ]]; then
+		echo 1
+	else
+		echo 10
+	fi
+}
+
+case "$1" in
+	up)   xbacklight -inc $(get_delta $2) ;;
+	down) xbacklight -dec $(get_delta $2) ;;
+	get)  xbacklight -get ;;
+	*)    fail ;;
+esac

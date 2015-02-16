@@ -8,7 +8,6 @@
 # Environment
 # ##############################################################################
 
-
 export HISTCONTROL=ignoredups:ignorespace
 export EDITOR="vim"
 export DOTFILES=$(dirname $BASH_SOURCE)
@@ -41,7 +40,7 @@ alias grep='grep --color'
 alias ssh='ssh-add -l > /dev/null || ssh-add && ssh'
 
 alias s='search'
-alias http='python -m SimpleHTTPServer'
+alias http='python2 -m SimpleHTTPServer'
 alias winfo='xwininfo -display :0'
 
 # Git
@@ -67,6 +66,14 @@ alias glog="git log --graph --pretty=format:'%C(yellow)%h%Creset %an: %s - %Cres
 alias gg='git grep'
 
 alias gsl='git stash list'
+
+# ##############################################################################
+# Completion
+# ##############################################################################
+
+complete -cf sudo
+complete -cf man
+complete -cf which
 
 # ##############################################################################
 # Terminal colors

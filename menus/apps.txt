@@ -1,3 +1,4 @@
-chromium chromium
-terminal urxvt -e tmux
-gimp     gimp
+chromium   chromium
+terminal   urxvt -e tmux
+gimp       gimp
+virtualbox virtualbox

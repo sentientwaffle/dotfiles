@@ -4,6 +4,7 @@
 
 refresh=10
 count=0
+mic=""
 bat=""
 con=""
 lock=""
@@ -23,7 +24,7 @@ get_disk_used() {
 }
 
 get_mem() {
-	free | awk '/buffers\/cache:/ {print 100*$3/($3+$4)}' | cut -d'.' -f1
+	free | awk '/Mem:/ {print 100*($3+$6)/$2}' | cut -d'.' -f1
 }
 
 get_cpu() {
@@ -48,12 +49,13 @@ get_netrate() {
 
 get_volume() {
 	local vol=$(dwm-volume get)
-	[[ "$vol" != "mute" ]] && vol="vol=$vol"
+	[[ "$vol" != 'mute' ]] && vol="vol=$vol"
 	echo "$vol"
 }
 
 get_connection() {
-	nmcli c status | grep -o '[[:alnum:]]*[[:space:]]*yes' | cut -d' ' -f1
+	# Sort so that ethernet has precedence over wireless.
+	nmcli c show --active | grep -v 'bridge' | tail -n+2 | awk '{print $NF}' | sort | head -n1
 }
 
 get_battery() {
@@ -61,23 +63,29 @@ get_battery() {
 }
 
 get_locked() {
-	if [[ -e "/tmp/autolock" ]]; then
-		echo "<span foreground=\"#e8332e\">unlocked</span> "
+	if [[ -e '/tmp/autolock' ]]; then
+		echo '<span foreground="#e8332e">unlocked</span> '
 	fi
 }
 
 while true; do
 	if ((count == 0)); then
+		mic=$(dwm-volume getmic)
 		bat=$(get_battery)
 		con=$(get_connection)
 		lock=$(get_locked)
-		used_root=$(get_disk_used "/")
-		used_home=$(get_disk_used "/home")
+		used_root=$(get_disk_used '/')
+		used_home=$(get_disk_used '/home')
 		mem=$(get_mem)
 		cpu=$(get_cpu)
 		get_netrate
 	fi
 	stats_volume="<span foreground=\"#33aaff\">$(get_volume)</span>"
+	if [[ -z "$mic" ]]; then
+		stats_mic=""
+	else
+		stats_mic="<span foreground=\"#e8332e\">!</span>"
+	fi
 	# TODO offline should be red
 	stats_connection="<span foreground=\"#33ffff\">${con:-offline}</span>"
 	stats_battery="<span foreground=\"#00ff33\">bat=$bat</span>"
@@ -85,10 +93,10 @@ while true; do
 	stats_used_home="<span foreground=\"#ffff00\">/home=$used_home</span>"
 	stats_mem="<span foreground=\"#ff3399\">mem=$mem%</span>"
 	stats_cpu="<span foreground=\"#ff6600\">cpu=$cpu%</span>"
-	now="<span foreground=\"#dddddd\">$(date +"%a %b %d %H:%M:%S")</span>"
+	now="<span foreground=\"#dddddd\">$(date +'%a %b %d %H:%M:%S')</span>"
 	stats_netrate="<span foreground=\"#33ffff\">$net_return</span>"
 
-	l1="$lock$stats_volume $stats_used_root $stats_used_home"
+	l1="$lock$stats_volume$stats_mic $stats_used_root $stats_used_home"
 	l2="$stats_mem $stats_cpu $stats_netrate"
 	l3="$stats_connection $stats_battery $now"
 	xsetroot -name "$l1 $l2 $l3"

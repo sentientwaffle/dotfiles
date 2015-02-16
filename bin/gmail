@@ -12,10 +12,8 @@ from time import time
 from sys import exit
 
 TMP = "/tmp/tmux-gmail.txt"
-USERNAME1 = "sentientwaffle"
-USERNAME2 = "dj.gardiner@voxer.com"
-EMAIL1 = "sentientwaffle@gmail.com"
-EMAIL2 = "dj@voxer.com"
+USERNAMES = ["sentientwaffle"]
+EMAILS = ["sentientwaffle@gmail.com"]
 INTERVAL = 60
 now = int(time())
 
@@ -49,6 +47,8 @@ def mailbox(username, password):
     Connect to the server.
 
     """
+    if password == "":
+        return False
     m = imaplib.IMAP4_SSL("imap.gmail.com", 993)
     m.login(username, password)
     m.select("Inbox", readonly = True)
@@ -60,6 +60,8 @@ def unread(m):
     Check the mail for the number of unread messages.
 
     """
+    if not m:
+        return "?"
     _, res = m.status("Inbox", "(UNSEEN)")
     count = re.search("UNSEEN (\d+)", res[0]).group(1)
     return count
@@ -72,13 +74,10 @@ def save(count):
     """
     tmp("w").write(str(now) + ":" + str(count))
 
-passwd1 = get_passwd(EMAIL1)
-passwd2 = get_passwd(EMAIL2)
-if passwd1 == "" or passwd2 == "":
-    print "?"
-else:
-    mail1 = mailbox(USERNAME1, passwd1)
-    mail2 = mailbox(USERNAME2, passwd2)
-    out = unread(mail1) + "," + unread(mail2)
-    print out
-    save(out)
+
+passwords = map(get_passwd, EMAILS)
+mailboxes = [mailbox(u, p) for (u, p) in zip(USERNAMES, passwords)]
+unreads = map(unread, mailboxes)
+out = ",".join(unreads)
+print out
+save(out)
