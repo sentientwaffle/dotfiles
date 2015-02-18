@@ -12,8 +12,8 @@ from time import time
 from sys import exit
 
 TMP = "/tmp/tmux-gmail.txt"
-USERNAMES = ["sentientwaffle"]
-EMAILS = ["sentientwaffle@gmail.com"]
+USERNAMES = ["sentientwaffle", "dj@ripple.com"]
+EMAILS = ["sentientwaffle@gmail.com", "dj@ripple.com"]
 INTERVAL = 60
 now = int(time())
 
