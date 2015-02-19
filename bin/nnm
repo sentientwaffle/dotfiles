@@ -1,6 +1,8 @@
 #!/usr/bin/env bash
 
-# Juggle multiple Node.js builds.
+# Juggle multiple Node.js/io.js builds.
+# When installing a version, io.js is checked first.
+# If the version isn't found, Node.js is checked instead.
 
 dir=$NNM_DIR
 current="$dir/current"
@@ -36,7 +38,12 @@ file_to_version() {
 }
 
 version_to_dir() {
-	echo "$dir/node-v$1-linux-$arch"
+	iojs="$dir/iojs-v$1-linux-$arch"
+	if [[ -d "$iojs" ]]; then
+		echo "$iojs"
+	else
+		echo "$dir/node-v$1-linux-$arch"
+	fi
 }
 
 cmd_list() {
@@ -68,7 +75,8 @@ cmd_use() {
 cmd_install() {
 	[[ -f $(version_to_dir $1) ]] && echo "already installed" && exit
 	tar="$dir/node-v${1}.tar.gz"
-	curl -o "$tar" "http://nodejs.org/dist/v$1/node-v$1-linux-${arch}.tar.gz"
+	curl -o "$tar" "https://iojs.org/dist/v$1/iojs-v${1}-linux-${arch}.tar.gz" \
+	  || curl -o "$tar" "http://nodejs.org/dist/v$1/node-v$1-linux-${arch}.tar.gz"
 	tar -xzf "$tar" -C "$dir"
 	rm "$tar"
 	echo "v$1 installed"
