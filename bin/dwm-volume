@@ -41,7 +41,7 @@ get_mic() {
 }
 
 mod_volume() {
-	pactl set-sink-volume 0 -- "$1"
+	pactl set-sink-volume 0 "$1"
 }
 
 fail() {
