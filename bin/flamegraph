@@ -1,0 +1,46 @@
+#!/usr/bin/env bash
+
+usage() {
+	cat <<-EOF
+	usage: ${0##*/} [pid] [seconds]
+
+	If no pid is specified, the first node process with profiling enabled
+	will be selected automatically.
+
+	  \$ node --perf-basic-prof foo.js
+
+	EOF
+}
+
+pid=$1
+duration=${2:-30}
+
+if ! command -v perf > /dev/null; then
+	echo "Missing perf"
+	echo "  $ sudo pacman -S perf"
+	exit 1
+fi
+
+if ! command -v stackvis > /dev/null; then
+	echo "Missing stackvis"
+	echo "  $ npm install -g stackvis"
+	exit 1
+fi
+
+# Try to infer the pid.
+if [[ -z "$pid" ]]; then
+	pid=$(ps -aux | grep "node --perf-basic" | grep -v grep | awk '{print $2}')
+fi
+if [[ -z $pid ]]; then
+	usage >&2
+	exit 1
+fi
+
+stacks="/tmp/out-${pid}.stacks"
+graph="/tmp/out-${pid}.html"
+
+perf record -F 99 -p "$pid" -g -- sleep "$duration" \
+  && perf script > "$stacks" \
+  && stackvis perf < "$stacks" > "$graph" \
+  && echo "$graph" \
+  && chromium "$graph"

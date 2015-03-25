@@ -26,7 +26,7 @@ usage_node_dir() {
 	cat <<-EOF
 	Set the \$NNM_DIR env variable, and add:
 
-	  export NNM_DIR="..."
+	  export NNM_DIR="\$HOME/Code/node"
 	  export PATH="\$NNM_DIR/current/bin:\$PATH"
 
 	to your ~/.bashrc
@@ -74,9 +74,13 @@ cmd_use() {
 
 cmd_install() {
 	[[ -f $(version_to_dir $1) ]] && echo "already installed" && exit
+	iojs="https://iojs.org/dist/v$1/iojs-v${1}-linux-${arch}.tar.gz"
+	nodejs="http://nodejs.org/dist/v$1/node-v$1-linux-${arch}.tar.gz"
 	tar="$dir/node-v${1}.tar.gz"
-	curl -o "$tar" "https://iojs.org/dist/v$1/iojs-v${1}-linux-${arch}.tar.gz" \
-	  || curl -o "$tar" "http://nodejs.org/dist/v$1/node-v$1-linux-${arch}.tar.gz"
+	res=$(curl -w "%{http_code}" -o "$tar" "$iojs")
+	if [[ $res == "404" ]]; then
+		curl -o "$tar" "$nodejs"
+	fi
 	tar -xzf "$tar" -C "$dir"
 	rm "$tar"
 	echo "v$1 installed"
