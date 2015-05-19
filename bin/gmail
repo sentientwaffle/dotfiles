@@ -64,7 +64,7 @@ def unread(m):
 
     """
     if not m:
-        return "?"
+        return "_"
     _, res = m.status("Inbox", "(UNSEEN)")
     count = re.search("UNSEEN (\d+)", res[0]).group(1)
     return count

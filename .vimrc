@@ -167,3 +167,6 @@ autocmd FileType go abbreviate qfunc func() {<CR><TAB><CR><BACKSPACE>}<ESC>kk$F(
 " Save file as sudo.
 command W w !sudo tee % >/dev/null
 
+" Reformat XML
+command PrettyXML %!xmllint --format %
+
