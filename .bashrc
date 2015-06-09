@@ -74,6 +74,7 @@ alias gsl='git stash list'
 complete -cf sudo
 complete -cf man
 complete -cf which
+complete -W "$(echo $(grep '^Host' ~/.ssh/config | sed 's/^Host //'))" ssh
 
 # ##############################################################################
 # Terminal colors
