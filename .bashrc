@@ -75,6 +75,12 @@ complete -cf sudo
 complete -cf man
 complete -cf which
 complete -W "$(echo $(grep '^Host' ~/.ssh/config | sed 's/^Host //'))" ssh
+complete -W "$(echo $(find  ~/.password-store/ -name *.gpg 2> /dev/null | awk '{
+	sub("\\.gpg$", "");
+	sub("/home/djg/.password-store/", "");
+	print $0
+}'))" pass
+
 
 # ##############################################################################
 # Terminal colors
