@@ -1,0 +1,49 @@
+#!/usr/bin/env bash
+
+usage() {
+	cat <<-EOF
+	usage: ${0##*/} <project>
+
+	Set up a tmux window.
+
+	Project options:
+	  title  <title>
+	  cd     <directory>
+	  run    <command> [arg1] ..
+	  hsplit [percent]
+	  vsplit [percent]
+
+	Project files are found in "~/Code/mux/*.txt".
+	EOF
+}
+
+if [[ -z $1 ]]; then
+	usage >&2
+	exit 1
+fi
+
+tmux_split() {
+	if [[ -z $2 ]]; then
+		tmux split-window $1 -c "#{pane_current_path}"
+	else
+		tmux split-window $1 -c "#{pane_current_path}" -p "$2"
+	fi
+}
+
+while read -a args; do
+	cmd=${args[0]}
+	arg=${args[@]:1}
+	case $cmd in
+		title)  tmux rename-window "$arg" ;;
+		hsplit) tmux_split -h "$arg" ;;
+		vsplit) tmux_split -v "$arg" ;;
+		run)    tmux send-keys "$arg" C-m ;;
+		cd)
+			# cd and send-keys so that pane_current_path works.
+			cd ${arg/#\~/$HOME}
+			tmux send-keys "cd $arg" C-m ;;
+		*)
+			echo "Unknown project option: \"$cmd\""
+			exit 1 ;;
+	esac
+done < "$HOME/Code/mux/${1}.txt"

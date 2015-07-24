@@ -80,6 +80,7 @@ complete -W "$(echo $(find  ~/.password-store/ -name *.gpg 2> /dev/null | awk '{
 	sub("/home/djg/.password-store/", "");
 	print $0
 }'))" pass
+complete -W "$(echo $(ls --color=never -1 ~/Code/mux 2> /dev/null | cut -d'.' -f1))" mux
 
 
 # ##############################################################################
