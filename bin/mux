@@ -7,11 +7,12 @@ usage() {
 	Set up a tmux window.
 
 	Project options:
-	  title  <title>
-	  cd     <directory>
-	  run    <command> [arg1] ..
-	  hsplit [percent]
-	  vsplit [percent]
+	  title  <title>              set the window title
+	  cd     <directory>          change directories
+	  run    <command> [arg1] ..  run a command
+	  hsplit [percent]            left/right split
+	  vsplit [percent]            top/bottom split
+	  pane   <prev|next|{int}>    select a different pane
 
 	Project files are found in "~/Code/mux/*.txt".
 	EOF
@@ -30,6 +31,15 @@ tmux_split() {
 	fi
 }
 
+tmux_pane() {
+	case $1 in
+		next) local t=":.+" ;;
+		prev) local t=":.-" ;;
+		*)    local t="$1"  ;;
+	esac
+	tmux select-pane -t "$t"
+}
+
 while read -a args; do
 	cmd=${args[0]}
 	arg=${args[@]:1}
@@ -37,6 +47,7 @@ while read -a args; do
 		title)  tmux rename-window "$arg" ;;
 		hsplit) tmux_split -h "$arg" ;;
 		vsplit) tmux_split -v "$arg" ;;
+		pane)   tmux_pane "$arg" ;;
 		run)    tmux send-keys "$arg" C-m ;;
 		cd)
 			# cd and send-keys so that pane_current_path works.
