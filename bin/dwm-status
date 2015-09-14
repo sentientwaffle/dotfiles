@@ -55,7 +55,8 @@ get_volume() {
 
 get_connection() {
 	# Sort so that ethernet has precedence over wireless.
-	nmcli c show --active | grep -v 'bridge' | tail -n+2 | awk '{print $NF}' | sort | head -n1
+	# Exclude `vetha` and `bridge` so that docker interfaces dont show up.
+	nmcli c show --active | grep -v ' bridge\| veth' | tail -n+2 | awk '{print $NF}' | sort | head -n1
 }
 
 get_battery() {

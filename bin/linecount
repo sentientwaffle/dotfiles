@@ -1,0 +1,14 @@
+#!/usr/bin/env bash
+
+usage() {
+	cat <<-EOF
+	usage: ${0##*/} <extension>
+	EOF
+}
+
+if [[ -z "$1" ]]; then
+	usage >&2
+	exit 1
+fi
+
+find . -name "*.$1" -not -path "./node_modules/*" -not -path "./.git/*" | xargs wc -l

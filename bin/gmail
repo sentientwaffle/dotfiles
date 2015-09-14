@@ -1,4 +1,4 @@
-#!/usr/bin/env python2
+#!/usr/bin/env python3
 """
 
 Print the number of unread messages.
@@ -8,8 +8,8 @@ Print the number of unread messages.
 import imaplib
 import re
 import subprocess
+import sys
 from time import time
-from sys import exit
 
 TMP = "/tmp/tmux-gmail.txt"
 USERNAMES = ["sentientwaffle", "dj@ripple.com"]
@@ -21,17 +21,31 @@ def tmp(mode):
     """ Get the temp file. """
     return open(TMP, mode)
 
+def error(message):
+    print(message, file=sys.stderr)
 
-# Check if the mail needs checking.
-try:
-    before, count = tmp("r").read().split(":")
-    # Just send the cached value back.
-    if now - int(before) < INTERVAL:
-        print count
-        exit(0)
-except IOError:
-    pass
+if "--help" in sys.argv:
+    error("Usage: gmail [arguments]")
+    error("")
+    error("Get unread message counts.")
+    error("Passwords are in \"pass\": \"google/tmux/<email>\".")
+    error("")
+    error("Arguments:")
+    error("  --help   Print Help (this message)")
+    error("  --force  Ignore the cached unread counts.")
+    sys.exit(1)
 
+# Check if the mail needs retrieving.
+is_force = "--force" in sys.argv or "-f" in sys.argv
+if not is_force:
+    try:
+        before, count = tmp("r").read().split(":")
+        # Just send the cached value back.
+        if now - int(before) < INTERVAL:
+            print(count)
+            sys.exit(0)
+    except IOError:
+        pass
 
 def get_passwd(name):
     """
@@ -39,7 +53,9 @@ def get_passwd(name):
     Get the gmail password.
 
     """
-    return subprocess.check_output(["pass", "google/tmux/" + name])
+    return subprocess.check_output([
+        "pass", "google/tmux/" + name
+    ]).decode("utf-8").strip()
 
 def mailbox(username, password):
     """
@@ -66,21 +82,22 @@ def unread(m):
     if not m:
         return "_"
     _, res = m.status("Inbox", "(UNSEEN)")
-    count = re.search("UNSEEN (\d+)", res[0]).group(1)
+    count = re.search("UNSEEN (\d+)", res[0].decode("utf-8")).group(1)
     return count
 
-def save(count):
+def done(count):
     """
 
     Cache the results.
 
     """
     tmp("w").write(str(now) + ":" + str(count))
+    print(count)
 
 
 passwords = map(get_passwd, EMAILS)
-mailboxes = [mailbox(u, p) for (u, p) in zip(USERNAMES, passwords)]
-unreads = map(unread, mailboxes)
-out = ",".join(unreads)
-print out
-save(out)
+unreads = []
+for (u, p) in zip(USERNAMES, passwords):
+    box = mailbox(u, p)
+    unreads.append(unread(box))
+done(",".join(unreads))

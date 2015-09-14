@@ -20,6 +20,13 @@ export PS1="\u@\h:\w\$(git symbolic-ref HEAD 2>&- | sed 's|refs/heads/\(.*\)$| \
 # Path
 export PATH=$DOTFILES/bin:$PATH
 
+# python2 for node-gyp
+export PYTHON="python2"
+
+# nnm setup
+export NNM_DIR="$HOME/Code/node"
+export PATH="$NNM_DIR/current/bin:$PATH"
+
 # ##############################################################################
 # Load other configs.
 # ##############################################################################
@@ -42,6 +49,7 @@ alias ssh='ssh-add -l > /dev/null || ssh-add && ssh'
 alias s='search'
 alias http='python2 -m SimpleHTTPServer'
 alias winfo='xwininfo -display :0'
+alias docker='sudo docker'
 
 # Git
 
@@ -71,9 +79,7 @@ alias gsl='git stash list'
 # Completion
 # ##############################################################################
 
-complete -cf sudo
-complete -cf man
-complete -cf which
+complete -cf man sudo which
 complete -W "$(echo $(grep '^Host' ~/.ssh/config | sed 's/^Host //'))" ssh
 complete -W "$(echo $(find  ~/.password-store/ -name *.gpg 2> /dev/null | awk '{
 	sub("\\.gpg$", "");

@@ -1,0 +1,54 @@
+#!/usr/bin/env bash
+
+usage() {
+	cat <<-EOF
+	usage: ${0##*/} <command>
+
+	Firewall manager
+
+	Commands:
+	  list    show all firewall rules
+	  diff    get the diff between the saved and current rulesets
+	  reload  reload /etc/iptables/iptables.rules
+	  save    print raw rules
+	EOF
+}
+
+rules="/etc/iptables/iptables.rules"
+
+cmd_list() {
+	sudo iptables -nvL --line-numbers
+}
+
+cmd_diff() {
+	if ! [[ -e "$rules" ]]; then
+		echo "Error: $rules does not exist."
+		exit 1
+	fi
+	sudo iptables-save | sed -e '/^[#:]/d' > /tmp/iptables.check
+	cat "$rules"       | sed -e '/^[#:]/d' > /tmp/iptables.rules
+	diff /tmp/iptables.rules /tmp/iptables.check | vim -
+}
+
+cmd_reload() {
+	# or: systemctl reload iptables
+	sudo iptables-restore < /etc/iptables/iptables.rules
+}
+
+cmd_save() {
+	sudo iptables-save
+}
+
+fail() {
+	usage >&2
+	exit 1
+}
+
+[[ -z $1 ]] && fail
+case "$1" in
+	ls|list) cmd_list ;;
+	diff)    cmd_diff ;;
+	reload)  cmd_reload ;;
+	save)    cmd_save ;;
+	*)       fail ;;
+esac

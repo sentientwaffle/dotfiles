@@ -8,8 +8,6 @@
 
 Some manual setup in `~/.bashrc` too:
 
-    export NNM_DIR="$HOME/<NODE DIRECTORY>"
-    export PATH="$NNM_DIR/current/bin:$PATH"
     source ~/dotfiles/.bashrc
 
 ### ./bin/
