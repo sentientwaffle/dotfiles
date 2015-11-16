@@ -1,16 +1,24 @@
 #!/usr/bin/env bash
 
 # Create a menu to quickly copy a password to the clipboard.
-
-shopt -s nullglob globstar
-
-prefix="$HOME/.password-store"
-password_files=( "$prefix"/**/*.gpg )
-password_files=( "${password_files[@]#"$prefix"/}" )
-password_files=( "${password_files[@]%.gpg}" )
-
-password=$(printf '%s\n' "${password_files[@]}" | dmenu "$@")
+password=$(_complete_files.sh ~/.password-store gpg '\n' | dmenu "$@")
 
 [[ -n "$password" ]] || exit
 
 pass show -c "$password" 2>/dev/null
+
+get_paste_id() {
+	local line1=$(tmux list-buffers | head -n1)
+	echo ${line1%%:*}
+}
+
+# In case the password was pasted into the terminal via tmux,
+# remove an entry from tmux's paste history as well.
+target_id="$(get_paste_id)"
+clip_time="${PASSWORD_STORE_CLIP_TIME:-45}"
+sanitize_tmux_clipboard() {
+	while [[ "$target_id" != "$(get_paste_id)" ]] && tmux delete-buffer; do
+		true # noop
+	done
+}
+(sleep "$clip_time" && sanitize_tmux_clipboard)

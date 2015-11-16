@@ -1,5 +1,4 @@
 #!/usr/bin/env bash
-
 # Update DWM's status bar.
 
 refresh=10
@@ -24,7 +23,7 @@ get_disk_used() {
 }
 
 get_mem() {
-	free | awk '/Mem:/ {print 100*($3+$6)/$2}' | cut -d'.' -f1
+	free | awk '/Mem:/ {print 100*($2-$7)/$2}' | cut -d'.' -f1
 }
 
 get_cpu() {
@@ -81,21 +80,21 @@ while true; do
 		cpu=$(get_cpu)
 		get_netrate
 	fi
-	stats_volume="<span foreground=\"#33aaff\">$(get_volume)</span>"
+	stats_volume='<span foreground="#33aaff">'$(get_volume)'</span>'
 	if [[ -z "$mic" ]]; then
-		stats_mic=""
+		stats_mic=''
 	else
-		stats_mic="<span foreground=\"#e8332e\">!</span>"
+		stats_mic='<span foreground="#e8332e">!</span>'
 	fi
 	# TODO offline should be red
-	stats_connection="<span foreground=\"#33ffff\">${con:-offline}</span>"
-	stats_battery="<span foreground=\"#00ff33\">bat=$bat</span>"
-	stats_used_root="<span foreground=\"#ffff00\">/=$used_root</span>"
-	stats_used_home="<span foreground=\"#ffff00\">/home=$used_home</span>"
-	stats_mem="<span foreground=\"#ff3399\">mem=$mem%</span>"
-	stats_cpu="<span foreground=\"#ff6600\">cpu=$cpu%</span>"
-	now="<span foreground=\"#dddddd\">$(date +'%a %b %d %H:%M:%S')</span>"
-	stats_netrate="<span foreground=\"#33ffff\">$net_return</span>"
+	stats_connection='<span foreground="#33ffff">'${con:-offline}'</span>'
+	stats_battery='<span foreground="#00ff33">bat='$bat'</span>'
+	stats_used_root='<span foreground="#ffff00">/='$used_root'</span>'
+	stats_used_home='<span foreground="#ffff00">/home='$used_home'</span>'
+	stats_mem='<span foreground="#ff3399">mem='$mem'%</span>'
+	stats_cpu='<span foreground="#ff6600">cpu='$cpu'%</span>'
+	now='<span foreground="#dddddd">'$(date +'%a %b %d %H:%M:%S')'</span>'
+	stats_netrate='<span foreground="#33ffff">'$net_return'</span>'
 
 	l1="$lock$stats_volume$stats_mic $stats_used_root $stats_used_home"
 	l2="$stats_mem $stats_cpu $stats_netrate"

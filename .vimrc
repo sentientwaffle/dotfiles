@@ -1,11 +1,5 @@
 call pathogen#infect()
 
-" TODO
-noremap <Space> @q
-
-" set nocompatible
-syntax on
-
 " Hex editor
 "   :%!xxd
 " Revert
@@ -14,68 +8,47 @@ syntax on
 " -----------------------------------------------------------------------------
 " General
 " -----------------------------------------------------------------------------
-" Backspace over anything
-set backspace=indent,eol,start
+syntax on
 
-" No folding
-set nofoldenable
-
-" -----------------------------------------------------------------------------
-" Mouse
-" -----------------------------------------------------------------------------
+set backspace=indent,eol,start " Backspace over anything
+set nofoldenable " No folding
 set mouse=a
+set history=150
 
 " -----------------------------------------------------------------------------
 " Indentation
 " -----------------------------------------------------------------------------
-set autoindent
-" set smartindent
+set autoindent " copy indentation from current line to new line
 set nowrap
-set softtabstop=2
+set softtabstop=2 " number of spaces in tab when editing
 set shiftwidth=2
-set tabstop=8
-set expandtab
+set tabstop=8 " number of visual spaces per tab
+set expandtab " tabs are spaces
 
 set wildmenu " command-line completion
 set wildmode=longest:full " Better autocompletion
 set title " show filename in window titlebar
-
-" Extention matching
-autocmd FileType python,rust setlocal expandtab shiftwidth=4 softtabstop=4
-autocmd FileType go,make,c,cpp,sh,gitconfig setlocal noexpandtab shiftwidth=8 softtabstop=8
-
-autocmd BufNewFile,BufRead *.glsl,*.geom,*.vert,*.frag,*.gsh,*.vsh,*.fsh set filetype=c
-
-" Spellchecking
-autocmd FileType mail setlocal spell
-autocmd FileType gitcommit setlocal spell
 
 " -----------------------------------------------------------------------------
 " UI
 " ------------------------------------------------------------------------------
 set ruler " show cursor position
 set number " line numbers
-" set ch=2
+set fillchars=vert:│ " vsplit character
 
 " Search
 set hlsearch " hightlight searches
+set incsearch " search as characters are entered
 set ignorecase " ignore search case
-set incsearch " increment
 set smartcase " strict case when upper in search term
 
 " Theming
-set background=dark
-let g:solarized_termcolors=256
-set t_Co=256
-colorscheme solarized
+set t_Co=256 " 256 colors
+colorscheme custom
 
-set cursorline
-
-" Margin of 5 lines when navigating.
-set scrolloff=5
-
-" No startup message.
-set shortmess+=I
+set cursorline " highlight current line
+set scrolloff=2 " Line margin when navigating.
+set shortmess+=I " No startup message.
 
 " http://stackoverflow.com/questions/14036120/wonky-multibyte-character-display-in-vim-when-editing-over-ssh
 set encoding=utf-8
@@ -87,13 +60,6 @@ scriptencoding utf-8
 set listchars=tab:▸\ ,trail:·,nbsp:_
 set list
 
-" 80 char margin
-" highlight OverLength cterm=underline
-" match OverLength /\%81v.\+/
-
-" Statusbar
-set laststatus=2
-
 " -----------------------------------------------------------------------------
 " Backups
 " -----------------------------------------------------------------------------
@@ -104,64 +70,112 @@ set nowb
 " -----------------------------------------------------------------------------
 " Keybindings
 " -----------------------------------------------------------------------------
-imap <Nul> <C-p>
 
-nmap <TAB> gt
-nmap <S-TAB> gT
+inoremap <Nul> <C-p>
+
+nnoremap <TAB> gt
+nnoremap <S-TAB> gT
 " Increment.
-nmap <C-\> <C-a>
+nnoremap <C-\> <C-a>
 " Clear search highlight.
-nmap <C-l> :noh<CR>
+nnoremap <C-l> :noh<CR>
 
 " Disable Page Up & Page Down.
-nmap <PageUp> <Nop>
-nmap <PageDown> <Nop>
-imap <PageUp> <Nop>
-imap <PageDown> <Nop>
-vmap <PageUp> <Nop>
-vmap <PageDown> <Nop>
+nnoremap <PageUp>   <Nop>
+nnoremap <PageDown> <Nop>
+inoremap <PageUp>   <Nop>
+inoremap <PageDown> <Nop>
+vnoremap <PageUp>   <Nop>
+vnoremap <PageDown> <Nop>
 
-" Toggle paste mode.
-nmap <F2> :set nopaste!<CR>
+" Execute default macro, and disable Ex mode
+nnoremap Q @q
 
+" Leader
+let mapleader = " "
+
+nnoremap <Leader>  <Nop>
+" Get current syntax token stack.
+nnoremap <Leader>s :call <SID>SynStack()<CR>
+" View built-in vim syntax files.
+nnoremap <Leader>S :tabe $VIMRUNTIME/syntax/<CR>
 " Open another tab of the file.
-nmap <F3> :tabe %<CR>
+nnoremap <Leader>t :tabe %<CR>
 " Open to current directory.
-nmap <F4> :tabe .<CR>
+nnoremap <Leader>T :tabe .<CR>
+" Toggle paste mode.
+nnoremap <Leader>p :set paste!<CR>
 
-" Escape for JavaScript.
-nmap <F5> <S-v><S-v>:'<,'>!toutf16<CR>
-
-" Disable Ex mode
-nnoremap Q <Nop>
+function! <SID>SynStack()
+  if !exists("*synstack")
+    return
+  endif
+  echo map(synstack(line('.'), col('.')), 'synIDattr(v:val, "name")')
+endfunction
 
 " -----------------------------------------------------------------------------
-" Auto
+" Autocommands
 " -----------------------------------------------------------------------------
 " Reload .vimrc when saved.
 " autocmd bufwritepost .vimrc source $MYVIMRC
+" TODO: autogroups
 
-" Abbreviations
-" JavaScript
-autocmd FileType javascript abbreviate qfunc function() {<CR>}<ESC>k$F(i
-autocmd FileType javascript abbreviate qif if () {<CR><TAB><CR><BS>}<ESC>kk$F)i
-autocmd FileType javascript abbreviate qfor for (var i = 0, l =.length; i < l; i++) {<CR><TAB><CR><BS>}<ESC>kk$F.i
-autocmd FileType javascript abbreviate she #!/usr/bin/env node
-autocmd FileType javascript abbreviate pro prototype
-autocmd FileType javascript abbreviate Ok Object.keys
-autocmd FileType javascript abbreviate clog console.log
+" ftdetect
+autocmd BufNewFile,BufRead *.glsl,*.geom,*.vert,*.frag,*.gsh,*.vsh,*.fsh set filetype=c
+autocmd BufNewFile,BufRead *.gyp                                         set filetype=json
 
-" Go
-autocmd FileType go abbreviate qTest func Test(t *testing.T) {<CR><TAB><CR><BACKSPACE>}<ESC>kk$F(i
-autocmd FileType go abbreviate qfunc func() {<CR><TAB><CR><BACKSPACE>}<ESC>kk$F(i
+" Indentation
+autocmd FileType python,rust                setlocal   expandtab shiftwidth=4 softtabstop=4
+autocmd FileType go,make,c,cpp,sh,gitconfig setlocal noexpandtab shiftwidth=8 softtabstop=8
+
+" Spellchecking
+autocmd FileType mail,gitcommit setlocal spell
 
 " au BufWritePost *.js echo system("jshint " . shellescape(expand('%:p')))
 
+" Help (shift-K)
+autocmd FileType vim setlocal keywordprg=:help
+
+" -----------------------------------------------------------------------------
+" Abbreviations
+" -----------------------------------------------------------------------------
+" JavaScript
+autocmd FileType javascript iabbrev pro prototype
+
+" Go
+autocmd FileType go iabbrev qTest func Test(t *testing.T) {<CR><TAB><CR><BACKSPACE>}<ESC>kk$F(i
+autocmd FileType go iabbrev qfunc func() {<CR><TAB><CR><BACKSPACE>}<ESC>kk$F(i
 
 " -----------------------------------------------------------------------------
 " Statusline
 " -----------------------------------------------------------------------------
 
+set laststatus=2 " Always show statusbar
+
+" http://got-ravings.blogspot.com/2008/08/vim-pr0n-making-statuslines-that-own.html
+set statusline=%<
+set statusline+=\ %.99f " filename
+set statusline+=\ %h " [help]
+set statusline+=%w " [Preview]
+set statusline+=%m " [+] (modified)
+set statusline+=%r " [RO] (readonly)
+set statusline+=%{&paste?'[paste]':''} " [paste]
+"set statusline+=%#ErrorMsg#%*
+
+set statusline+=%= " left/right split
+set statusline+=%{&fileformat} " unix
+set statusline+=\ │\ %{&termencoding} " utf-8
+set statusline+=\ │\ %{strlen(&ft)?&ft:'none'} " file type, e.g.: vim
+set statusline+=\ │\ %3.p%% " 12%
+set statusline+=\ │\ %-(%l,%v%) " (line,column)
+set statusline+=\ 
+
+" -----------------------------------------------------------------------------
+" Tabline
+" -----------------------------------------------------------------------------
+
+set tabpagemax=20 " maximum tabs opened by `-p` command-line argument
+set showtabline=2 " always show tab line (even for 1 file)
 
 " -----------------------------------------------------------------------------
 " Commands
@@ -173,3 +187,5 @@ command W w !sudo tee % >/dev/null
 " Reformat XML
 command PrettyXML %!xmllint --format -
 
+" Escape for JavaScript.
+command -range ToUTF16 <line1>,<line2>!toutf16

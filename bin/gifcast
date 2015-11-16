@@ -1,9 +1,9 @@
 #!/usr/bin/env bash
 
-if [ $# -ne 2 ]; then
-  echo "Usage: gifcast <video.ogv> <video.gif>"
-  echo "Usage: gifcast <video.ogv> <directory.jpg>"
-  echo "Usage: gifcast <directory.jpg> <video.gif>"
+if [[ $# != 2 ]]; then
+  echo 'Usage: gifcast <video.ogv> <video.gif>'
+  echo 'Usage: gifcast <video.ogv> <directory.jpg>'
+  echo 'Usage: gifcast <directory.jpg> <video.gif>'
   exit 1
 fi
 
@@ -14,25 +14,20 @@ jpgdir="$1.jpg"
 input_ext="${input##*.}"
 output_ext="${output##*.}"
 
-if [[ $output_ext == "jpg" ]]
-then
+if [[ "$output_ext" == 'jpg' ]]; then
   jpgdir="$output"
-elif [[ $input_ext == "jpg" ]]
-then
+elif [[ "$input_ext" == 'jpg' ]]; then
   jpgdir="$input"
 fi
 
-if [[ ! -d $jpgdir ]]
-then
+if [[ ! -d "$jpgdir" ]]; then
   mplayer -ao null $input -vo jpeg:outdir=$jpgdir
 fi
 
-if [[ $output_ext == "gif" ]]
-then
+if [[ "$output_ext" == 'gif' ]]; then
   convert "$jpgdir/*" -fuzz 10% -layers Optimize "$output"
 fi
 
-if [[ $input_ext != "jpg" && $output_ext != "jpg" ]]
-then
+if [[ "$input_ext" != 'jpg' && "$output_ext" != 'jpg' ]]; then
   rm -rf "$jpgdir"
 fi

@@ -1,8 +1,8 @@
 #!/usr/bin/env bash
 
-fmt_ip="{{.NetworkSettings.IPAddress}}"
-fmt_name="{{.Name}}"
-fmt_image="{{.Config.Image}}"
+fmt_ip='{{.NetworkSettings.IPAddress}}'
+fmt_name='{{.Name}}'
+fmt_image='{{.Config.Image}}'
 if [[ -n "$1" ]]; then
 	sudo docker inspect --format "$fmt_ip" "$1"
 fi

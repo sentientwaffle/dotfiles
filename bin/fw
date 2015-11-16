@@ -7,14 +7,16 @@ usage() {
 	Firewall manager
 
 	Commands:
-	  list    show all firewall rules
-	  diff    get the diff between the saved and current rulesets
-	  reload  reload /etc/iptables/iptables.rules
-	  save    print raw rules
+	  list         # show all firewall rules
+	  diff         # get the diff between the saved and current rulesets
+	  reload       # reload /etc/iptables/iptables.rules
+	  save         # print raw rules
+	  open  <port> # open a port
+	  close <port> # close a port
 	EOF
 }
 
-rules="/etc/iptables/iptables.rules"
+rules='/etc/iptables/iptables.rules'
 
 cmd_list() {
 	sudo iptables -nvL --line-numbers
@@ -39,16 +41,28 @@ cmd_save() {
 	sudo iptables-save
 }
 
+cmd_open() {
+	local port=$1
+	sudo iptables -I INPUT 1 -p tcp --dport "$port" -j ACCEPT
+}
+
+cmd_close() {
+	local port=$1
+	sudo iptables -D INPUT -p tcp --dport "$port" -j ACCEPT
+}
+
 fail() {
 	usage >&2
 	exit 1
 }
 
-[[ -z $1 ]] && fail
+[[ -z "$1" ]] && fail
 case "$1" in
 	ls|list) cmd_list ;;
 	diff)    cmd_diff ;;
 	reload)  cmd_reload ;;
 	save)    cmd_save ;;
+	open)    cmd_open "$2" ;;
+	close)   cmd_close "$2" ;;
 	*)       fail ;;
 esac

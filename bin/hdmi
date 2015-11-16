@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-internal="eDP1"
+internal='eDP1'
 external=$(xrandr | awk '/ connected/ { print $1 }' | tail -n1)
 previous=$(xrandr | awk '/ disconnected.*0mm x 0mm/ { print $1 }' | tail -n1)
 

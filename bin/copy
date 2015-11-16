@@ -1,5 +1,4 @@
 #!/bin/sh
-
 # Redirect to /dev/null because xclip doesn't close stdout.
 # This prevents tmux from stalling.
 xclip -i -selection c > /dev/null

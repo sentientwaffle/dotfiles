@@ -1,2 +1,2 @@
 #!/usr/bin/env bash
-nmcli n off && sleep 5 && nmcli n on
+nmcli n off && sleep 4 && nmcli n on

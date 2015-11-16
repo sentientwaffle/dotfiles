@@ -18,23 +18,23 @@ usage() {
 	EOF
 }
 
-if [[ -z $1 ]]; then
+if [[ -z "$1" ]]; then
 	usage >&2
 	exit 1
 fi
 
 tmux_split() {
 	if [[ -z $2 ]]; then
-		tmux split-window $1 -c "#{pane_current_path}"
+		tmux split-window $1 -c '#{pane_current_path}'
 	else
-		tmux split-window $1 -c "#{pane_current_path}" -p "$2"
+		tmux split-window $1 -c '#{pane_current_path}' -p "$2"
 	fi
 }
 
 tmux_pane() {
 	case $1 in
-		next) local t=":.+" ;;
-		prev) local t=":.-" ;;
+		next) local t=':.+' ;;
+		prev) local t=':.-' ;;
 		*)    local t="$1"  ;;
 	esac
 	tmux select-pane -t "$t"

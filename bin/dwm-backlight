@@ -2,6 +2,9 @@
 
 # Wrap xbacklight brightness controls.
 
+# TODO: xrandr --output HDMI1 --brightness 0.5
+# TODO: what about inverting the display's color
+
 usage() {
 	cat <<-EOF
 	usage: ${0##*/} <command>
@@ -19,7 +22,7 @@ fail() {
 }
 
 get_delta() {
-	if [[ $1 == "minor" ]]; then
+	if [[ "$1" == 'minor' ]]; then
 		echo 1
 	else
 		echo 10
@@ -27,8 +30,8 @@ get_delta() {
 }
 
 case "$1" in
-	up)   xbacklight -inc $(get_delta $2) ;;
-	down) xbacklight -dec $(get_delta $2) ;;
+	up)   xbacklight -inc $(get_delta "$2") ;;
+	down) xbacklight -dec $(get_delta "$2") ;;
 	get)  xbacklight -get ;;
 	*)    fail ;;
 esac

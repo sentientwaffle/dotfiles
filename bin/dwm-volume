@@ -28,9 +28,9 @@ toggle_mute_mic() {
 
 get_volume() {
 	sinks=$(pactl list sinks)
-	is_muted=$(grep "Mute:.yes" <<<"$sinks")
+	is_muted=$(grep 'Mute:.yes' <<<"$sinks")
 	if [[ -n "$is_muted" ]]; then
-		echo "mute"
+		echo 'mute'
 	else
 		grep -o '[[:digit:]]*%' <<<"$sinks" | head -n1
 	fi
@@ -52,8 +52,8 @@ fail() {
 case "$1" in
 	mute)   toggle_mute ;;
 	mic)    toggle_mute_mic ;;
-	up)     mod_volume "+5%" ;;
-	down)   mod_volume "-5%" ;;
+	up)     mod_volume '+5%' ;;
+	down)   mod_volume '-5%' ;;
 	get)    get_volume ;;
 	getmic) get_mic ;;
 	*)      fail ;;
