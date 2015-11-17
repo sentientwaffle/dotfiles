@@ -103,7 +103,11 @@ complete -F _complete mux pass ssh
 # ##############################################################################
 
 if [[ -n "$DISPLAY" && "$TERM" == 'xterm' ]]; then
-	export TERM=screen-256color
+	if [[ -f /usr/share/terminfo/t/tmux-256color ]]; then
+		export TERM=tmux-256color
+	else
+		export TERM=screen-256color
+	fi
 fi
 
 if [[ -x /usr/bin/dircolors ]]; then

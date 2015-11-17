@@ -18,7 +18,6 @@ hi String          ctermfg=107
 hi SpecialChar     ctermfg=184
 
 " Constants
-" 135 -> 67,153
 hi Boolean         ctermfg=67
 hi Number          ctermfg=67
 hi Float           ctermfg=67
@@ -27,14 +26,13 @@ hi Debug           ctermfg=225               cterm=bold
 hi Define          ctermfg=81
 hi Delimiter       ctermfg=241
 
-" 118 -> 221
 hi Function        ctermfg=221
-" 81 -> 160
+" json object key
+hi Label           ctermfg=221
 hi Special         ctermfg=160
 
 hi Ignore          ctermfg=244 ctermbg=232
 
-hi Label           ctermfg=229               cterm=none
 hi Macro           ctermfg=137
 
 hi MatchParen      ctermfg=233  ctermbg=251
@@ -53,7 +51,7 @@ hi Statement       ctermfg=166
 hi PreCondit       ctermfg=221               cterm=bold
 hi PreProc         ctermfg=221
 hi Question        ctermfg=81
-hi Search          ctermfg=0   ctermbg=222   cterm=NONE
+hi Search          ctermfg=0   ctermbg=222   cterm=none
 hi IncSearch       ctermfg=193 ctermbg=16
 
 " marks column
@@ -125,7 +123,6 @@ hi WarningMsg      ctermfg=231 ctermbg=none
 " -----------------------------------------------------------------------------
 " Diff
 " -----------------------------------------------------------------------------
-
 " vimdiff
 hi DiffAdd         ctermfg=107
 hi DiffChange      ctermfg=181
@@ -139,7 +136,6 @@ hi diffRemoved     ctermfg=160
 " -----------------------------------------------------------------------------
 " HTML / XML
 " -----------------------------------------------------------------------------
-
 hi htmlTag            ctermfg=137
 hi htmlTagN           ctermfg=137
 hi htmlTagName        ctermfg=137
@@ -154,6 +150,8 @@ hi xmlTagName         ctermfg=137
 hi xmlNamespace       ctermfg=221
 hi xmlEndTag          ctermfg=137
 
+" JavaScript
+hi jsObjectKey        ctermfg=221
 " -----------------------------------------------------------------------------
 " Netrw
 " -----------------------------------------------------------------------------

@@ -1,10 +1,5 @@
 call pathogen#infect()
 
-" Hex editor
-"   :%!xxd
-" Revert
-"   :%!xxd -r
-
 " -----------------------------------------------------------------------------
 " General
 " -----------------------------------------------------------------------------
@@ -15,6 +10,10 @@ set nofoldenable " No folding
 set mouse=a
 set history=150
 
+set wildmenu " command-line completion
+set wildmode=longest:full " Better autocompletion
+set title " show filename in window titlebar
+
 " -----------------------------------------------------------------------------
 " Indentation
 " -----------------------------------------------------------------------------
@@ -24,10 +23,6 @@ set softtabstop=2 " number of spaces in tab when editing
 set shiftwidth=2
 set tabstop=8 " number of visual spaces per tab
 set expandtab " tabs are spaces
-
-set wildmenu " command-line completion
-set wildmode=longest:full " Better autocompletion
-set title " show filename in window titlebar
 
 " -----------------------------------------------------------------------------
 " UI
@@ -96,7 +91,7 @@ let mapleader = " "
 
 nnoremap <Leader>  <Nop>
 " Get current syntax token stack.
-nnoremap <Leader>s :call <SID>SynStack()<CR>
+nnoremap <Leader>s :call <SID>ToggleSynStack()<CR>
 " View built-in vim syntax files.
 nnoremap <Leader>S :tabe $VIMRUNTIME/syntax/<CR>
 " Open another tab of the file.
@@ -105,46 +100,57 @@ nnoremap <Leader>t :tabe %<CR>
 nnoremap <Leader>T :tabe .<CR>
 " Toggle paste mode.
 nnoremap <Leader>p :set paste!<CR>
+nnoremap <Leader>x :call <SID>ToggleHex()<CR>
 
-function! <SID>SynStack()
+function! <SID>ToggleSynStack()
   if !exists("*synstack")
     return
   endif
   echo map(synstack(line('.'), col('.')), 'synIDattr(v:val, "name")')
 endfunction
 
+function! <SID>ToggleHex()
+  if exists("b:is_hex")
+    let &filetype = b:is_hex
+    unlet b:is_hex
+    %!xxd -r
+  else
+    let b:is_hex = &filetype
+    let &filetype = 'xxd'
+    %!xxd
+  endif
+endfunction
+
 " -----------------------------------------------------------------------------
 " Autocommands
 " -----------------------------------------------------------------------------
-" Reload .vimrc when saved.
-" autocmd bufwritepost .vimrc source $MYVIMRC
-" TODO: autogroups
 
-" ftdetect
-autocmd BufNewFile,BufRead *.glsl,*.geom,*.vert,*.frag,*.gsh,*.vsh,*.fsh set filetype=c
-autocmd BufNewFile,BufRead *.gyp                                         set filetype=json
+augroup FTOptions
+  autocmd!
+  " ftdetect
+  autocmd BufNewFile,BufRead *.glsl,*.geom,*.vert,*.frag,*.gsh,*.vsh,*.fsh set filetype=c
+  autocmd BufNewFile,BufRead *.gyp                                         set filetype=json
 
-" Indentation
-autocmd FileType python,rust                setlocal   expandtab shiftwidth=4 softtabstop=4
-autocmd FileType go,make,c,cpp,sh,gitconfig setlocal noexpandtab shiftwidth=8 softtabstop=8
+  " Indentation
+  autocmd FileType python,rust                setlocal   expandtab shiftwidth=4 softtabstop=4
+  autocmd FileType go,make,c,cpp,sh,gitconfig setlocal noexpandtab shiftwidth=8 softtabstop=8
 
-" Spellchecking
-autocmd FileType mail,gitcommit setlocal spell
+  " Spellchecking
+  autocmd FileType mail,gitcommit setlocal spell
 
-" au BufWritePost *.js echo system("jshint " . shellescape(expand('%:p')))
+  " Help (shift-K)
+  autocmd FileType vim setlocal keywordprg=:help
+augroup END
 
-" Help (shift-K)
-autocmd FileType vim setlocal keywordprg=:help
+augroup FTAbbreviations
+  autocmd!
+  " JavaScript
+  autocmd FileType javascript inoreabbrev pro prototype
 
-" -----------------------------------------------------------------------------
-" Abbreviations
-" -----------------------------------------------------------------------------
-" JavaScript
-autocmd FileType javascript iabbrev pro prototype
-
-" Go
-autocmd FileType go iabbrev qTest func Test(t *testing.T) {<CR><TAB><CR><BACKSPACE>}<ESC>kk$F(i
-autocmd FileType go iabbrev qfunc func() {<CR><TAB><CR><BACKSPACE>}<ESC>kk$F(i
+  " Go
+  "autocmd FileType go inoreabbrev qTest func Test(t *testing.T) {<CR><TAB><CR><BACKSPACE>}<ESC>kk$F(i
+  "autocmd FileType go inoreabbrev qfunc func() {<CR><TAB><CR><BACKSPACE>}<ESC>kk$F(i
+augroup END
 
 " -----------------------------------------------------------------------------
 " Statusline
