@@ -108,10 +108,10 @@ if [[ -n "$DISPLAY" && "$TERM" == 'xterm' ]]; then
 	else
 		export TERM=screen-256color
 	fi
-fi
-
-if [[ -x /usr/bin/dircolors ]]; then
-	eval $(dircolors --sh "$DOTFILES/.dircolors")
+	if [[ -x /usr/bin/dircolors ]]; then
+		# dircolors doesn't work with tmux-256color.
+		eval $(TERM=screen-256color dircolors --sh "$DOTFILES/.dircolors")
+	fi
 fi
 
 # ##############################################################################
