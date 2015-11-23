@@ -11,12 +11,12 @@ usage() {
 	EOF
 }
 
-if [[ $1 == "on" ]]; then
+if [[ $1 == 'on' ]]; then
 	xautolock -enable
-	rm -f "/tmp/autolock"
-elif [[ $1 == "off" ]]; then
+	rm -f '/tmp/autolock'
+elif [[ $1 == 'off' ]]; then
 	xautolock -disable
-	touch "/tmp/autolock"
+	touch '/tmp/autolock'
 else
 	usage >&2
 	exit 1

@@ -1,0 +1,29 @@
+#!/usr/bin/env bash
+
+usage() {
+	cat <<-EOF
+	usage: ${0##*/} <file.pdf> <pages-per-pdf>
+
+	Split a PDF into multiple smaller PDFs.
+	EOF
+}
+
+file=$1
+pages=$2
+if [[ -z "$file" || -z "$pages" ]]; then
+	usage >&2
+	exit 1
+fi
+
+totalpages=$(mutool pages "$file" | grep '^<page ' | wc -l)
+index=1
+for ((page = 0; page < totalpages; page += pages)); do
+	dstfile="${file/%\.pdf/--${index}.pdf}"
+	if [[ "$file" == "$dstfile" ]]; then
+		echo "'$file' is not a pdf" >&2
+		exit 1
+	fi
+	echo "Writing $dstfile"
+	mutool clean "$file" "$dstfile" "$page-$((page + pages))"
+	((index++))
+done

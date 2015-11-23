@@ -74,6 +74,8 @@ nnoremap <S-TAB> gT
 nnoremap <C-\> <C-a>
 " Clear search highlight.
 nnoremap <C-l> :noh<CR>
+" Execute default macro, and disable Ex mode
+nnoremap Q @q
 
 " Disable Page Up & Page Down.
 nnoremap <PageUp>   <Nop>
@@ -83,11 +85,8 @@ inoremap <PageDown> <Nop>
 vnoremap <PageUp>   <Nop>
 vnoremap <PageDown> <Nop>
 
-" Execute default macro, and disable Ex mode
-nnoremap Q @q
-
 " Leader
-let mapleader = " "
+let mapleader = ' '
 
 nnoremap <Leader>  <Nop>
 " Get current syntax token stack.
@@ -103,14 +102,14 @@ nnoremap <Leader>p :set paste!<CR>
 nnoremap <Leader>x :call <SID>ToggleHex()<CR>
 
 function! <SID>ToggleSynStack()
-  if !exists("*synstack")
+  if !exists('*synstack')
     return
   endif
   echo map(synstack(line('.'), col('.')), 'synIDattr(v:val, "name")')
 endfunction
 
 function! <SID>ToggleHex()
-  if exists("b:is_hex")
+  if exists('b:is_hex')
     let &filetype = b:is_hex
     unlet b:is_hex
     %!xxd -r
@@ -146,10 +145,8 @@ augroup FTAbbreviations
   autocmd!
   " JavaScript
   autocmd FileType javascript inoreabbrev pro prototype
-
   " Go
   "autocmd FileType go inoreabbrev qTest func Test(t *testing.T) {<CR><TAB><CR><BACKSPACE>}<ESC>kk$F(i
-  "autocmd FileType go inoreabbrev qfunc func() {<CR><TAB><CR><BACKSPACE>}<ESC>kk$F(i
 augroup END
 
 " -----------------------------------------------------------------------------

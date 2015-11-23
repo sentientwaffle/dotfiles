@@ -23,7 +23,6 @@ export PATH="$HOME/arch-bootstrap/bin:$PATH"
 
 # python2 for node-gyp
 export PYTHON='python2'
-
 # nnm setup
 export NNM_DIR="$HOME/Code/node"
 export PATH="$NNM_DIR/current/bin:$PATH"

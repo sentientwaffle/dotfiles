@@ -27,8 +27,8 @@ toggle_mute_mic() {
 }
 
 get_volume() {
-	sinks=$(pactl list sinks)
-	is_muted=$(grep 'Mute:.yes' <<<"$sinks")
+	local sinks=$(pactl list sinks)
+	local is_muted=$(grep 'Mute:.yes' <<<"$sinks")
 	if [[ -n "$is_muted" ]]; then
 		echo 'mute'
 	else

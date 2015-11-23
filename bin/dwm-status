@@ -5,11 +5,12 @@ refresh=10
 count=0
 mic=""
 bat=""
+charging=""
 con=""
 lock=""
 used_root=""
 used_home=""
-mem=""
+ram=""
 cpu=""
 cpus=$(nproc)
 
@@ -22,7 +23,8 @@ get_disk_used() {
 	df -h | grep -o "[0-9]\+% $partition$" | cut -d' ' -f1
 }
 
-get_mem() {
+get_ram() {
+	# TODO /proc/meminfo: MemAvailable / MemTotal
 	free | awk '/Mem:/ {print 100*($2-$7)/$2}' | cut -d'.' -f1
 }
 
@@ -35,15 +37,15 @@ get_netrate() {
 	local count='{ down += $2; up += $(NF-7) }'
 	local end='END { print down " " up }'
 	local net_now=$(awk "$prefix $count $end" < /proc/net/dev)
-	local down_now=$(cut -d' ' -f1 <<< $net_now)
-	local up_now=$(cut -d' ' -f2 <<< $net_now)
+	local down_now=$(cut -d' ' -f1 <<< "$net_now")
+	local up_now=$(cut -d' ' -f2 <<< "$net_now")
 
 	((down_rate=(down_now - net_down_last) / refresh))
 	((up_rate=(up_now - net_up_last) / refresh))
 
 	net_down_last=$down_now
 	net_up_last=$up_now
-	net_return="↑$(numfmt --to=si <<< $up_rate) ↓$(numfmt --to=si <<< $down_rate)"
+	net_return="↑$(numfmt --to=si "$up_rate") ↓$(numfmt --to=si "$down_rate")"
 }
 
 get_volume() {
@@ -59,7 +61,15 @@ get_connection() {
 }
 
 get_battery() {
+	# TODO: /sys/class/power_supply/BAT{0,1}/energy_{now,full}
 	acpi | head -n1 | grep -o '[[:digit:]]*%'
+}
+
+get_charging() {
+	local chargefile='/sys/class/power_supply/AC/online'
+	if ! [[ -e "$chargefile" && $(cat "$chargefile") == '1' ]]; then
+		echo '<span foreground="#e8332e">!</span>'
+	fi
 }
 
 get_locked() {
@@ -72,35 +82,32 @@ while true; do
 	if ((count == 0)); then
 		mic=$(dwm-volume getmic)
 		bat=$(get_battery)
+		charging=$(get_charging)
 		con=$(get_connection)
 		lock=$(get_locked)
 		used_root=$(get_disk_used '/')
 		used_home=$(get_disk_used '/home')
-		mem=$(get_mem)
+		ram=$(get_ram)
 		cpu=$(get_cpu)
 		get_netrate
 	fi
-	stats_volume='<span foreground="#33aaff">'$(get_volume)'</span>'
-	if [[ -z "$mic" ]]; then
-		stats_mic=''
-	else
-		stats_mic='<span foreground="#e8332e">!</span>'
+	title=$lock
+	title=$title'<span foreground="#33aaff">'$(get_volume)'</span>'
+	title=$title
+	if [[ -n "$mic" ]]; then
+		title=$title'<span foreground="#e8332e">!</span>'
 	fi
+	title=$title' <span foreground="#ffff00">/='$used_root'</span>'
+	title=$title' <span foreground="#ffff00">/home='$used_home'</span>'
+	title=$title' <span foreground="#ff3399">ram='$ram'%</span>'
+	title=$title' <span foreground="#ff6600">cpu='$cpu'%</span>'
+	title=$title' <span foreground="#33ffff">'$net_return'</span>'
 	# TODO offline should be red
-	stats_connection='<span foreground="#33ffff">'${con:-offline}'</span>'
-	stats_battery='<span foreground="#00ff33">bat='$bat'</span>'
-	stats_used_root='<span foreground="#ffff00">/='$used_root'</span>'
-	stats_used_home='<span foreground="#ffff00">/home='$used_home'</span>'
-	stats_mem='<span foreground="#ff3399">mem='$mem'%</span>'
-	stats_cpu='<span foreground="#ff6600">cpu='$cpu'%</span>'
-	now='<span foreground="#dddddd">'$(date +'%a %b %d %H:%M:%S')'</span>'
-	stats_netrate='<span foreground="#33ffff">'$net_return'</span>'
+	title=$title' <span foreground="#33ffff">'${con:-offline}'</span>'
+	title=$title' <span foreground="#00ff33">bat='$bat'</span>'$charging
+	title=$title' <span foreground="#dddddd">'$(date +'%a %b %d %H:%M:%S')'</span>'
 
-	l1="$lock$stats_volume$stats_mic $stats_used_root $stats_used_home"
-	l2="$stats_mem $stats_cpu $stats_netrate"
-	l3="$stats_connection $stats_battery $now"
-	xsetroot -name "$l1 $l2 $l3"
-
+	xsetroot -name "$title"
 	((count=(count + 1) % refresh))
 	sleep 1
 done
