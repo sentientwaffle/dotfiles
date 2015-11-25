@@ -12,8 +12,8 @@ symlink() {
 	ln -sf "$dotfiles/$1" "$2"
 }
 
-mode=$1
-if [[ "$mode" != 'desktop' && "$mode" != 'server' ]]; then
+role=$1
+if [[ "$role" != 'desktop' && "$role" != 'server' ]]; then
 	usage >&2
 	exit 1
 fi
@@ -27,7 +27,7 @@ mkdir -p "$HOME/.gnupg"
 symlink '.gnupg/gpg.conf'       "$HOME/.gnupg/gpg.conf"
 symlink '.gnupg/gpg-agent.conf' "$HOME/.gnupg/gpg-agent.conf"
 
-if [[ "$mode" == 'desktop' ]]; then
+if [[ "$role" == 'desktop' ]]; then
 	symlink '.gtkrc-2.0'  "$HOME/.gtkrc-2.0"
 	symlink '.xinitrc'    "$HOME/.xinitrc"
 	symlink '.Xresources' "$HOME/.Xresources"

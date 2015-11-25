@@ -6,6 +6,10 @@
 # ##############################################################################
 # Environment
 # ##############################################################################
+role='server'
+if [[ -e ~/.xinitrc ]]; then
+	role='desktop'
+fi
 
 export DOTFILES=$(dirname $BASH_SOURCE)
 export EDITOR='vim'
@@ -19,7 +23,8 @@ export PS1="\u@\h:\w\$(git symbolic-ref HEAD 2>&- | sed 's|refs/heads/\(.*\)$| \
 
 # Path
 export PATH="$DOTFILES/bin:$PATH"
-export PATH="$HOME/arch-bootstrap/bin:$PATH"
+export PATH="$HOME/Bootstrap/bin/$role:$PATH"
+export PATH="$HOME/Bootstrap/bin/any:$PATH"
 
 # python2 for node-gyp
 export PYTHON='python2'

@@ -2,7 +2,7 @@
 
 if [[ $# = 0 ]]; then
   ts=$(node -pe "Date.now()")
-  echo -n $ts | copy
+  echo -n $ts | dm-copy
   echo $ts
 else
   num=${1//[^0-9]/}
