@@ -18,6 +18,7 @@ if [[ "$role" != 'desktop' && "$role" != 'server' ]]; then
 	exit 1
 fi
 
+symlink '.bashrc'    "$HOME/.bashrc"
 symlink '.gitconfig' "$HOME/.gitconfig"
 symlink '.tmux.conf' "$HOME/.tmux.conf"
 symlink '.vim'       "$HOME"

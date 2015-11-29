@@ -6,12 +6,7 @@
 # ##############################################################################
 # Environment
 # ##############################################################################
-role='server'
-if [[ -e ~/.xinitrc ]]; then
-	role='desktop'
-fi
-
-export DOTFILES=$(dirname $BASH_SOURCE)
+export DOTFILES="$HOME/Code/dotfiles"
 export EDITOR='vim'
 export PAGER='less'
 export HISTSIZE=10000
@@ -23,8 +18,6 @@ export PS1="\u@\h:\w\$(git symbolic-ref HEAD 2>&- | sed 's|refs/heads/\(.*\)$| \
 
 # Path
 export PATH="$DOTFILES/bin:$PATH"
-export PATH="$HOME/Bootstrap/bin/$role:$PATH"
-export PATH="$HOME/Bootstrap/bin/any:$PATH"
 
 # python2 for node-gyp
 export PYTHON='python2'
@@ -44,7 +37,7 @@ shopt -s histappend
 alias v='vim -p'
 alias ..='cd ..'
 alias ...='cd ../..'
-alias ls='ls -AG --color'
+alias ls='ls -A --color'
 alias ll='ls -lAF'
 alias grep='grep --color'
 alias ssh='ssh-add -l > /dev/null || ssh-add && TERM=screen-256color ssh'
@@ -53,7 +46,6 @@ alias jj='journal'
 alias http='python2 -m SimpleHTTPServer'
 alias winfo='xwininfo -display :0'
 alias docker='sudo docker'
-alias kindle-eject="sudo eject /run/media/$USER/Kindle"
 
 # Git
 
@@ -125,6 +117,9 @@ if [[ -x /usr/bin/dircolors ]]; then
 fi
 
 # ##############################################################################
+
+[[ -e ~/Bootstrap/.bashrc ]] && source ~/Bootstrap/.bashrc
+
 # Start X at login.
 # https://wiki.archlinux.org/index.php/Start_X_at_Login
 if [[ "$XDG_VTNR" -eq 1 && -z "$DISPLAY" && -e ~/.xinitrc ]]; then

@@ -24,7 +24,7 @@ xmodmap -e 'keysym Print = Super_L'
 #   $ xset q
 xset r rate 280 50
 
-dm-status &
+dwm-status &
 
 # Lock screen after inactivity.
 xautolock -time 10 -locker slock &
