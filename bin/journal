@@ -5,42 +5,43 @@ if [[ -z "$JOURNAL_DIR" ]]; then
 	exit 1
 fi
 
-#usage() {
-#	cat <<-EOF
-#	usage: ${0##*/} <command> [arguments]
-#
-#	commands:
-#	  bookmarks
-#	  calendar
-#	  diary
-#	  help
-#	  open [document]
-#	EOF
-#}
 
-# TODO diary
-# TODO reminders/events/calendar
-# TODO bookmarks
+usage() {
+	cat <<-EOF
+	usage: ${0##*/} <command> [arguments]
 
-document="$1"
-if [[ -z "$1" ]]; then
-	document='Index'
-fi
-document="$JOURNAL_DIR/${document}.jtxt"
+	commands:
+	  commit
+	  open      [document]
+	  help
+	EOF
+}
 
-if [[ -e "$document" ]]; then
-	exec vim "$document"
-else
-	echo "File '$document' does not exist." >&2
+cmd_commit() {
+	cd "$JOURNAL_DIR" && git add . && git commit --message="$(date '+%Y-%M-%d')"
+}
+
+cmd_open() {
+	local document="$1"
+	if [[ -z "$1" ]]; then
+		local document='Index'
+	fi
+	local document="$JOURNAL_DIR/${document}.jtxt"
+	if [[ -e "$document" ]]; then
+		exec vim "$document"
+	else
+		echo "File '$document' does not exist." >&2
+		exit 1
+	fi
+}
+
+fail() {
+	usage >&2
 	exit 1
-fi
+}
 
-#case "$1" in
-#	mute)   toggle_mute ;;
-#	mic)    toggle_mute_mic ;;
-#	up)     mod_volume '+5%' ;;
-#	down)   mod_volume '-5%' ;;
-#	get)    get_volume ;;
-#	getmic) get_mic ;;
-#	*)      fail ;;
-#esac
+case "$1" in
+	commit) cmd_commit ;;
+	open)   cmd_open "$2" ;;
+	*)      fail ;;
+esac

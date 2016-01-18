@@ -87,6 +87,7 @@ vnoremap <PageDown> <Nop>
 
 " Leader
 let mapleader = ' '
+let maplocalleader = '\'
 
 nnoremap <Leader>  <Nop>
 " Get current syntax token stack.
@@ -129,6 +130,7 @@ augroup FTOptions
   " ftdetect
   autocmd BufNewFile,BufRead *.glsl,*.geom,*.vert,*.frag,*.gsh,*.vsh,*.fsh set filetype=c
   autocmd BufNewFile,BufRead *.gyp                                         set filetype=json
+  autocmd BufNewFile,BufRead ~/Code/mux/*.txt                              set filetype=mux
 
   " Indentation
   autocmd FileType python,rust                setlocal   expandtab shiftwidth=4 softtabstop=4
@@ -139,6 +141,9 @@ augroup FTOptions
 
   " Help (shift-K)
   autocmd FileType vim setlocal keywordprg=:help
+
+  autocmd FileType journal runtime! ftplugin/journal.vim
+  autocmd FileType disasm  runtime! ftplugin/disasm.vim
 augroup END
 
 augroup FTAbbreviations

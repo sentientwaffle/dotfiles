@@ -42,7 +42,7 @@ alias ll='ls -lAF'
 alias grep='grep --color'
 alias ssh='ssh-add -l > /dev/null || ssh-add && TERM=screen-256color ssh'
 
-alias jj='journal'
+alias jj='journal open'
 alias http='python2 -m SimpleHTTPServer'
 alias winfo='xwininfo -display :0'
 alias docker='sudo docker'
@@ -90,14 +90,14 @@ complete -d cd pushd rmdir
 _complete() {
 	local words=()
 	case "$1" in
-		journal) words=($(_complete_files.sh "$JOURNAL_DIR"    jtxt)) ;;
-		pass)    words=($(_complete_files.sh ~/.password-store gpg)) ;;
-		mux)     words=($(_complete_files.sh ~/Code/mux        txt)) ;;
-		ssh)     words=($(grep '^Host' ~/.ssh/config | sed 's/^Host //')) ;;
+		jj)   words=($(_complete_files.sh "$JOURNAL_DIR"    jtxt)) ;;
+		pass) words=($(_complete_files.sh ~/.password-store gpg)) ;;
+		mux)  words=($(_complete_files.sh ~/Code/mux        txt)) ;;
+		ssh)  words=($(grep '^Host' ~/.ssh/config | sed 's/^Host //')) ;;
 	esac
 	COMPREPLY=($(compgen -W "${words[*]}" -- "$2"))
 }
-complete -F _complete journal pass mux ssh
+complete -F _complete jj pass mux ssh
 
 # ##############################################################################
 # Terminal colors

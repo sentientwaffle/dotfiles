@@ -1,6 +1,7 @@
 " = TODO
 " * molokai violet: 135
 " * WildMenu and Pmenu should be more similar
+" * 221 vs 222
 
 hi clear
 if exists("syntax_on")
@@ -56,7 +57,7 @@ hi IncSearch       ctermfg=193 ctermbg=16
 
 " marks column
 hi SignColumn      ctermfg=221 ctermbg=235
-if has("spell")
+if has('spell')
   hi SpellBad                ctermbg=none  cterm=underline
   hi SpellCap                ctermbg=17    cterm=underline
   hi SpellLocal              ctermbg=17    cterm=underline
@@ -157,6 +158,15 @@ hi jsObjectKey        ctermfg=221
 " -----------------------------------------------------------------------------
 hi Directory       ctermfg=107
 hi netrwClassify   ctermfg=166
+
+" -----------------------------------------------------------------------------
+" Journal
+" -----------------------------------------------------------------------------
+hi journalMetadataKey ctermfg=221  cterm=bold
+"hi journalLink        ctermfg=67   cterm=underline
+hi journalCode        ctermfg=222
+hi journalBold                     cterm=bold
+hi journalItalic                   cterm=italic
 
 " Must be at the end, because of ctermbg=234 bug.
 " https://groups.google.com/forum/#!msg/vim_dev/afPqwAFNdrU/nqh6tOM87QUJ
