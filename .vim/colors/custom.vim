@@ -4,10 +4,10 @@
 " * 221 vs 222
 
 hi clear
-if exists("syntax_on")
+if exists('syntax_on')
   syntax reset
 endif
-let g:colors_name="custom"
+let g:colors_name = 'custom'
 
 hi Normal          ctermfg=252 ctermbg=233
 hi CursorLine                  ctermbg=234   cterm=none

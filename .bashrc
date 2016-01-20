@@ -12,8 +12,7 @@ export PAGER='less'
 export HISTSIZE=10000
 export HISTFILESIZE=10000
 export HISTCONTROL=ignoredups:ignorespace
-
-# Prompt
+export TZ='America/Los_Angeles'
 export PS1="\u@\h:\w\$(git symbolic-ref HEAD 2>&- | sed 's|refs/heads/\(.*\)$| \1|')\\$ "
 
 # Path

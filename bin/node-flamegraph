@@ -16,20 +16,20 @@ pid=$1
 duration=${2:-30}
 
 if ! command -v perf > /dev/null; then
-	echo 'Missing perf'
-	echo '  $ sudo pacman -S perf'
+	echo 'Missing perf' >&2
+	echo '  $ sudo pacman -S perf' >&2
 	exit 1
 fi
 
 if ! command -v stackvis > /dev/null; then
-	echo 'Missing stackvis'
-	echo '  $ npm install -g stackvis'
+	echo 'Missing stackvis' >&2
+	echo '  $ npm install -g stackvis' >&2
 	exit 1
 fi
 
 # Try to infer the pid.
 if [[ -z "$pid" ]]; then
-	pid=$(ps -aux | grep 'node --perf-basic' | grep -v grep | awk '{print $2}')
+	pid=$(ps -aux | grep 'node --perf-basic-prof' | grep -v grep | awk '{print $2}')
 fi
 if [[ -z "$pid" ]]; then
 	usage >&2

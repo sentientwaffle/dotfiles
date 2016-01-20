@@ -20,7 +20,7 @@ set title " show filename in window titlebar
 set autoindent " copy indentation from current line to new line
 set nowrap
 set softtabstop=2 " number of spaces in tab when editing
-set shiftwidth=2
+set shiftwidth=2 " number of spaces for each autoindent step, `<<`, and `>>`.
 set tabstop=8 " number of visual spaces per tab
 set expandtab " tabs are spaces
 
@@ -101,12 +101,20 @@ nnoremap <Leader>T :tabe .<CR>
 " Toggle paste mode.
 nnoremap <Leader>p :set paste!<CR>
 nnoremap <Leader>x :call <SID>ToggleHex()<CR>
+nnoremap <Leader>w :call <SID>ToggleWrap()<CR>
 
 function! <SID>ToggleSynStack()
   if !exists('*synstack')
     return
   endif
   echo map(synstack(line('.'), col('.')), 'synIDattr(v:val, "name")')
+endfunction
+
+function! <SID>ToggleWrap()
+  set wrap!
+  set linebreak!
+  set breakindent!
+  set showbreak=\|\ 
 endfunction
 
 function! <SID>ToggleHex()
