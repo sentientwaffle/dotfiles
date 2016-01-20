@@ -12,13 +12,13 @@ usage() {
 
 	commands:
 	  commit
-	  open      [document]
+	  open [document]
 	  help
 	EOF
 }
 
 cmd_commit() {
-	cd "$JOURNAL_DIR" && git add . && git commit --message="$(date '+%Y-%M-%d')"
+	cd "$JOURNAL_DIR" && git add . && git commit --message="$(date '+%Y-%m-%d')"
 }
 
 cmd_open() {
