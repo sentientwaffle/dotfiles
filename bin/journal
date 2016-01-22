@@ -5,7 +5,6 @@ if [[ -z "$JOURNAL_DIR" ]]; then
 	exit 1
 fi
 
-
 usage() {
 	cat <<-EOF
 	usage: ${0##*/} <command> [arguments]

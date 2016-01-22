@@ -11,9 +11,9 @@ syn region journalMetadataValue matchgroup=journalMetadataKey start="^ *#\w\+" e
 syn region journalTable         matchgroup=journalTableColumn start="^ *|" end="|$" oneline contains=journalTableColumn
 syn match  journalTableColumn "|" contained
 
-syn region journalHeader     start="^ *="   end="$" oneline
-syn region journalCode       start="^ *`"   end="$" oneline contains=@NoSpell
-syn region journalBlockQuote start="^ *> "  end="$" oneline
+syn region journalHeader     start="^ *= " end="$" oneline
+syn region journalCode       start="^ *` " end="$" oneline contains=@NoSpell
+syn region journalBlockQuote start="^ *> " end="$" oneline
 syn match  journalUList "^ *\* "
 syn match  journalOList "^ *# "
 
