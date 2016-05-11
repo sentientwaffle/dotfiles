@@ -25,9 +25,9 @@ fi
 
 tmux_split() {
 	if [[ -z $2 ]]; then
-		tmux split-window $1 -c '#{pane_current_path}'
+		tmux split-window "$1" -c '#{pane_current_path}'
 	else
-		tmux split-window $1 -c '#{pane_current_path}' -p "$2"
+		tmux split-window "$1" -c '#{pane_current_path}' -p "$2"
 	fi
 }
 
@@ -40,9 +40,9 @@ tmux_pane() {
 	tmux select-pane -t "$t"
 }
 
-while read -a args; do
+while read -ra args; do
 	cmd=${args[0]}
-	arg=${args[@]:1}
+	arg=${args[*]:1}
 	case $cmd in
 		title)  tmux rename-window "$arg" ;;
 		hsplit) tmux_split -h "$arg" ;;
@@ -51,7 +51,7 @@ while read -a args; do
 		run)    tmux send-keys "$arg" C-m ;;
 		cd)
 			# cd and send-keys so that pane_current_path works.
-			cd ${arg/#\~/$HOME}
+			cd "${arg/#\~/$HOME}"
 			tmux send-keys "cd $arg" C-m ;;
 		*)
 			echo "Unknown project option: \"$cmd\""

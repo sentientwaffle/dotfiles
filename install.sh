@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-dotfiles="$(cd "$(dirname $BASH_SOURCE)" && echo "$PWD")"
+dotfiles="$(cd "$(dirname "$BASH_SOURCE")" && echo "$PWD")"
 
 usage() {
 	cat <<-EOF

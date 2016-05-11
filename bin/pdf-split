@@ -15,7 +15,7 @@ if [[ -z "$file" || -z "$pages" ]]; then
 	exit 1
 fi
 
-totalpages=$(mutool pages "$file" | grep '^<page ' | wc -l)
+totalpages=$(mutool pages "$file" | grep --count '^<page ')
 index=1
 for ((page = 0; page < totalpages; page += pages)); do
 	dstfile="${file/%\.pdf/--${index}.pdf}"

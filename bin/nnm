@@ -1,11 +1,8 @@
 #!/usr/bin/env bash
 
 # Juggle multiple Node.js/io.js builds.
-# When installing a version, io.js is checked first.
-# If the version isn't found, Node.js is checked instead.
 
 dir=$NNM_DIR
-current="$dir/current"
 arch=$(uname -m)
 arch=${arch/x86_64/x64}
 arch=${arch/i686/x86}
@@ -15,7 +12,7 @@ usage() {
 	usage: ${0##*/} <command> [arguments]
 
 	commands:
-	  ls
+	  list
 	  use       <version>
 	  install   <version>
 	  uninstall <version>
@@ -38,7 +35,7 @@ file_to_version() {
 }
 
 version_to_dir() {
-	iojs="$dir/iojs-v$1-linux-$arch"
+	local iojs="$dir/iojs-v$1-linux-$arch"
 	if [[ -d "$iojs" ]]; then
 		echo "$iojs"
 	else
@@ -48,23 +45,23 @@ version_to_dir() {
 
 cmd_list() {
 	local current=$(readlink "$dir/current")
-	[[ -n $current ]] && current=$(basename $current)
+	[[ -n "$current" ]] && local current=$(basename "$current")
 	for path in "$dir"/*; do
 		test -e "$path" || continue
-		file=${path##*/}
-		[[ $file == "current" ]] && continue
-		if [[ $file == $current ]]; then
-			echo "* $(file_to_version $file)"
+		local file=${path##*/}
+		[[ "$file" == 'current' ]] && continue
+		if [[ "$file" == "$current" ]]; then
+			echo "* $(file_to_version "$file")"
 		else
-			echo "  $(file_to_version $file)"
+			echo "  $(file_to_version "$file")"
 		fi
 	done
 }
 
 cmd_use() {
-	local file=$(version_to_dir $1)
+	local file=$(version_to_dir "$1")
 	if [[ -d $file ]]; then
-		rm -f "$current"
+		rm -f "$dir/current"
 		ln -s "$file" "$dir/current"
 	else
 		echo "v$1 is not installed" >&2
@@ -73,8 +70,8 @@ cmd_use() {
 }
 
 cmd_install() {
-	[[ -f $(version_to_dir $1) ]] && echo "already installed" && exit
-	tar="$dir/node-v${1}.tar.gz"
+	[[ -f $(version_to_dir "$1") ]] && echo 'already installed' && exit
+	local tar="$dir/node-v${1}.tar.gz"
 	curl -o "$tar" "https://nodejs.org/dist/v$1/node-v$1-linux-${arch}.tar.gz"
 	tar -xzf "$tar" -C "$dir"
 	rm "$tar"
@@ -82,14 +79,14 @@ cmd_install() {
 }
 
 cmd_uninstall() {
-	vdir=$(version_to_dir $1)
-	[[ ! -d "$vdir" ]] && echo "already uninstalled" && exit
+	local vdir=$(version_to_dir "$1")
+	[[ ! -d "$vdir" ]] && echo 'already uninstalled' && exit
 	rm -rf "$vdir"
 	echo "v$1 uninstalled"
 }
 
-if [[ "$arch" != "x86" && "$arch" != "x64" ]]; then
-	echo "error identifying arch" >&2
+if [[ "$arch" != 'x86' && "$arch" != 'x64' ]]; then
+	echo 'error identifying arch' >&2
 	exit 1
 fi
 
@@ -107,9 +104,9 @@ fail() {
 }
 
 case "$command" in
-	ls|list)      cmd_list ;;
-	use|u)        [[ -n $version ]] && cmd_use       $version || fail;;
-	install|i)    [[ -n $version ]] && cmd_install   $version || fail;;
-	uninstall|rm) [[ -n $version ]] && cmd_uninstall $version || fail;;
+	list|ls)      cmd_list ;;
+	use|u)        [[ -n "$version" ]] && cmd_use       "$version" || fail ;;
+	install|i)    [[ -n "$version" ]] && cmd_install   "$version" || fail ;;
+	uninstall|rm) [[ -n "$version" ]] && cmd_uninstall "$version" || fail ;;
 	*)            fail ;;
 esac
