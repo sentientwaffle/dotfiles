@@ -38,4 +38,6 @@ if [[ "$role" == 'desktop' ]]; then
 
 	mkdir -p "$HOME/.config/fontconfig"
 	symlink '.config/fontconfig/fonts.conf' "$HOME/.config/fontconfig/fonts.conf"
+	mkdir -p "$HOME/.config/gtk-3.0"
+	symlink '.config/gtk-3.0/settings.ini' "$HOME/.config/gtk-3.0/settings.ini"
 fi
