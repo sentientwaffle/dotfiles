@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-# Juggle multiple Node.js/io.js builds.
+# Juggle multiple Node.js builds.
 
 dir=$NNM_DIR
 arch=$(uname -m)
@@ -35,12 +35,7 @@ file_to_version() {
 }
 
 version_to_dir() {
-	local iojs="$dir/iojs-v$1-linux-$arch"
-	if [[ -d "$iojs" ]]; then
-		echo "$iojs"
-	else
-		echo "$dir/node-v$1-linux-$arch"
-	fi
+	echo "$dir/node-v$1-linux-$arch"
 }
 
 cmd_list() {
