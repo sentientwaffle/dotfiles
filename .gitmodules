@@ -1,12 +1,3 @@
-[submodule ".vim/bundle/vim-coffee-script"]
-	path = .vim/bundle/vim-coffee-script
-	url = git://github.com/kchmck/vim-coffee-script.git
-[submodule ".vim/bundle/vim-jade"]
-	path = .vim/bundle/vim-jade
-	url = git://github.com/digitaltoad/vim-jade.git
-[submodule ".vim/bundle/vim-stylus"]
-	path = .vim/bundle/vim-stylus
-	url = git://github.com/wavded/vim-stylus.git
 [submodule ".vim/bundle/vim-surround"]
 	path = .vim/bundle/vim-surround
 	url = git://github.com/tpope/vim-surround.git
