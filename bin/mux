@@ -14,7 +14,7 @@ usage() {
 	  vsplit [percent]            top/bottom split
 	  pane   <prev|next|{int}>    select a different pane
 
-	Project files are found in "~/Code/mux/*.txt".
+	Project files are found in "~/Code/mux/**.txt".
 	EOF
 }
 
@@ -54,7 +54,7 @@ while read -ra args; do
 			cd "${arg/#\~/$HOME}"
 			tmux send-keys "cd $arg" C-m ;;
 		*)
-			echo "Unknown project option: \"$cmd\""
+			echo "Unknown project option: \"$cmd\"" >&2
 			exit 1 ;;
 	esac
 done < "$HOME/Code/mux/${1}.txt"

@@ -1,0 +1,18 @@
+#!/usr/bin/env bash
+
+usage() {
+	cat <<-EOF
+	usage: ${0##*/} <outfile> <infile>...
+
+	Join several PDFs together.
+	EOF
+}
+
+if (( "$#" < 3 )); then
+	usage >&2
+	exit 1
+fi
+
+outfile=$1
+infiles="${@:2}"
+mutool merge -o "$outfile" $infiles

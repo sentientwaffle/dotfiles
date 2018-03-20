@@ -6,10 +6,6 @@
     $ git submodule update
     $ ./install.sh
 
-Some manual setup in `~/.bashrc` too:
-
-    source ~/Code/dotfiles/.bashrc
-
 ### Configs
 #### X
 

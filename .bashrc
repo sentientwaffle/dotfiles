@@ -89,14 +89,14 @@ complete -d cd pushd rmdir
 _complete() {
 	local words=()
 	case "$1" in
-		jj)   words=($(_complete_files.sh "$JOURNAL_DIR"    jtxt)) ;;
-		pass) words=($(_complete_files.sh ~/.password-store gpg)) ;;
-		mux)  words=($(_complete_files.sh ~/Code/mux        txt)) ;;
-		ssh)  words=($(grep '^Host' ~/.ssh/config | sed 's/^Host //')) ;;
+		jj)           words=($(_complete_files.sh "$JOURNAL_DIR"    jtxt)) ;;
+		mux|mux-init) words=($(_complete_files.sh ~/Code/mux        txt)) ;;
+		pass)         words=($(_complete_files.sh ~/.password-store gpg)) ;;
+		ssh)          words=($(grep '^Host' ~/.ssh/config | sed 's/^Host //')) ;;
 	esac
 	COMPREPLY=($(compgen -W "${words[*]}" -- "$2"))
 }
-complete -F _complete jj pass mux ssh
+complete -F _complete jj pass mux mux-init ssh
 
 # ##############################################################################
 # Terminal colors

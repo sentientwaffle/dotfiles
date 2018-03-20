@@ -27,7 +27,7 @@ function journal#GoBack()
 endfunction
 
 function journal#FindLink(direction)
-  if !search(s:link_pattern, a:direction ==# '?' ? 'b' : '')
+  if !search('<' . s:link_pattern . '>', a:direction ==# '?' ? 'b' : '')
     echomsg 'No links found'
   endif
 endfunction

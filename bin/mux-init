@@ -1,0 +1,31 @@
+#!/usr/bin/env bash
+
+usage() {
+	cat <<-EOF
+	usage: ${0##*/} <project>
+
+	Initialize a mux project for the current directory.
+
+	Project files are found in "~/Code/mux/**.txt".
+	EOF
+}
+
+if [[ -z "$1" ]]; then
+	usage >&2
+	exit 1
+fi
+
+file="$HOME/Code/mux/${1}.txt"
+if [[ -e "$file" ]]; then
+	echo "Project file \"$file\" already exists" >&2
+	exit 1
+fi
+
+cat > "$file" <<EOF
+title  ${PWD##*/}
+  cd   ${PWD/#$HOME/\~}
+hsplit
+  run  gs
+EOF
+
+"${EDITOR:-vim}" "$file"
