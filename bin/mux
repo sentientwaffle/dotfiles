@@ -13,6 +13,7 @@ usage() {
 	  hsplit [percent]            left/right split
 	  vsplit [percent]            top/bottom split
 	  pane   <prev|next|{int}>    select a different pane
+	  layout <{even,main}-{horizontal,vertical}|tiled>
 
 	Project files are found in "~/Code/mux/**.txt".
 	EOF
@@ -47,6 +48,7 @@ while read -ra args; do
 		title)  tmux rename-window "$arg" ;;
 		hsplit) tmux_split -h "$arg" ;;
 		vsplit) tmux_split -v "$arg" ;;
+		layout) tmux select-layout "$arg" ;;
 		pane)   tmux_pane "$arg" ;;
 		run)    tmux send-keys "$arg" C-m ;;
 		cd)

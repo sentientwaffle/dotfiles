@@ -98,7 +98,6 @@ nnoremap <Leader>S :tabe $VIMRUNTIME/syntax/<CR>
 nnoremap <Leader>t :tabe %<CR>
 " Open to current directory.
 nnoremap <Leader>T :tabe .<CR>
-" Toggle paste mode.
 nnoremap <Leader>p :set paste!<CR>
 nnoremap <Leader>x :call <SID>ToggleHex()<CR>
 nnoremap <Leader>w :call <SID>ToggleWrap()<CR>
