@@ -1,4 +1,4 @@
-" Vim syntax file
+" Vim syntax file (https://github.com/leafgarland/typescript-vim)
 " Language: typescript
 " Author: MicroSoft Open Technologies Inc.
 " Version: 0.1
@@ -85,7 +85,7 @@ syntax keyword typescriptPrototype contained prototype
 "}}}
 " DOM, Browser and Ajax Support {{{
 """"""""""""""""""""""""
-syntax keyword typescriptBrowserObjects window navigator screen history location
+syntax keyword typescriptBrowserObjects window navigator screen history location console
 
 syntax keyword typescriptDOMObjects document event HTMLElement Anchor Area Base Body Button Form Frame Frameset Image Link Meta Option Select Style Table TableCell TableRow Textarea
 syntax keyword typescriptDOMMethods contained createTextNode createElement insertBefore replaceChild removeChild appendChild hasChildNodes cloneNode normalize isSupported hasAttributes getAttribute setAttribute removeAttribute getAttributeNode setAttributeNode removeAttributeNode getElementsByTagName hasAttribute getElementById adoptNode close compareDocumentPosition createAttribute createCDATASection createComment createDocumentFragment createElementNS createEvent createExpression createNSResolver createProcessingInstruction createRange createTreeWalker elementFromPoint evaluate getBoxObjectFor getElementsByClassName getSelection getUserData hasFocus importNode
@@ -234,11 +234,11 @@ if version >= 508 || !exists("did_typescript_syn_inits")
   HiLink typescriptParameters Operator
   HiLink typescriptSuperBlock Operator
 
-  HiLink typescriptEndColons Exception
+  "HiLink typescriptEndColons Exception
   HiLink typescriptOpSymbols Operator
-  HiLink typescriptLogicSymbols Boolean
-  HiLink typescriptBraces Function
-  HiLink typescriptParens Operator
+  "HiLink typescriptLogicSymbols Boolean
+  "HiLink typescriptBraces Function
+  "HiLink typescriptParens Operator
   HiLink typescriptComment Comment
   HiLink typescriptLineComment Comment
   HiLink typescriptRefComment Include
@@ -264,7 +264,7 @@ if version >= 508 || !exists("did_typescript_syn_inits")
   HiLink typescriptRepeat Repeat
   HiLink typescriptStatement Statement
   HiLink typescriptFuncKeyword Function
-  HiLink typescriptMessage Keyword
+  "HiLink typescriptMessage Keyword
   HiLink typescriptDeprecated Exception
   HiLink typescriptError Error
   HiLink typescriptParensError Error
@@ -311,7 +311,7 @@ if version >= 508 || !exists("did_typescript_syn_inits")
   HiLink typescriptFuncComma Operator
 
   HiLink typescriptHtmlEvents Special
-  HiLink typescriptHtmlElemProperties Special
+  "HiLink typescriptHtmlElemProperties Special
 
   HiLink typescriptEventListenerKeywords Keyword
 
