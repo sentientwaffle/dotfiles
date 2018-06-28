@@ -9,8 +9,8 @@
 export DOTFILES="$HOME/Code/dotfiles"
 export EDITOR='vim'
 export PAGER='less'
-export HISTSIZE=10000
-export HISTFILESIZE=10000
+export HISTSIZE=15000
+export HISTFILESIZE=15000
 export HISTCONTROL=ignoredups:ignorespace
 export TZ='America/Los_Angeles'
 export PS1="\u@\h:\w\$(git symbolic-ref HEAD 2>&- | sed 's|refs/heads/\(.*\)$| \1|')\\$ "
@@ -44,7 +44,6 @@ alias ssh='ssh-add -l > /dev/null || ssh-add && TERM=screen-256color ssh'
 alias jj='journal open'
 alias http='python2 -m SimpleHTTPServer'
 alias winfo='xwininfo -display :0'
-alias docker='sudo docker'
 
 # Git
 

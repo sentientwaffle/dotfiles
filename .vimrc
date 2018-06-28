@@ -136,8 +136,8 @@ augroup FTOptions
   autocmd!
   " ftdetect
   autocmd BufNewFile,BufRead *.glsl,*.geom,*.vert,*.frag,*.gsh,*.vsh,*.fsh set filetype=c
-  autocmd BufNewFile,BufRead *.gyp                                         set filetype=json
-  autocmd BufNewFile,BufRead *.ts                                          set filetype=javascript
+  autocmd BufNewFile,BufRead *.gyp,*.pod                                   set filetype=json
+  autocmd BufNewFile,BufRead *.ts                                          set filetype=typescript
   autocmd BufNewFile,BufRead ~/Code/mux/*.txt                              set filetype=mux
 
   " Indentation

@@ -24,6 +24,10 @@ xmodmap -e 'keysym Print = Super_L'
 #   $ xset q
 xset r rate 280 50
 
+# Disable keyboard bell
+# <https://wiki.archlinux.org/index.php/PC_speaker>
+xset -b
+
 dwm-status &
 
 # Lock screen after inactivity.

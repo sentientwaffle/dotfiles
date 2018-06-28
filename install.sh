@@ -20,6 +20,7 @@ fi
 
 symlink '.bashrc'    "$HOME/.bashrc"
 symlink '.gitconfig' "$HOME/.gitconfig"
+symlink '.inputrc'   "$HOME/.inputrc"
 symlink '.tmux.conf' "$HOME/.tmux.conf"
 symlink '.vim'       "$HOME"
 symlink '.vimrc'     "$HOME/.vimrc"

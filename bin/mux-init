@@ -22,7 +22,7 @@ if [[ -e "$file" ]]; then
 fi
 
 cat > "$file" <<EOF
-title  ${PWD##*/}
+title  $1
   cd   ${PWD/#$HOME/\~}
 hsplit
   run  gs

@@ -7,8 +7,8 @@ unlet! b:current_syntax
 " Matching
 " ------------------------------------------------------------------------------
 
-syn region journalMetadataValue matchgroup=journalMetadataKey start="^ *#\w\+" end="$" oneline
-syn region journalTable         matchgroup=journalTableColumn start="^ *|" end="|$" oneline contains=journalTableColumn
+syn region journalMetadataValue matchgroup=journalMetadataKey start="^ *#\w\+" end="$"  oneline
+syn region journalTable         matchgroup=journalTableColumn start="^ *|"     end="|$" oneline contains=journalTableColumn
 syn match  journalTableColumn "|" contained
 
 syn region journalURLHref  matchgroup=journalURLDelimiter start="<"  end=">"             oneline contains=@NoSpell

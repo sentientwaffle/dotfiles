@@ -39,3 +39,5 @@ hi def link disasmRegister    String
 hi def link disasmNumber      Number
 hi def link disasmComment     Comment
 hi def link disasmCommentTodo Todo
+
+let b:current_syntax = 'disasm'
