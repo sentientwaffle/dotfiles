@@ -9,7 +9,7 @@ syn region muxLayoutCmd matchgroup=muxCommand    start='^layout '               
 syn region muxString    matchgroup=muxSubCommand start='^  \(cd\|run\) '           end='$' oneline
 
 " Can't use 'syn-keyword' because the option iskeyword doesn't include '-'.
-syn match muxLayout contained "\(even-horizontal\|even-vertical\|main-horizontal\|main-vertical\|tiled\)$"
+syn match muxLayout contained "\<\(even-horizontal\|even-vertical\|main-horizontal\|main-vertical\|tiled\)\>"
 
 hi def link muxCommand    Keyword
 hi def link muxSubCommand Type

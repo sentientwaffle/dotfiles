@@ -121,5 +121,5 @@ fi
 # Start X at login.
 # https://wiki.archlinux.org/index.php/Start_X_at_Login
 if [[ "$XDG_VTNR" -eq 1 && -z "$DISPLAY" && -e ~/.xinitrc ]]; then
-	exec startx
+	exec startx &>~/.startx.log
 fi
