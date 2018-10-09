@@ -76,6 +76,8 @@ nnoremap <C-\> <C-a>
 nnoremap <C-l> :noh<CR>
 " Execute default macro, and disable Ex mode
 nnoremap Q @q
+" Yank to end of line.
+nnoremap Y y$
 
 " Disable Page Up & Page Down.
 nnoremap <PageUp>   <Nop>
@@ -138,14 +140,18 @@ augroup FTOptions
   autocmd BufNewFile,BufRead *.glsl,*.geom,*.vert,*.frag,*.gsh,*.vsh,*.fsh set filetype=c
   autocmd BufNewFile,BufRead *.gyp,*.pod                                   set filetype=json
   autocmd BufNewFile,BufRead *.ts                                          set filetype=typescript
+  autocmd BufNewFile,BufRead *.toml,Cargo.lock                             set filetype=toml
   autocmd BufNewFile,BufRead ~/Code/mux/*.txt                              set filetype=mux
 
+  autocmd BufNewFile,BufRead go.mod set filetype=gomod
+  autocmd BufNewFile,BufRead go.sum set filetype=text
+
   " Indentation
-  autocmd FileType python,rust                setlocal   expandtab shiftwidth=4 softtabstop=4
-  autocmd FileType go,make,c,cpp,sh,gitconfig setlocal noexpandtab shiftwidth=8 softtabstop=8
+  autocmd FileType python,rust                      setlocal   expandtab shiftwidth=4 softtabstop=4
+  autocmd FileType go,gomod,make,c,cpp,sh,gitconfig setlocal noexpandtab shiftwidth=8 softtabstop=8
 
   " Spellchecking
-  autocmd FileType mail,gitcommit setlocal spell
+  autocmd FileType mail,gitcommit,markdown setlocal spell
 
   " Help (shift-K)
   autocmd FileType vim setlocal keywordprg=:help

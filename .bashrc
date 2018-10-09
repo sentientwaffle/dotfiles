@@ -29,6 +29,7 @@ export PASSWORD_STORE_CLIP_TIME=15
 
 # http://www.gnu.org/software/bash/manual/html_node/The-Shopt-Builtin.html
 shopt -s histappend
+shopt -s extglob
 
 # ##############################################################################
 # Aliases
