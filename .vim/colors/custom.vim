@@ -1,7 +1,10 @@
 " = TODO
-" * molokai violet: 135
 " * WildMenu and Pmenu should be more similar
 " * 221 vs 222
+
+" https://github.com/tomasr/molokai/blob/c67bdfcdb31415aa0ade7f8c003261700a885476/colors/molokai.vim
+" https://github.com/sickill/vim-monokai/blob/master/colors/monokai.vim
+" https://github.com/ErichDonGubler/vim-sublime-monokai/blob/master/colors/sublimemonokai.vim
 
 hi clear
 if exists('syntax_on')
@@ -13,44 +16,44 @@ hi Normal          ctermfg=252 ctermbg=233
 hi CursorLine                  ctermbg=234   cterm=none
 hi Cursor          ctermfg=16  ctermbg=253
 
-hi Character       ctermfg=107
-hi String          ctermfg=107
-" js regexp
-hi SpecialChar     ctermfg=184
-
 " Constants
-hi Boolean         ctermfg=67
-hi Number          ctermfg=67
-hi Float           ctermfg=67
-hi Constant        ctermfg=67
+hi Boolean         ctermfg=141
+hi Character       ctermfg=222
+hi Number          ctermfg=141
+hi String          ctermfg=222
+hi Float           ctermfg=141
+hi Constant        ctermfg=141
 hi Debug           ctermfg=225               cterm=bold
 hi Define          ctermfg=81
 hi Delimiter       ctermfg=241
+hi Include         ctermfg=81
 
-hi Function        ctermfg=221
+hi Function        ctermfg=154
 " json object key
-hi Label           ctermfg=221
-hi Special         ctermfg=160
+hi Label           ctermfg=197
+hi Special         ctermfg=81
+" js regexp
+hi SpecialChar     ctermfg=197
 
 hi Ignore          ctermfg=244 ctermbg=232
 
-hi Macro           ctermfg=137
+hi Macro           ctermfg=213
+hi PreCondit       ctermfg=213               cterm=bold
+hi PreProc         ctermfg=213
 
 hi MatchParen      ctermfg=233  ctermbg=251
 hi ModeMsg         ctermfg=221
 hi MoreMsg         ctermfg=229
 
-" Keywords (161)
-hi Keyword         ctermfg=166
-hi Conditional     ctermfg=166
-hi Repeat          ctermfg=166
-hi Operator        ctermfg=166
-hi Exception       ctermfg=166
-hi Statement       ctermfg=166
+" Keywords
+hi Keyword         ctermfg=197
+hi Conditional     ctermfg=197
+hi Repeat          ctermfg=197
+hi Operator        ctermfg=197
+hi Exception       ctermfg=154
+hi Statement       ctermfg=154
 "hi Tag            ctermfg=166
 
-hi PreCondit       ctermfg=221               cterm=bold
-hi PreProc         ctermfg=221
 hi Question        ctermfg=81
 hi Search          ctermfg=0   ctermbg=222   cterm=none
 hi IncSearch       ctermfg=193 ctermbg=16
@@ -66,11 +69,14 @@ endif
 hi Title           ctermfg=166
 
 " Type definitions
-hi Typedef         ctermfg=153
-hi Type            ctermfg=153               cterm=none
-hi Identifier      ctermfg=153               cterm=none
-hi StorageClass    ctermfg=153
-hi Structure       ctermfg=153
+hi Typedef         ctermfg=81
+hi Type            ctermfg=81
+hi Identifier      ctermfg=208               cterm=none
+hi StorageClass    ctermfg=208
+hi Structure       ctermfg=81
+
+" JavaScript
+hi jsObjectKey        ctermfg=222
 
 hi Underlined      ctermfg=244               cterm=underline
 
@@ -79,8 +85,8 @@ hi Visual                      ctermbg=235
 
 " Comments
 hi Comment         ctermfg=59
-hi SpecialComment  ctermfg=245               cterm=bold
-hi Todo            ctermfg=198 ctermbg=none  cterm=bold
+hi SpecialComment  ctermfg=245
+hi Todo            ctermfg=231 ctermbg=232  cterm=bold
 
 " listchars
 hi SpecialKey      ctermfg=59  ctermbg=234
@@ -117,8 +123,8 @@ hi CursorColumn                ctermbg=236
 hi ColorColumn                 ctermbg=236
 
 " Errors/warnings
-hi Error           ctermfg=231 ctermbg=162
-hi ErrorMsg        ctermfg=160 ctermbg=none
+hi Error           ctermfg=219 ctermbg=89
+hi ErrorMsg        ctermfg=199 ctermbg=16
 hi WarningMsg      ctermfg=231 ctermbg=none
 
 " -----------------------------------------------------------------------------
@@ -151,8 +157,6 @@ hi xmlTagName         ctermfg=137
 hi xmlNamespace       ctermfg=221
 hi xmlEndTag          ctermfg=137
 
-" JavaScript
-hi jsObjectKey        ctermfg=221
 " -----------------------------------------------------------------------------
 " Netrw
 " -----------------------------------------------------------------------------
@@ -167,6 +171,11 @@ hi journalMetadataKey ctermfg=221  cterm=bold
 hi journalCode        ctermfg=222
 hi journalBold                     cterm=bold
 hi journalItalic                   cterm=italic
+
+" -----------------------------------------------------------------------------
+" Rust
+" -----------------------------------------------------------------------------
+hi rustType        ctermfg=81      cterm=bold
 
 " Must be at the end, because of ctermbg=234 bug.
 " https://groups.google.com/forum/#!msg/vim_dev/afPqwAFNdrU/nqh6tOM87QUJ
