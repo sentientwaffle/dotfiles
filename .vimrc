@@ -139,6 +139,7 @@ augroup FTOptions
   " ftdetect
   autocmd BufNewFile,BufRead *.glsl,*.geom,*.vert,*.frag,*.gsh,*.vsh,*.fsh set filetype=c
   autocmd BufNewFile,BufRead *.gyp,*.pod                                   set filetype=json
+  autocmd BufNewFile,BufRead *.tf                                          set filetype=terraform
   autocmd BufNewFile,BufRead *.ts                                          set filetype=typescript
   autocmd BufNewFile,BufRead *.toml,Cargo.lock                             set filetype=toml
   autocmd BufNewFile,BufRead ~/Code/mux/*.txt                              set filetype=mux
