@@ -138,6 +138,7 @@ augroup FTOptions
   autocmd!
   " ftdetect
   autocmd BufNewFile,BufRead *.glsl,*.geom,*.vert,*.frag,*.gsh,*.vsh,*.fsh set filetype=c
+  autocmd BufNewFile,BufRead *.graphql                                     set filetype=graphql
   autocmd BufNewFile,BufRead *.gyp,*.pod                                   set filetype=json
   autocmd BufNewFile,BufRead *.tf                                          set filetype=terraform
   autocmd BufNewFile,BufRead *.ts                                          set filetype=typescript
