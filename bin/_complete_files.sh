@@ -12,7 +12,7 @@ usage() {
 
 dir=$1
 ext=$2
-char=${3-' '}
+char=${3-'\n'}
 if [[ -z "$dir" || -z "$ext" ]]; then
 	usage >&2
 	exit 1

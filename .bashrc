@@ -83,12 +83,12 @@ complete -d cd pushd rmdir
 _complete() {
 	local words=()
 	case "$1" in
-		jj)           words=($(_complete_files.sh "$JOURNAL_DIR"    jtxt)) ;;
-		mux|mux-init) words=($(_complete_files.sh ~/Code/mux        txt)) ;;
-		pass)         words=($(_complete_files.sh ~/.password-store gpg)) ;;
-		ssh)          words=($(grep '^Host' ~/.ssh/config | sed 's/^Host //')) ;;
+		jj)           mapfile -t words < <(_complete_files.sh "$JOURNAL_DIR"    jtxt) ;;
+		mux|mux-init) mapfile -t words < <(_complete_files.sh ~/Code/mux        txt) ;;
+		pass)         mapfile -t words < <(_complete_files.sh ~/.password-store gpg) ;;
+		ssh)          mapfile -t words < <(grep '^Host' ~/.ssh/config | sed 's/^Host //') ;;
 	esac
-	COMPREPLY=($(compgen -W "${words[*]}" -- "$2"))
+	mapfile -t COMPREPLY < <(compgen -W "${words[*]}" -- "$2")
 }
 complete -F _complete jj pass mux mux-init ssh
 
@@ -123,7 +123,7 @@ fi
 
 if [[ -x /usr/bin/dircolors ]]; then
 	# dircolors doesn't work with tmux-256color.
-	eval $(TERM=screen-256color dircolors --sh "$DOTFILES/.dircolors")
+	eval "$(TERM=screen-256color dircolors --sh "$DOTFILES/.dircolors")"
 fi
 
 # ##############################################################################
