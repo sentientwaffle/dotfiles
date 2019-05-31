@@ -49,25 +49,19 @@ alias winfo='xwininfo -display :0'
 # Git
 
 alias g='git'
-
-alias gs='git status'
+alias ga='git add'
+alias gb='git branch'
 alias gc='git commit'
 alias gcm='git commit -m'
-
+alias gco='git checkout'
 alias gd='git diff'
 alias gdc='gd --cached'
-
-alias gb='git branch'
-alias gco='git checkout'
-alias gm='git merge'
 alias gf='git fetch'
-alias gpr='git pull --rebase'
-
-alias ga='git add'
-
-alias glog="git log --graph --pretty=format:'%C(yellow)%h%Creset %an: %s - %Creset%C(yellow)%d%Creset%Cgreen(%cr)%Creset' --abbrev-commit --date=relative"
 alias gg='git grep'
-
+alias glog="git log --graph --pretty=format:'%C(yellow)%h%Creset %an: %s - %Creset%C(yellow)%d%Creset%Cgreen(%cr)%Creset' --abbrev-commit --date=relative"
+alias gm='git merge'
+alias gpr='git pull --rebase'
+alias gs='git status'
 alias gsl='git stash list'
 
 # ##############################################################################
@@ -97,6 +91,23 @@ _complete() {
 	COMPREPLY=($(compgen -W "${words[*]}" -- "$2"))
 }
 complete -F _complete jj pass mux mux-init ssh
+
+if [[ -f /usr/share/bash-completion/completions/git ]]; then
+	# This might be slow.
+	source /usr/share/bash-completion/completions/git
+	__git_complete g   __git_main
+	__git_complete ga  _git_add
+	__git_complete gb  _git_branch
+	__git_complete gc  _git_commit
+	__git_complete gco _git_checkout
+	__git_complete gd  _git_diff
+	__git_complete gdc _git_diff
+	__git_complete gf  _git_fetch
+	__git_complete gg  _git_grep
+	__git_complete gm  _git_merge
+	__git_complete gpr _git_pull
+	__git_complete gs  _git_status
+fi
 
 # ##############################################################################
 # Terminal colors
