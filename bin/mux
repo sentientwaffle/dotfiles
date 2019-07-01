@@ -45,6 +45,7 @@ while read -ra args; do
 	cmd=${args[0]}
 	arg=${args[*]:1}
 	case $cmd in
+		'#') ;; # ignore comments
 		title)  tmux rename-window "$arg" ;;
 		hsplit) tmux_split -h "$arg" ;;
 		vsplit) tmux_split -v "$arg" ;;

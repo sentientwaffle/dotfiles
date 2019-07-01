@@ -43,12 +43,12 @@ eval "$(gpg-agent --daemon)"
 # PulseAudio
 start-pulseaudio-x11
 
-exists() {
-	type "$1" >/dev/null 2>/dev/null
+_exists() {
+	type "$1" &>/dev/null
 }
 
 # Udiskie/udisks: auto-mount USB
-if exists udiskie; then
+if _exists udiskie; then
 	udiskie --tray &
 fi
 

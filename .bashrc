@@ -8,15 +8,16 @@
 # ##############################################################################
 export DOTFILES="$HOME/Code/dotfiles"
 export EDITOR='vim'
-export PAGER='less'
-export HISTSIZE=15000
-export HISTFILESIZE=15000
+# https://dom111.github.io/grep-colors/
+export GREP_COLORS='sl=97;48;5;236:cx=37;40:mt=30;48;5;186:fn=38;5;197:ln=38;5;154:bn=38;5;141:se=38;5;81'
 export HISTCONTROL=ignoredups:ignorespace
-export TZ='America/Los_Angeles'
-export PS1="\u@\h:\w\$(git symbolic-ref HEAD 2>&- | sed 's|refs/heads/\(.*\)$| \1|')\\$ "
-
-# Path
+export HISTFILESIZE=15000
+export HISTSIZE=15000
+export PAGER='less'
 export PATH="$DOTFILES/bin:$PATH"
+export PS1="\u@\h:\w\$(git symbolic-ref HEAD 2>&- | sed 's|refs/heads/\(.*\)$| \1|')\\$ "
+export TZ='America/Los_Angeles'
+export VISUAL='vim'
 
 # python2 for node-gyp
 export PYTHON='python2'
@@ -28,22 +29,23 @@ export JOURNAL_DIR="$HOME/Documents/journal"
 export PASSWORD_STORE_CLIP_TIME=15
 
 # http://www.gnu.org/software/bash/manual/html_node/The-Shopt-Builtin.html
-shopt -s histappend
 shopt -s extglob
+shopt -s histappend
 
 # ##############################################################################
 # Aliases
 # ##############################################################################
-alias v='vim -p'
+
+# To run without the alias: e.g. "\grep".
 alias ..='cd ..'
 alias ...='cd ../..'
-alias ls='ls -A --color'
-alias ll='ls -lAF'
-alias grep='grep --color'
-alias ssh='ssh-add -l > /dev/null || ssh-add && TERM=screen-256color ssh'
-
-alias jj='journal open'
+alias grep='grep --color --line-number --with-filename'
 alias http='python2 -m SimpleHTTPServer'
+alias jj='journal open'
+alias ll='ls -lAF'
+alias ls='ls -A --color'
+alias ssh='ssh-add -l > /dev/null || ssh-add && TERM=screen-256color ssh'
+alias v='vim -p'
 alias winfo='xwininfo -display :0'
 
 # Git
@@ -57,12 +59,23 @@ alias gco='git checkout'
 alias gd='git diff'
 alias gdc='gd --cached'
 alias gf='git fetch'
-alias gg='git grep'
+alias gg='git grep --line-number'
 alias glog="git log --graph --pretty=format:'%C(yellow)%h%Creset %an: %s - %Creset%C(yellow)%d%Creset%Cgreen(%cr)%Creset' --abbrev-commit --date=relative"
 alias gm='git merge'
 alias gpr='git pull --rebase'
 alias gs='git status'
 alias gsl='git stash list'
+alias gspsp='git stash && git pull --rebase && git stash pop'
+
+# cd to the current git repo's root directory.
+..g() {
+	local root
+	if root=$(git rev-parse --show-toplevel); then
+		cd "$root" || return 1
+	else
+		return 1
+	fi
+}
 
 # ##############################################################################
 # Completion
@@ -76,23 +89,42 @@ complete -A helptopic help
 
 complete -a alias unalias
 complete -b builtin
-complete -c type which
+complete -c type watch which
 complete -cf man sudo
 complete -d cd pushd rmdir
 
 _complete() {
 	local words=()
 	case "$1" in
+		dm-bmux)      mapfile -t words < <(_complete_files.sh ~/Code/bmux       txt) ;;
 		jj)           mapfile -t words < <(_complete_files.sh "$JOURNAL_DIR"    jtxt) ;;
 		mux|mux-init) mapfile -t words < <(_complete_files.sh ~/Code/mux        txt) ;;
-		pass)         mapfile -t words < <(_complete_files.sh ~/.password-store gpg) ;;
 		ssh)          mapfile -t words < <(grep '^Host' ~/.ssh/config | sed 's/^Host //') ;;
 	esac
 	mapfile -t COMPREPLY < <(compgen -W "${words[*]}" -- "$2")
 }
-complete -F _complete jj pass mux mux-init ssh
+complete -F _complete dm-bmux jj mux mux-init ssh
 
-if [[ -f /usr/share/bash-completion/completions/git ]]; then
+# Lazy-load completions.
+_lazy_complete() {
+	complete -r "$1"
+	local file="/usr/share/bash-completion/completions/$1"
+	if [[ -r "$file" ]]; then
+		source "$file"
+	fi
+}
+complete -F _lazy_complete \
+	cal \
+	journalctl \
+	kubectl \
+	makepkg \
+	pacman \
+	pacman-key \
+	pass \
+	rustup \
+	systemctl \
+
+if [[ -r /usr/share/bash-completion/completions/git ]]; then
 	# This might be slow.
 	source /usr/share/bash-completion/completions/git
 	__git_complete g   __git_main

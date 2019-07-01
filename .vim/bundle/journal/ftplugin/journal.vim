@@ -15,7 +15,7 @@ setlocal wrap
 setlocal linebreak " word breaking
 setlocal breakindent " indent wrapped lines
 setlocal showbreak=\|\ 
-setlocal omnifunc=journal#CompleteDocument
+setlocal omnifunc=journal#CompleteDocument " C-x C-o
 setlocal spell
 
 " ------------------------------------------------------------------------------
@@ -31,8 +31,6 @@ for mode in ['nnoremap', 'vnoremap']
   execute mode . ' <buffer> <silent> <Home> g0'
   execute mode . ' <buffer> <silent> <End>  g$'
 endfor
-inoremap <buffer> <silent> <Home> g0
-inoremap <buffer> <silent> <End>  g$
 
 " Link navigation
 nnoremap <buffer> <silent> <CR> :call journal#GoToCurrentDocument()<CR>

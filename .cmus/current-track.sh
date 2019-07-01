@@ -34,5 +34,5 @@ else
 	[[ "$stat" == "paused" ]] && msg="$msg [paused]"
 fi
 
-echo "$msg" > "$current_song"
+echo "♫ $msg" > "$current_song"
 tmux refresh-client -S

@@ -1,10 +1,32 @@
+# Colors are `foreground[ background]`.
 [push]
 	default = simple
 [user]
 	name = sentientwaffle
 	email = sentientwaffle@gmail.com
 [color]
-	diff = auto
-	status = auto
 	branch = auto
+	diff = auto
 	grep = auto
+	status = auto
+[color "diff"]
+	meta = 81
+	frag = 213
+	new = 107
+	old = 160
+[color "grep"]
+	context = 254
+	filename = 197
+	lineNumber = 154
+	matchContext = 40 37
+	matchSelected = 0 186
+	selected = 255 234
+	separator = 81
+[color "status"]
+	branch = 81
+	added = 107
+	changed = 160
+	untracked = 160
+[color "interactive"]
+	# e.g. "Stage this hunk ..." in `git add -i --patch`.
+	prompt = 208

@@ -41,7 +41,7 @@ hi Macro           ctermfg=213
 hi PreCondit       ctermfg=213               cterm=bold
 hi PreProc         ctermfg=213
 
-hi MatchParen      ctermfg=233  ctermbg=251
+hi MatchParen      ctermfg=233 ctermbg=251
 hi ModeMsg         ctermfg=221
 hi MoreMsg         ctermfg=229
 
@@ -99,8 +99,10 @@ hi SpecialKey      ctermfg=59  ctermbg=234
 hi LineNr          ctermfg=250 ctermbg=236
 hi CursorLineNr    ctermfg=107               cterm=none
 hi NonText         ctermfg=59
-hi FoldColumn      ctermfg=67  ctermbg=16
-hi Folded          ctermfg=67  ctermbg=16
+if has('folding')
+  hi FoldColumn    ctermfg=253  ctermbg=16
+  hi Folded        ctermfg=253  ctermbg=16
+endif
 
 " Completion menu
 hi Pmenu           ctermfg=253 ctermbg=235
@@ -134,11 +136,24 @@ hi WarningMsg      ctermfg=231 ctermbg=none
 hi DiffAdd         ctermfg=107
 hi DiffChange      ctermfg=181
 hi DiffDelete      ctermfg=160
-hi DiffText        ctermfg=102             cterm=bold
+hi DiffText        ctermfg=102 cterm=bold
 " filetype=diff
 hi diffAdded       ctermfg=107
 hi diffChanged     ctermfg=181
 hi diffRemoved     ctermfg=160
+hi diffIndexLine   ctermfg=81
+hi diffLine        ctermfg=213
+
+" -----------------------------------------------------------------------------
+" Git
+" -----------------------------------------------------------------------------
+
+hi gitcommitSelectedType  ctermfg=107
+hi gitcommitSelectedFile  ctermfg=107
+hi gitcommitDiscardedType ctermfg=160
+hi gitcommitDiscardedFile ctermfg=160
+hi gitcommitUntrackedType ctermfg=160
+hi gitcommitUntrackedFile ctermfg=160
 
 " -----------------------------------------------------------------------------
 " HTML / XML
