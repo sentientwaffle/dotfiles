@@ -161,7 +161,7 @@ endfunction
 augroup FTOptions
   autocmd!
   " ftdetect
-  autocmd BufNewFile,BufRead *.glsl,*.geom,*.vert,*.frag,*.gsh,*.vsh,*.fsh set filetype=c
+  autocmd BufNewFile,BufRead *.glsl,*.geom,*.vert,*.frag,*.gsh,*.vsh,*.fsh set filetype=glsl
 
   autocmd BufNewFile,BufRead go.mod            set filetype=gomod
   autocmd BufNewFile,BufRead go.sum            set filetype=text

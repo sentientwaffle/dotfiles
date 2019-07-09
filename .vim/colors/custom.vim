@@ -24,13 +24,13 @@ hi String          ctermfg=222
 hi Float           ctermfg=141
 hi Constant        ctermfg=141
 hi Debug           ctermfg=225               cterm=bold
-hi Define          ctermfg=81
+hi Define          ctermfg=222
 hi Delimiter       ctermfg=241
 hi Include         ctermfg=81
 
 hi Function        ctermfg=154
 " json object key
-hi Label           ctermfg=197
+hi Label           ctermfg=154
 hi Special         ctermfg=81
 " js regexp
 hi SpecialChar     ctermfg=197
@@ -181,11 +181,13 @@ hi netrwClassify   ctermfg=166
 " -----------------------------------------------------------------------------
 " Journal
 " -----------------------------------------------------------------------------
-hi journalMetadataKey ctermfg=221  cterm=bold
+hi journalMetadataKey ctermfg=221
 "hi journalLink        ctermfg=67   cterm=underline
-hi journalCode        ctermfg=222
-hi journalBold                     cterm=bold
-hi journalItalic                   cterm=italic
+"hi journalCode        ctermfg=222
+"hi journalBlockQuote  ctermfg=137
+hi journalBold        cterm=bold
+hi journalItalic      cterm=italic
+"hi journalFlashcardProperty  ctermfg=
 
 " -----------------------------------------------------------------------------
 " Markdown

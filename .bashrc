@@ -29,6 +29,9 @@ export JOURNAL_DIR="$HOME/Documents/journal"
 export PASSWORD_STORE_CLIP_TIME=15
 
 # http://www.gnu.org/software/bash/manual/html_node/The-Shopt-Builtin.html
+shopt -s histappend
+# https://www.gnu.org/software/bash/manual/html_node/Pattern-Matching.html
+# https://mywiki.wooledge.org/BashGuide/Patterns
 shopt -s extglob
 shopt -s histappend
 

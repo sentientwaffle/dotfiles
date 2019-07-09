@@ -20,11 +20,19 @@ syn region journalBold   start="\*[^ ]" end="\*" oneline
 syn region journalItalic start="_[^ ]"  end="_"  oneline
 syn region journalCode   start="`"      end="`"  oneline contains=@NoSpell
 
-syn region journalHeader     start="^ *= " end="$" oneline
-syn region journalCode       start="^ *` " end="$" oneline contains=@NoSpell
-syn region journalBlockQuote start="^ *> " end="$" oneline
-syn match  journalUList "^ *\* "
-syn match  journalOList "^ *# "
+"syn region journalHeader     start="^/\= *= " end="$" oneline
+syn match journalHeader "= .*"
+" TODO allow empty code block (e.g. "`$")
+syn region journalCode       start="` " end="$" oneline contains=@NoSpell
+syn region journalBlockQuote start="> " end="$" oneline
+syn match  journalUList " \* "
+"syn match  journalUList "^ *\* "
+" TODO is auto-numbering better?
+syn match  journalOList " *# "
+
+syn match  journalFlashcard           "^/"
+syn match  journalFlashcardProperties contained "\(create_time\|difficulty\|interval\|last_review_time\|reviews\)"
+syn match  journalFlashcardProperty   "^/\." nextgroup=journalFlashcardProperties
 
 " ------------------------------------------------------------------------------
 " Groups
@@ -36,8 +44,8 @@ hi def link journalTable         String
 hi def link journalTableColumn   Delimiter
 
 hi def link journalHeader        Keyword
-hi def link journalCode          Comment
-hi def link journalBlockQuote    Comment
+hi def link journalCode          String
+hi def link journalBlockQuote    SpecialComment
 hi def link journalUList         Keyword
 hi def link journalOList         Keyword
 
@@ -45,5 +53,9 @@ hi def link journalOList         Keyword
 hi def link journalURLDelimiter  Delimiter
 hi def link journalURLTitle      String
 hi def link journalURLHref       Float
+
+hi def link journalFlashcard           Function
+hi def link journalFlashcardProperty   Function
+hi def link journalFlashcardProperties Comment
 
 let b:current_syntax = 'journal'
