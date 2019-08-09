@@ -92,7 +92,7 @@ complete -A helptopic help
 
 complete -a alias unalias
 complete -b builtin
-complete -c type watch which
+complete -c command hash type watch which
 complete -cf man sudo
 complete -d cd pushd rmdir
 
@@ -112,7 +112,7 @@ complete -F _complete dm-bmux jj mux mux-init ssh
 _lazy_complete() {
 	complete -r "$1"
 	local file="/usr/share/bash-completion/completions/$1"
-	if [[ -r "$file" ]]; then
+	if [[ -r "$file" ]] && type "$1" &>/dev/null; then
 		source "$file"
 	fi
 }
@@ -121,6 +121,7 @@ complete -F _lazy_complete \
 	journalctl \
 	kubectl \
 	makepkg \
+	mtr \
 	pacman \
 	pacman-key \
 	pass \

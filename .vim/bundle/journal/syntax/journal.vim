@@ -21,7 +21,7 @@ syn region journalItalic start="_[^ ]"  end="_"  oneline
 syn region journalCode   start="`"      end="`"  oneline contains=@NoSpell
 
 "syn region journalHeader     start="^/\= *= " end="$" oneline
-syn match journalHeader "= .*"
+syn match journalHeader "\(=\|==\|===\) .*"
 " TODO allow empty code block (e.g. "`$")
 syn region journalCode       start="` " end="$" oneline contains=@NoSpell
 syn region journalBlockQuote start="> " end="$" oneline

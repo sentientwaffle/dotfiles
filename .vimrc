@@ -163,14 +163,14 @@ augroup FTOptions
   " ftdetect
   autocmd BufNewFile,BufRead *.glsl,*.geom,*.vert,*.frag,*.gsh,*.vsh,*.fsh set filetype=glsl
 
-  autocmd BufNewFile,BufRead go.mod            set filetype=gomod
-  autocmd BufNewFile,BufRead go.sum            set filetype=text
-  autocmd BufNewFile,BufRead *.graphql         set filetype=graphql
-  autocmd BufNewFile,BufRead *.gyp,*.pod       set filetype=json
-  autocmd BufNewFile,BufRead *.tf              set filetype=terraform
-  autocmd BufNewFile,BufRead *.ts,*.tsx        set filetype=typescript
-  autocmd BufNewFile,BufRead *.toml,Cargo.lock set filetype=toml
-  autocmd BufNewFile,BufRead ~/Code/mux/*.txt  set filetype=mux
+  autocmd BufNewFile,BufRead go.mod               set filetype=gomod
+  autocmd BufNewFile,BufRead go.sum               set filetype=text
+  autocmd BufNewFile,BufRead *.graphql            set filetype=graphql
+  autocmd BufNewFile,BufRead *.gyp,*.pod          set filetype=json
+  autocmd BufNewFile,BufRead *.tf                 set filetype=terraform
+  autocmd BufNewFile,BufRead *.ts,*.tsx           set filetype=typescript
+  autocmd BufNewFile,BufRead *.toml,Cargo.lock    set filetype=toml
+  autocmd BufNewFile,BufRead ~/Code/{b,}mux/*.txt set filetype=mux nospell
 
   " Folding
   autocmd FileType json,terraform,yaml setlocal foldmethod=indent
@@ -253,6 +253,8 @@ command -range ToUTF16 <line1>,<line2>!toutf16
 " https://stackoverflow.com/questions/5585129/pasting-code-into-terminal-window-into-vim-on-mac-os-x
 " https://github.com/tmux/tmux/commit/f4fdddc9306886e3ab5257f40003f6db83ac926b
 " http://www.xfree86.org/current/ctlseqs.html#Bracketed%20Paste%20Mode
+
+" TODO don't redraw screen during paste?
 
 if &term =~ '^tmux' || &term =~ 'xterm' || &term =~ 'screen'
   let &t_ti .= "\<Esc>[?2004h"
