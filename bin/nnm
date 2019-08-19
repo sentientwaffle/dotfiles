@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-# Juggle multiple Node.js builds.
+set -euo pipefail
 
 dir=$NNM_DIR
 arch=$(uname -m)
@@ -10,6 +10,8 @@ arch=${arch/i686/x86}
 usage() {
 	cat <<-EOF
 	usage: ${0##*/} <command> [arguments]
+
+	Juggle multiple Node.js builds.
 
 	commands:
 	  list
@@ -90,8 +92,9 @@ if [[ -z "$dir" ]]; then
 	exit 1
 fi
 
-command=$1
-version=${2##v}
+command=${1:-}
+version=${2:-}
+version=${version##v}
 
 fail() {
 	usage >&2

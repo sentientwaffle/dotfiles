@@ -28,7 +28,7 @@ case "$1" in
 		date --utc '+%Y-%m-%d %H:%M:%S UTC'
 		;;
 	*)
-		usage
+		usage >&2
 		exit 1
 		;;
 esac

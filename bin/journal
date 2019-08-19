@@ -1,5 +1,7 @@
 #!/usr/bin/env bash
 
+set -euo pipefail
+
 if [[ -z "$JOURNAL_DIR" ]]; then
 	echo 'Missing $JOURNAL_DIR env variable.' >&2
 	exit 1
@@ -41,6 +43,6 @@ fail() {
 
 case "$1" in
 	commit) cmd_commit ;;
-	open)   cmd_open "$2" ;;
+	open)   cmd_open "${2:-}" ;;
 	*)      fail ;;
 esac

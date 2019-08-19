@@ -1,5 +1,7 @@
 #!/usr/bin/env bash
 
+set -euo pipefail
+
 usage() {
 	cat <<-EOF
 	usage: ${0##*/} <project>
@@ -19,7 +21,7 @@ usage() {
 	EOF
 }
 
-if [[ -z "$1" ]]; then
+if [[ -z "${1:-}" ]]; then
 	usage >&2
 	exit 1
 fi

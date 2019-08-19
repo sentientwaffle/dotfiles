@@ -55,6 +55,7 @@ alias winfo='xwininfo -display :0'
 
 alias g='git'
 alias ga='git add'
+alias gau='git add --update .'
 alias gb='git branch'
 alias gc='git commit'
 alias gcm='git commit -m'
@@ -93,7 +94,7 @@ complete -A helptopic help
 complete -a alias unalias
 complete -b builtin
 complete -c command hash type watch which
-complete -cf man sudo
+complete -cf sudo
 complete -d cd pushd rmdir
 
 _complete() {
@@ -107,6 +108,16 @@ _complete() {
 	mapfile -t COMPREPLY < <(compgen -W "${words[*]}" -- "$2")
 }
 complete -F _complete dm-bmux jj mux mux-init ssh
+
+_complete_man() {
+	mapfile -t COMPREPLY < <(man -k "$2" | awk '
+		BEGIN { query="'"${2//\"/}"'" }
+		substr($1, 0, length(query)) == query {
+			print $1
+		}
+	')
+}
+complete -F _complete_man man
 
 # Lazy-load completions.
 _lazy_complete() {

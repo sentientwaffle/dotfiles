@@ -1,6 +1,8 @@
 #!/usr/bin/env bash
 
+set -euo pipefail
 shopt -s nullglob globstar
+
 usage() {
 	cat <<-EOF
 	usage: ${0##*/} <directory> <extension> [joinchar]
@@ -10,8 +12,8 @@ usage() {
 	EOF
 }
 
-dir=$1
-ext=$2
+dir=${1:-}
+ext=${2:-}
 char=${3-'\n'}
 if [[ -z "$dir" || -z "$ext" ]]; then
 	usage >&2
