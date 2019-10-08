@@ -29,7 +29,11 @@ export JOURNAL_DIR="$HOME/Documents/journal"
 export PASSWORD_STORE_CLIP_TIME=15
 
 # http://www.gnu.org/software/bash/manual/html_node/The-Shopt-Builtin.html
-shopt -s histappend
+# Make glob match files starting with a '.'.
+# https://mywiki.wooledge.org/glob
+shopt -s dotglob
+# If a pattern fails to match, bash reports an expansion error.
+shopt -s failglob
 # https://www.gnu.org/software/bash/manual/html_node/Pattern-Matching.html
 # https://mywiki.wooledge.org/BashGuide/Patterns
 shopt -s extglob
@@ -56,7 +60,7 @@ alias winfo='xwininfo -display :0'
 alias g='git'
 alias ga='git add'
 alias gau='git add --update .'
-alias gb='git branch'
+alias gb='git branch --sort=committerdate'
 alias gc='git commit'
 alias gcm='git commit -m'
 alias gco='git checkout'
@@ -110,7 +114,7 @@ _complete() {
 complete -F _complete dm-bmux jj mux mux-init ssh
 
 _complete_man() {
-	mapfile -t COMPREPLY < <(man -k "$2" | awk '
+	mapfile -t COMPREPLY < <(apropos "$2" 2>/dev/null | awk '
 		BEGIN { query="'"${2//\"/}"'" }
 		substr($1, 0, length(query)) == query {
 			print $1
