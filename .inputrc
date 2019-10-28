@@ -1,9 +1,17 @@
+# Readline cheat sheet: <https://readline.kablamo.org/emacs.html>
+
 # This is redundant on desktop, .xinitrc disables the bell everywhere.
 # This only disables it in readline.
 set bell-style none
 # Don't automatically run a command when pasting with a newline.
-# See: https://lwn.net/Articles/749992/
+# See: <https://lwn.net/Articles/749992/>
 set enable-bracketed-paste on
 # Autocomplete after a single tab instead of two.
-# See: https://wiki.archlinux.org/index.php/Readline#Faster_completion
+# See: <https://wiki.archlinux.org/index.php/Readline#Faster_completion>
 set show-all-if-ambiguous on
+
+# Search through history using the up and down arrows; e.g. type `cd` and press
+# the up arrow and you'll search through everything in the history that starts
+# with `cd`.
+"\e[A": history-search-backward
+"\e[B": history-search-forward

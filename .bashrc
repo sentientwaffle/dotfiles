@@ -59,6 +59,7 @@ alias winfo='xwininfo -display :0'
 
 alias g='git'
 alias ga='git add'
+alias gap='git add --interactive --patch'
 alias gau='git add --update .'
 alias gb='git branch --sort=committerdate'
 alias gc='git commit'
