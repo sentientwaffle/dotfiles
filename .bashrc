@@ -47,7 +47,6 @@ shopt -s histappend
 alias ..='cd ..'
 alias ...='cd ../..'
 alias grep='grep --color --line-number --with-filename'
-alias http='python2 -m SimpleHTTPServer'
 alias jj='journal open'
 alias ll='ls -lAF'
 alias ls='ls -A --color'
@@ -75,6 +74,15 @@ alias gpr='git pull --rebase'
 alias gs='git status'
 alias gsl='git stash list'
 alias gspsp='git stash && git pull --rebase && git stash pop'
+
+http() {
+	if [[ -z "$1" ]]; then
+		python2 -m SimpleHTTPServer
+	else
+		# Listen on the specified port.
+		python2 -m SimpleHTTPServer "$1"
+	fi
+}
 
 # cd to the current git repo's root directory.
 ..g() {
