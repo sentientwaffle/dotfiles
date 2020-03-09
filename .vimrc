@@ -105,6 +105,7 @@ let mapleader = ' '
 let maplocalleader = '\'
 
 nnoremap <Leader>  <Nop>
+nnoremap <Leader>p :set paste!<CR>
 " Get current syntax token stack.
 nnoremap <Leader>s :call <SID>ToggleSynStack()<CR>
 " View built-in vim syntax files.
@@ -140,6 +141,11 @@ function! <SID>ToggleWrap()
   set linebreak!
   set breakindent!
   set showbreak=\|\ 
+  if &wrap
+    echo 'Wrap ON'
+  else
+    echo 'Wrap OFF'
+  endif
 endfunction
 
 function! <SID>ToggleHex()
