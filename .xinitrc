@@ -11,26 +11,7 @@ if [[ -d /etc/X11/xinit/xinitrc.d ]]; then
 	unset f
 fi
 
-# Keyboard settings: if these are updated, be sure to update dm-multihead at
-# the same time so that new (external) keyboards get settings updated as well.
-
-# Key mapping
-# /usr/share/X11/xkb/rules/base.lst
-setxkbmap -option ctrl:nocaps
-# map Print Screen -> Super
-xmodmap -e 'keysym Print = Super_L'
-
-# Key repeat
-# Set:
-#   $ xset r rate [delay (ms)] [rate (hz)]
-# Get current value:
-#   $ xset q
-xset r rate 280 50
-
-# Disable keyboard bell
-# <https://wiki.archlinux.org/index.php/PC_speaker>
-xset -b
-
+dm-keyboard-setup
 dwm-status &
 
 # Lock screen after inactivity.
