@@ -106,6 +106,7 @@ let maplocalleader = '\'
 
 nnoremap <Leader>  <Nop>
 nnoremap <Leader>p :set paste!<CR>
+nnoremap <Leader>d :help digraphs<CR> :resize<CR>
 " Get current syntax token stack.
 nnoremap <Leader>s :call <SID>ToggleSynStack()<CR>
 " View built-in vim syntax files.

@@ -16,19 +16,24 @@ syn region journalURLTitle matchgroup=journalURLDelimiter start="\[" end="\]\((.
 syn region journalURLHref  matchgroup=journalURLDelimiter start="(\([^)]*\)\@=" end=")"  oneline contained contains=@NoSpell
 "syn match  journalLink     '<[[:alnum:]_.]\+>'
 
-syn region journalBold   start="\*[^ ]" end="\*" oneline
-syn region journalItalic start="_[^ ]"  end="_"  oneline
-syn region journalCode   start="`"      end="`"  oneline contains=@NoSpell
+syn region journalBold   start="\*[^ ]"  end="\*"  oneline
+syn region journalItalic start="\<_[^ ]" end="_\>" oneline
+syn region journalCode   start="`"       end="`"   oneline contains=@NoSpell
 
-"syn region journalHeader     start="^/\= *= " end="$" oneline
-syn match journalHeader "\(=\|==\|===\) .*"
-" TODO allow empty code block (e.g. "`$")
-syn region journalCode       start="` " end="$" oneline contains=@NoSpell
-syn region journalBlockQuote start="> " end="$" oneline
-syn match  journalUList " \* "
-"syn match  journalUList "^ *\* "
-" TODO is auto-numbering better?
-syn match  journalOList " *# "
+" These work inside or outside a flashcard `/` prefix.
+"
+" `\@<=` is a lookbehind.
+syn match journalHeader     "\(^\|\/\)\@<= *=\{1,6} .*"
+syn match journalCode       "\(^\|\/\)\@<= *` .*" contains=@NoSpell
+syn match journalBlockQuote "\(^\|\/\)\@<= *> .*"
+syn match journalUList      "\(^\|\/\)\@<= *\- "
+syn match journalOList      "\(^\|\/\)\@<= *\d\+\. "
+" TODO allow empty quote,code block (e.g. "`$", ">$")
+
+" TODO: deprecated
+syn match  journalUList "\(^\|\/\)\@<= *\* "
+syn match  journalOList "\(^\|\/\)\@<= *# "
+"syn match  journalUList " \* "
 
 syn match  journalFlashcard           "^/"
 syn match  journalFlashcardProperties contained "\(create_time\|difficulty\|interval\|last_review_time\|reviews\)"
