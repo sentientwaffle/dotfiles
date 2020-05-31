@@ -75,6 +75,8 @@ alias gs='git status'
 alias gsl='git stash list'
 alias gspsp='git stash && git pull --rebase && git stash pop'
 
+# TODO maybe add git-hooks check in `gs` alias?
+
 http() {
 	if [[ -z "$1" ]]; then
 		python2 -m SimpleHTTPServer

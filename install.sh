@@ -1,5 +1,7 @@
 #!/usr/bin/env bash
 
+set -uo pipefail
+
 dotfiles="$(cd "$(dirname "$BASH_SOURCE")" && echo "$PWD")"
 
 usage() {
@@ -9,10 +11,20 @@ usage() {
 }
 
 symlink() {
-	ln -sf "$dotfiles/$1" "$2"
+	local source="$dotfiles/$1"
+	local destination="$2"
+	if [[ -e "$destination" ]]; then
+		if [[ $(readlink -f "$source") == $(readlink -f "$destination") ]]; then
+			# The link already exists, and is correct.
+			return 0
+		fi
+		echo 'Warning: File '$destination' already exists; skipping.' >&2
+		return 1
+	fi
+	ln --symbolic "$source" "$destination"
 }
 
-role=$1
+role=${1:-}
 if [[ "$role" != 'desktop' && "$role" != 'server' ]]; then
 	usage >&2
 	exit 1
@@ -23,7 +35,7 @@ symlink '.exrc'      "$HOME/.exrc"
 symlink '.gitconfig' "$HOME/.gitconfig"
 symlink '.inputrc'   "$HOME/.inputrc"
 symlink '.tmux.conf' "$HOME/.tmux.conf"
-symlink '.vim'       "$HOME"
+symlink '.vim'       "$HOME/.vim"
 symlink '.vimrc'     "$HOME/.vimrc"
 
 mkdir -p "$HOME/.gnupg"
@@ -42,4 +54,6 @@ if [[ "$role" == 'desktop' ]]; then
 	symlink '.config/fontconfig/fonts.conf' "$HOME/.config/fontconfig/fonts.conf"
 	mkdir -p "$HOME/.config/gtk-3.0"
 	symlink '.config/gtk-3.0/settings.ini' "$HOME/.config/gtk-3.0/settings.ini"
+
+	symlink '.config/mimeapps.list' "$HOME/.config/mimeapps.list"
 fi

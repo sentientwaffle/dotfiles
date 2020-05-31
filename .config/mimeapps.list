@@ -1,0 +1,40 @@
+# Useful references:
+# - General documentation: <https://wiki.archlinux.org/index.php/XDG_MIME_Applications>
+# - List of available applications: /usr/share/applications/
+#
+# To look up the default application for a particular mime type:
+#
+#   $ xdg-mime query default text/html
+#
+# To look up the mime type of a file:
+#
+#   $ xdg-mime query filetype README.md
+#
+
+# "Default Applications indicates that the applications should be the default
+# choice for opening that MIME type."
+[Default Applications]
+# Set all of these to firefox, since for some reason they all default to
+# Chromium otherwise.
+application/pdf=firefox.desktop
+application/json=firefox.desktop
+application/rdf+xml=firefox.desktop
+application/rss+xml=firefox.desktop
+application/xhtml+xml=firefox.desktop
+application/xhtml_xml=firefox.desktop
+application/xml=firefox.desktop
+image/gif=firefox.desktop
+image/jpeg=firefox.desktop
+image/png=firefox.desktop
+image/webp=firefox.desktop
+text/html=firefox.desktop
+text/xml=firefox.desktop
+
+# "Added Associations indicates that the applications support opening that MIME type."
+[Added Associations]
+text/html=firefox.desktop
+image/jpeg=firefox.desktop
+application/pdf=mupdf.desktop;firefox.desktop;
+
+# "Removed Associations indicates that the applications do not support that MIME type."
+[Removed Associations]

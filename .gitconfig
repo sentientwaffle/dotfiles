@@ -1,6 +1,8 @@
 # Colors are `foreground[ background]`.
 [push]
 	default = simple
+[pull]
+	rebase = true
 [user]
 	name = sentientwaffle
 	email = sentientwaffle@gmail.com
