@@ -19,6 +19,7 @@ if [[ "$role" != 'desktop' && "$role" != 'server' ]]; then
 fi
 
 symlink '.bashrc'    "$HOME/.bashrc"
+symlink '.exrc'      "$HOME/.exrc"
 symlink '.gitconfig' "$HOME/.gitconfig"
 symlink '.inputrc'   "$HOME/.inputrc"
 symlink '.tmux.conf' "$HOME/.tmux.conf"
