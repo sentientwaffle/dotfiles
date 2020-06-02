@@ -2,7 +2,7 @@
 
 set -uo pipefail
 
-dotfiles="$(cd "$(dirname "$BASH_SOURCE")" && echo "$PWD")"
+dotfiles="$(cd "$(dirname "${BASH_SOURCE[0]}")" && echo "$PWD")"
 
 usage() {
 	cat <<-EOF
@@ -18,7 +18,7 @@ symlink() {
 			# The link already exists, and is correct.
 			return 0
 		fi
-		echo 'Warning: File '$destination' already exists; skipping.' >&2
+		echo 'Warning: File '"$destination"' already exists; skipping.' >&2
 		return 1
 	fi
 	ln --symbolic "$source" "$destination"
