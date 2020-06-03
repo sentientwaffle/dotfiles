@@ -75,7 +75,19 @@ alias gs='git status'
 alias gsl='git stash list'
 alias gspsp='git stash && git pull --rebase && git stash pop'
 
-# TODO maybe add git-hooks check in `gs` alias?
+if type 'kubectl' &>/dev/null; then
+	alias kd='kubectl describe'
+	alias kg='kubectl get'
+	alias kl='kubectl logs'
+
+	# TODO it would be nice if this would automatically fall back to /bin/sh
+	# when /bin/bash in unavailable.
+	kssh() {
+		set -x
+		kubectl exec --stdin=true --tty=true $@ -- /bin/bash
+		set +x
+	}
+fi
 
 http() {
 	if [[ -z "$1" ]]; then
