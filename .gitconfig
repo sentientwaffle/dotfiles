@@ -3,6 +3,8 @@
 	default = simple
 [pull]
 	rebase = true
+[commit]
+	verbose = true
 [user]
 	name = sentientwaffle
 	email = sentientwaffle@gmail.com
