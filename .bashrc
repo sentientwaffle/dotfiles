@@ -48,8 +48,8 @@ alias ..='cd ..'
 alias ...='cd ../..'
 alias grep='grep --color --line-number --with-filename'
 alias jj='journal open'
-alias ll='ls -lAF'
-alias ls='ls -A --color'
+alias ll='ls -l --classify'
+alias ls='ls --almost-all --color=auto'
 alias ssh='ssh-add -l > /dev/null || ssh-add && TERM=screen-256color ssh'
 alias v='vim -p'
 alias winfo='xwininfo -display :0'
@@ -68,7 +68,7 @@ alias gd='git diff'
 alias gdc='gd --cached'
 alias gf='git fetch'
 alias gg='git grep --line-number'
-alias glog="git log --graph --pretty=format:'%C(yellow)%h%Creset %an: %s - %Creset%C(yellow)%d%Creset%Cgreen(%cr)%Creset' --abbrev-commit --date=relative"
+alias glog="git log --graph --pretty=format:'%C(yellow)%h%Creset %an: %s - %Creset%C(yellow)%d%Creset%Cgreen(%cd)%Creset' --abbrev-commit --date=relative"
 alias gm='git merge'
 alias gpr='git pull --rebase'
 alias gs='git status'
@@ -90,11 +90,13 @@ if type 'kubectl' &>/dev/null; then
 fi
 
 http() {
-	if [[ -z "$1" ]]; then
+	local port=$1
+	echo 'python2 -m SimpleHTTPServer '$port
+	if [[ -z "$port" ]]; then
 		python2 -m SimpleHTTPServer
 	else
 		# Listen on the specified port.
-		python2 -m SimpleHTTPServer "$1"
+		python2 -m SimpleHTTPServer "$port"
 	fi
 }
 
@@ -160,11 +162,12 @@ complete -F _lazy_complete \
 	kubectl \
 	makepkg \
 	mtr \
-	pacman \
-	pacman-key \
 	pass \
 	rustup \
 	systemctl \
+	# Requires the bash-completion package to work:
+	#pacman \
+	#pacman-key \
 
 if [[ -r /usr/share/bash-completion/completions/git ]]; then
 	# This might be slow.
