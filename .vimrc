@@ -138,15 +138,31 @@ function! <SID>ToggleSynStack()
 endfunction
 
 function! <SID>ToggleWrap()
-  set wrap!
-  set linebreak!
-  set breakindent!
-  set showbreak=\|\ 
+  " set wrap!
+  " set linebreak!
+  " set breakindent!
+  " set showbreak=\|\ 
   if &wrap
-    echo 'Wrap ON'
-  else
+    call <SID>WrapOff()
     echo 'Wrap OFF'
+  else
+    call <SID>WrapOn()
+    echo 'Wrap ON'
   endif
+endfunction
+
+function! <SID>WrapOn()
+  set wrap
+  set linebreak
+  set breakindent
+  set showbreak=\|\ 
+endfunction
+
+function! <SID>WrapOff()
+  set nowrap
+  set nolinebreak
+  set nobreakindent
+  set showbreak=
 endfunction
 
 function! <SID>ToggleHex()
@@ -188,7 +204,7 @@ augroup FTOptions
   autocmd FileType go,gomod,make,c,cpp,sh,gitconfig setlocal noexpandtab shiftwidth=8 softtabstop=8
 
   " Spellchecking
-  autocmd FileType mail,gitcommit,markdown,text setlocal spell
+  autocmd FileType mail,gitcommit,markdown,text setlocal spell | call <SID>WrapOn()
 
   " Help (shift-K)
   autocmd FileType vim setlocal keywordprg=:help
