@@ -52,6 +52,7 @@ alias ll='ls -l --classify'
 alias ls='ls --almost-all --color=auto'
 alias ssh='ssh-add -l > /dev/null || ssh-add && TERM=screen-256color ssh'
 alias v='vim -p'
+alias vt='vim "+set filetype=text"'
 alias winfo='xwininfo -display :0'
 
 # Git
