@@ -68,7 +68,7 @@ alias gd='git diff'
 alias gdc='gd --cached'
 alias gf='git fetch'
 alias gg='git grep --line-number'
-alias glog="git log --graph --pretty=format:'%C(yellow)%h%Creset %an: %s - %Creset%C(yellow)%d%Creset%Cgreen(%cd)%Creset' --abbrev-commit --date=relative"
+alias glog="git log --graph --pretty=format:'%C(81)%h%C(250) %an:%Creset %s - %Creset%C(81)%d%Creset%C(141)(%cd)%Creset' --abbrev-commit --date=relative"
 alias gm='git merge'
 alias gpr='git pull --rebase'
 alias gs='git status'

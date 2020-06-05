@@ -1,10 +1,13 @@
 # Colors are `foreground[ background]`.
-[push]
-	default = simple
-[pull]
-	rebase = true
+[blame]
+	coloring = highlightRecent
+	date = local
 [commit]
 	verbose = true
+[pull]
+	rebase = true
+[push]
+	default = simple
 [user]
 	name = sentientwaffle
 	email = sentientwaffle@gmail.com
@@ -13,6 +16,8 @@
 	diff = auto
 	grep = auto
 	status = auto
+[color "blame"]
+	highlightRecent = 240, 12 month ago,242, 11 month ago,243, 10 month ago,244, 9 month ago,245, 8 month ago,246, 7 month ago,247, 6 month ago,248, 5 month ago,249, 4 month ago,250, 3 month ago,251, 2 month ago,252, 1 month ago,255
 [color "diff"]
 	meta = 81
 	frag = 213
