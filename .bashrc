@@ -14,7 +14,7 @@ export HISTCONTROL=ignoredups:ignorespace
 export HISTFILESIZE=15000
 export HISTSIZE=15000
 export PAGER='less'
-export PATH="$DOTFILES/bin:$PATH"
+export PATH="$PATH:$DOTFILES/bin"
 export PS1="\u@\h:\w\$(git symbolic-ref HEAD 2>&- | sed 's|refs/heads/\(.*\)$| \1|')\\$ "
 export TZ='America/Los_Angeles'
 export VISUAL='vim'
@@ -23,7 +23,7 @@ export VISUAL='vim'
 export PYTHON='python2'
 # nnm setup
 export NNM_DIR="$HOME/Code/node"
-export PATH="$NNM_DIR/current/bin:$PATH"
+export PATH="$PATH:$NNM_DIR/current/bin"
 
 export JOURNAL_DIR="$HOME/Documents/journal"
 export PASSWORD_STORE_CLIP_TIME=15
