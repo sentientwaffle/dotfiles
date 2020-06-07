@@ -1,0 +1,25 @@
+#!/usr/bin/env bash
+
+# git-grep for a pattern. Use `fzy` to pick a file from the menu to edit.
+
+set -euo pipefail
+
+if [[ -z ${1:-} ]]; then
+	echo 'fatal: no pattern given' >&2
+	exit 1
+fi
+
+results="$(git grep --line-number $@)"
+[[ $? != 0 ]] && exit 1
+
+while true; do
+	rows=$(($(tput lines) - 1))
+	# Format: "file:number:  match text"
+	result="$(echo "$results" | fzy --lines "$rows")"
+	[[ $? != 0 ]] && exit 1
+
+	file="${result%%:*}"
+	line="${result#*:}"
+	line="${line%%:*}"
+	vim "$file" "+$line"
+done

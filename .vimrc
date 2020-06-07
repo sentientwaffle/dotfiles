@@ -118,6 +118,19 @@ nnoremap <Leader>T :tabe .<CR>
 nnoremap <Leader>x :call <SID>ToggleHex()<CR>
 nnoremap <Leader>w :call <SID>ToggleWrap()<CR>
 
+nnoremap <Leader>f :call <SID>FzyOpen('find -type f', ':tabedit')<CR>
+function! <SID>FzyOpen(choice_command, vim_command)
+  try
+    let output = system(a:choice_command . ' | fzy ')
+  catch /Vim:Interrupt/
+    " Swallow errors from ^C, allow redraw! below
+  endtry
+  redraw!
+  if v:shell_error == 0 && !empty(output)
+    execute a:vim_command . ' ' . output
+  endif
+endfunction
+
 function! FoldText()
   let l:line = getline(v:foldstart)
   let l:count = v:foldend - v:foldstart + 1

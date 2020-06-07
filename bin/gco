@@ -1,0 +1,10 @@
+#!/usr/bin/env bash
+
+set -euo pipefail
+
+if [[ -z ${1:-} ]]; then
+	branch="$(git branch | cut -c 3- | tac | fzy)"
+else
+	branch=$1
+fi
+git checkout "$branch"

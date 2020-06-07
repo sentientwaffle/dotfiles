@@ -27,7 +27,9 @@ cat > "$file" <<EOF
 title  $1
   cd   ${PWD/#$HOME/\~}
 hsplit
+hsplit
   run  gs
+layout even-horizontal
 EOF
 
 "${EDITOR:-vim}" "$file"

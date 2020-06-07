@@ -6,7 +6,7 @@ usage() {
 	cat <<-EOF
 	usage: ${0##*/} <project>
 
-	Set up a tmux window.
+	Set up a tmux window. If no "project" is passed, use fzy to select one.
 
 	Project options:
 	  title  <title>              set the window title
@@ -21,9 +21,13 @@ usage() {
 	EOF
 }
 
-if [[ -z "${1:-}" ]]; then
+if [[ -z ${1:-} ]]; then
+	project=$(_complete_files.sh ~/Code/mux txt | fzy)
+elif [[ $1 == '-h' || $1 == '--help' || $1 == 'help' ]]; then
 	usage >&2
 	exit 1
+else
+	project=$1
 fi
 
 tmux_split() {
@@ -35,7 +39,7 @@ tmux_split() {
 }
 
 tmux_pane() {
-	case $1 in
+	case $project in
 		next) local t=':.+' ;;
 		prev) local t=':.-' ;;
 		*)    local t="$1"  ;;
@@ -62,4 +66,4 @@ while read -ra args; do
 			echo "Unknown project option: \"$cmd\"" >&2
 			exit 1 ;;
 	esac
-done < "$HOME/Code/mux/${1}.txt"
+done < "$HOME/Code/mux/${project}.txt"
