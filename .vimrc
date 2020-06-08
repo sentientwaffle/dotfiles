@@ -213,8 +213,8 @@ augroup FTOptions
   autocmd FileType json,terraform,yaml setlocal foldmethod=indent
 
   " Indentation
-  autocmd FileType python,rust                      setlocal   expandtab shiftwidth=4 softtabstop=4
-  autocmd FileType go,gomod,make,c,cpp,sh,gitconfig setlocal noexpandtab shiftwidth=8 softtabstop=8
+  autocmd FileType python,rust                               setlocal   expandtab shiftwidth=4 softtabstop=4
+  autocmd FileType go,gomod,make,c,cpp,bash,sh,gitconfig,lua setlocal noexpandtab shiftwidth=8 softtabstop=8
 
   " Spellchecking
   autocmd FileType mail,gitcommit,markdown,text setlocal spell | call <SID>WrapOn()

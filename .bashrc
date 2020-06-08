@@ -48,7 +48,7 @@ alias ..='cd ..'
 alias ...='cd ../..'
 alias grep='grep --color --line-number --with-filename'
 alias jj='journal open'
-alias ll='ls -l --classify'
+alias ll='ls -l --classify --human-readable'
 alias ls='ls --almost-all --color=auto'
 alias ssh='ssh-add -l > /dev/null || ssh-add && TERM=screen-256color ssh'
 alias v='vim -p'
@@ -88,6 +88,10 @@ if type 'kubectl' &>/dev/null; then
 		kubectl exec --stdin=true --tty=true $@ -- /bin/bash
 		set +x
 	}
+fi
+
+if type 'pacman' &>/dev/null; then
+	alias pacman-orphans='pacman -Qtdq'
 fi
 
 http() {
