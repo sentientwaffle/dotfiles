@@ -9,7 +9,7 @@ if [[ -z ${1:-} ]]; then
 	exit 1
 fi
 
-results="$(git grep --line-number $@)"
+results="$(git grep --line-number "$@")"
 [[ $? != 0 ]] && exit 1
 
 # TODO: be smarter about parsing the query argument when there are >1 arguments

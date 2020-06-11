@@ -2,6 +2,8 @@
 [blame]
 	coloring = highlightRecent
 	date = local
+[branch]
+	sort = committerdate
 [commit]
 	verbose = true
 [pull]

@@ -98,7 +98,20 @@ if type 'kubectl' &>/dev/null; then
 	# TODO fzy pickers
 	alias kd='kubectl describe'
 	alias kg='kubectl get'
-	alias kl='kubectl logs'
+	alias kgp='kubectl get pods'
+	#alias kl='kubectl logs'
+
+	# TODO: support filtering by service (e.g. `-l app=spsp`)
+	kl() {
+		if [[ $# != 0 ]]; then
+			kubectl logs "$@"
+			return $?
+		fi
+		local pod
+		pod=$(kubectl get pods -o name | fzy)
+		[[ $? != 0 ]] && return 1
+		kubectl logs -f "$pod"
+	}
 
 	# TODO it would be nice if this would automatically fall back to /bin/sh
 	# when /bin/bash in unavailable.
@@ -132,12 +145,7 @@ fi
 # can change the working directory.
 f() {
 	local file
-	file=$(find . \
-		-type d -name '.git' -prune -o \
-		-type d -name 'node_modules' -prune -o \
-		-type d -name 'target' -prune -o \
-		-print |
-		fzy --query "${1:-}")
+	file=$(_fzy_find "${1:-}")
 	[[ $? != 0 || ! -e $file ]] && return 1
 
 	if [[ -d $file ]]; then

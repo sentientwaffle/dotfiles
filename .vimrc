@@ -16,12 +16,13 @@ set encoding=utf-8
 set history=500
 set lazyredraw " Faster macro repetition.
 set list
-set listchars=tab:▸\ ,trail:·,nbsp:_ " Invisible characters
+set listchars=tab:→\ ,trail:·,nbsp:_ " Invisible characters
 set mouse=a
 set modelines=0
 set nomodeline
 set nrformats-=octal
 set termencoding=utf-8
+set thesaurus=$HOME/Bootstrap/data/mthesaur.txt
 set title " show filename in window titlebar
 set wildmenu " command-line completion
 set wildmode=longest:full " Better autocompletion
@@ -89,6 +90,8 @@ nnoremap <C-\> <C-a>
 nnoremap <silent> <C-l> :nohlsearch<CR>
 " Execute default macro, and disable Ex mode
 nnoremap Q @q
+" Redo
+nnoremap U <C-r>
 " Yank to end of line.
 nnoremap Y y$
 
@@ -118,7 +121,7 @@ nnoremap <Leader>T :tabe .<CR>
 nnoremap <Leader>x :call <SID>ToggleHex()<CR>
 nnoremap <Leader>w :call <SID>ToggleWrap()<CR>
 
-nnoremap <Leader>f :call <SID>FzyOpen('find -type f', ':tabedit')<CR>
+nnoremap <Leader>f :call <SID>FzyOpen('_fzy_find', ':tabedit')<CR>
 function! <SID>FzyOpen(choice_command, vim_command)
   try
     let output = system(a:choice_command . ' | fzy ')
@@ -149,6 +152,10 @@ function! <SID>ToggleSynStack()
   endif
   echo map(synstack(line('.'), col('.')), 'synIDattr(v:val, "name")')
 endfunction
+
+" -----------------------------------------------------------------------------
+" Text wrapping
+" -----------------------------------------------------------------------------
 
 function! <SID>ToggleWrap()
   " set wrap!
@@ -190,10 +197,11 @@ function! <SID>ToggleHex()
   endif
 endfunction
 
+call <SID>WrapOn()
+
 " -----------------------------------------------------------------------------
 " Autocommands
 " -----------------------------------------------------------------------------
-
 augroup FTOptions
   autocmd!
   " ftdetect
@@ -217,7 +225,8 @@ augroup FTOptions
   autocmd FileType go,gomod,make,c,cpp,bash,sh,gitconfig,lua setlocal noexpandtab shiftwidth=8 softtabstop=8
 
   " Spellchecking
-  autocmd FileType mail,gitcommit,markdown,text setlocal spell | call <SID>WrapOn()
+  autocmd FileType mail,gitcommit,markdown,text setlocal spell
+  "| call <SID>WrapOn()
 
   " Help (shift-K)
   autocmd FileType vim setlocal keywordprg=:help

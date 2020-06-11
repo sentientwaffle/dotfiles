@@ -69,7 +69,7 @@ hi Statement       ctermfg=150
 
 hi Question        ctermfg=117
 hi Search          ctermfg=0   ctermbg=221   cterm=none
-hi IncSearch       ctermfg=193 ctermbg=16
+hi IncSearch       ctermfg=0   ctermbg=255   cterm=none
 
 " marks column
 hi SignColumn      ctermfg=221 ctermbg=235
@@ -126,8 +126,8 @@ hi WildMenu        ctermfg=255 ctermbg=242
 "hi WildMenu        ctermfg=117  ctermbg=16
 
 " Statusline, Tabline
-hi StatusLine      ctermfg=238 ctermbg=253   cterm=reverse
-hi StatusLineNC    ctermfg=234 ctermbg=245   cterm=reverse
+hi StatusLine      ctermfg=247 ctermbg=236   cterm=none
+hi StatusLineNC    ctermfg=243 ctermbg=234   cterm=none
 hi TabLineFill     ctermfg=253 ctermbg=238   cterm=underline
 hi TabLine         ctermfg=253 ctermbg=238   cterm=underline
 hi TabLineSel      ctermfg=253 ctermbg=none
