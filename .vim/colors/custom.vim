@@ -16,46 +16,59 @@ hi Normal          ctermfg=252 ctermbg=233
 hi CursorLine                  ctermbg=234   cterm=none
 hi Cursor          ctermfg=16  ctermbg=253
 
-" Constants
-hi Boolean         ctermfg=141
-hi Character       ctermfg=222
-hi Number          ctermfg=141
-hi String          ctermfg=222
-hi Float           ctermfg=141
-hi Constant        ctermfg=141
-hi Debug           ctermfg=225               cterm=bold
-hi Define          ctermfg=222
-hi Delimiter       ctermfg=241
-hi Include         ctermfg=81
+"let red = '#dd5f66' -- keyword
+"let red_orange = '#f97b58' -- operator
+"let pink = '#F07178' or #c794c7 -- macro
+"let orange = '#F78C6C' -- identifier
+"let yellow = '#FFCB6B' -- string
+"let green = '#C3E88D' -- function
+"let pale_blue = '#B2CCD6'
+"let cyan = '#89DDFF' -- type
+"let blue = '#82AAFF'
+"let purple = '#C792EA'
+"let violet = '#BB80B3' -- number
+"let brown = '#AB7967'
 
-hi Function        ctermfg=154
+" Constants
+hi Boolean         ctermfg=176
+hi Character       ctermfg=221
+hi Number          ctermfg=176
+hi String          ctermfg=221
+hi Float           ctermfg=176
+hi Constant        ctermfg=176
+hi Debug           ctermfg=225               cterm=bold
+hi Define          ctermfg=221
+hi Delimiter       ctermfg=241
+hi Include         ctermfg=117
+
+hi Function        ctermfg=150
 " json object key
-hi Label           ctermfg=154
-hi Special         ctermfg=81
+hi Label           ctermfg=150
+hi Special         ctermfg=137
 " js regexp
-hi SpecialChar     ctermfg=197
+hi SpecialChar     ctermfg=167
 
 hi Ignore          ctermfg=244 ctermbg=232
 
-hi Macro           ctermfg=213
-hi PreCondit       ctermfg=213               cterm=bold
-hi PreProc         ctermfg=213
+hi Macro           ctermfg=176
+hi PreCondit       ctermfg=176               cterm=bold
+hi PreProc         ctermfg=176
 
 hi MatchParen      ctermfg=233 ctermbg=251
 hi ModeMsg         ctermfg=221
 hi MoreMsg         ctermfg=229
 
 " Keywords
-hi Keyword         ctermfg=197
-hi Conditional     ctermfg=197
-hi Repeat          ctermfg=197
-hi Operator        ctermfg=197
-hi Exception       ctermfg=154
-hi Statement       ctermfg=154
+hi Keyword         ctermfg=167
+hi Conditional     ctermfg=167
+hi Repeat          ctermfg=167
+hi Operator        ctermfg=209
+hi Exception       ctermfg=150
+hi Statement       ctermfg=150
 "hi Tag            ctermfg=166
 
-hi Question        ctermfg=81
-hi Search          ctermfg=0   ctermbg=222   cterm=none
+hi Question        ctermfg=117
+hi Search          ctermfg=0   ctermbg=221   cterm=none
 hi IncSearch       ctermfg=193 ctermbg=16
 
 " marks column
@@ -69,14 +82,14 @@ endif
 hi Title           ctermfg=166
 
 " Type definitions
-hi Typedef         ctermfg=81
-hi Type            ctermfg=81
-hi Identifier      ctermfg=208               cterm=none
-hi StorageClass    ctermfg=208
-hi Structure       ctermfg=81
+hi Typedef         ctermfg=117
+hi Type            ctermfg=117
+hi Identifier      ctermfg=209               cterm=none
+hi StorageClass    ctermfg=209
+hi Structure       ctermfg=117
 
 " JavaScript
-hi jsObjectKey        ctermfg=222
+hi jsObjectKey        ctermfg=221
 
 hi Underlined      ctermfg=244               cterm=underline
 
@@ -96,8 +109,8 @@ hi SpecialKey      ctermfg=59  ctermbg=234
 " -----------------------------------------------------------------------------
 
 " Gutter
-hi LineNr          ctermfg=250 ctermbg=236
-hi CursorLineNr    ctermfg=107               cterm=none
+hi LineNr          ctermfg=241 ctermbg=234
+hi CursorLineNr    ctermfg=234 ctermbg=241   cterm=none
 hi NonText         ctermfg=59
 if has('folding')
   hi FoldColumn    ctermfg=253  ctermbg=16
@@ -108,9 +121,9 @@ endif
 hi Pmenu           ctermfg=253 ctermbg=235
 hi PmenuSel        ctermfg=255 ctermbg=242   cterm=bold
 hi PmenuSbar                   ctermbg=232
-hi PmenuThumb      ctermfg=81
+hi PmenuThumb      ctermfg=117
 hi WildMenu        ctermfg=255 ctermbg=242
-"hi WildMenu        ctermfg=81  ctermbg=16
+"hi WildMenu        ctermfg=117  ctermbg=16
 
 " Statusline, Tabline
 hi StatusLine      ctermfg=238 ctermbg=253   cterm=reverse
@@ -141,8 +154,8 @@ hi DiffText        ctermfg=102 cterm=bold
 hi diffAdded       ctermfg=107
 hi diffChanged     ctermfg=181
 hi diffRemoved     ctermfg=160
-hi diffIndexLine   ctermfg=81
-hi diffLine        ctermfg=213
+hi diffIndexLine   ctermfg=117
+hi diffLine        ctermfg=176
 
 " -----------------------------------------------------------------------------
 " Git
@@ -183,7 +196,7 @@ hi netrwClassify   ctermfg=166
 " -----------------------------------------------------------------------------
 hi journalMetadataKey ctermfg=221
 "hi journalLink        ctermfg=67   cterm=underline
-"hi journalCode        ctermfg=222
+"hi journalCode        ctermfg=221
 "hi journalBlockQuote  ctermfg=137
 hi journalBold        cterm=bold
 hi journalItalic      cterm=italic
@@ -193,13 +206,13 @@ hi journalItalic      cterm=italic
 " Markdown
 " -----------------------------------------------------------------------------
 
-hi markdownCode      ctermfg=222
-hi markdownCodeBlock ctermfg=222
+hi markdownCode      ctermfg=221
+hi markdownCodeBlock ctermfg=221
 
 " -----------------------------------------------------------------------------
 " Rust
 " -----------------------------------------------------------------------------
-hi rustType        ctermfg=81      cterm=bold
+hi rustType        ctermfg=117      cterm=bold
 
 " Must be at the end, because of ctermbg=234 bug.
 " https://groups.google.com/forum/#!msg/vim_dev/afPqwAFNdrU/nqh6tOM87QUJ
