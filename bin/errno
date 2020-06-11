@@ -8,6 +8,3 @@ if [[ -z $1 ]]; then
 fi
 
 \grep "	$1	" '/usr/include/asm-generic/errno.h'
-
-# From stackoverflow:
-#perl -MPOSIX -e 'print strerror($ARGV[0])."\n";' "$1"

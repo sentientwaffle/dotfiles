@@ -47,6 +47,9 @@ shopt -s histappend
 alias ..='cd ..'
 alias ...='cd ../..'
 alias grep='grep --color --line-number --with-filename'
+#alias fcd='cd "$(_fzy_find d)"'
+#alias f='fzy-open'
+#alias fv='vim $(_fzy_find f)'
 alias jj='journal open'
 alias ll='ls -l --classify --human-readable'
 alias ls='ls --almost-all --color=auto'
@@ -69,41 +72,15 @@ alias gd='git diff'
 alias gdc='gd --cached'
 alias gf='git fetch'
 alias gg='git grep --line-number'
+# TODO print, too
+alias gh='g rev-parse HEAD | copy'
 alias glog="git log --graph --pretty=format:'%C(81)%h%C(250) %an:%Creset %s - %Creset%C(81)%d%Creset%C(141)(%cd)%Creset' --abbrev-commit --date=relative"
 alias gm='git merge'
 alias gpr='git pull --rebase'
+alias grs='git restore --staged'
 alias gs='git status'
 alias gsl='git stash list'
 alias gspsp='git stash && git pull --rebase && git stash pop'
-
-if type 'kubectl' &>/dev/null; then
-	alias kd='kubectl describe'
-	alias kg='kubectl get'
-	alias kl='kubectl logs'
-
-	# TODO it would be nice if this would automatically fall back to /bin/sh
-	# when /bin/bash in unavailable.
-	kssh() {
-		set -x
-		kubectl exec --stdin=true --tty=true $@ -- /bin/bash
-		set +x
-	}
-fi
-
-if type 'pacman' &>/dev/null; then
-	alias pacman-orphans='pacman -Qtdq'
-fi
-
-http() {
-	local port=$1
-	echo 'python2 -m SimpleHTTPServer '$port
-	if [[ -z "$port" ]]; then
-		python2 -m SimpleHTTPServer
-	else
-		# Listen on the specified port.
-		python2 -m SimpleHTTPServer "$port"
-	fi
-}
 
 # cd to the current git repo's root directory.
 ..g() {
@@ -114,6 +91,80 @@ http() {
 		return 1
 	fi
 }
+
+# Misc
+
+if type 'kubectl' &>/dev/null; then
+	# TODO fzy pickers
+	alias kd='kubectl describe'
+	alias kg='kubectl get'
+	alias kl='kubectl logs'
+
+	# TODO it would be nice if this would automatically fall back to /bin/sh
+	# when /bin/bash in unavailable.
+	kssh() {
+		set -x
+		kubectl exec --stdin=true --tty=true "$@" -- /bin/bash
+		set +x
+	}
+
+	kdebug() {
+		if [[ $# == 0 ]]; then
+			echo 'usage: kdebug <pod>' >&2
+			echo 'Port-forward a Node.js debugger to the given pod.' >&2
+			return 1
+		fi
+		set -x
+		kubectl port-forward "$1" 9229:9229
+		set +x
+	}
+fi
+
+if type 'pacman' &>/dev/null; then
+	alias pacman-orphans='pacman -Qtdq'
+fi
+
+# ##############################################################################
+# Functions
+# ##############################################################################
+
+# This must be a function and not a separate script in `bin/` so that `cd`
+# can change the working directory.
+f() {
+	local file
+	file=$(find . \
+		-type d -name '.git' -prune -o \
+		-type d -name 'node_modules' -prune -o \
+		-type d -name 'target' -prune -o \
+		-print |
+		fzy --query "${1:-}")
+	[[ $? != 0 || ! -e $file ]] && return 1
+
+	if [[ -d $file ]]; then
+		cd "$file" || return 1
+	else
+		vim "$file"
+	fi
+}
+
+http() {
+	local port=$1
+	echo "python2 -m SimpleHTTPServer $port"
+	if [[ -z "$port" ]]; then
+		python2 -m SimpleHTTPServer
+	else
+		# Listen on the specified port.
+		python2 -m SimpleHTTPServer "$port"
+	fi
+}
+
+# XXX
+#_fzy_find() {
+#	find -type d -name '.git' -prune -o \
+#		-type d -name 'node_modules' -prune -o \
+#		-type "$1" -print |
+#		fzy
+#}
 
 # ##############################################################################
 # Completion
