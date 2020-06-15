@@ -13,6 +13,7 @@ export GREP_COLORS='sl=97;48;5;236:cx=37;40:mt=30;48;5;186:fn=38;5;197:ln=38;5;1
 export HISTCONTROL=ignoredups:ignorespace
 export HISTFILESIZE=50000
 export HISTSIZE=50000
+export HISTTIMEFORMAT='%F %T '
 export PAGER='less'
 export PATH="$PATH:$DOTFILES/bin"
 export PS1="\u@\h:\w\$(git symbolic-ref HEAD 2>&- | sed 's|refs/heads/\(.*\)$| \1|')\\$ "
@@ -29,6 +30,8 @@ export JOURNAL_DIR="$HOME/Documents/journal"
 export PASSWORD_STORE_CLIP_TIME=15
 
 # http://www.gnu.org/software/bash/manual/html_node/The-Shopt-Builtin.html
+# Transform multiline commands into single-lines.
+shopt -s cmdhist
 # Make glob match files starting with a '.'.
 # https://mywiki.wooledge.org/glob
 shopt -s dotglob
@@ -37,6 +40,7 @@ shopt -s dotglob
 shopt -s extglob
 # If a pattern fails to match, bash reports an expansion error.
 shopt -s failglob
+# Append to bash history, don't overwrite.
 shopt -s histappend
 
 # ##############################################################################
