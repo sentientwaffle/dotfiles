@@ -11,8 +11,8 @@ export EDITOR='vim'
 # https://dom111.github.io/grep-colors/
 export GREP_COLORS='sl=97;48;5;236:cx=37;40:mt=30;48;5;186:fn=38;5;197:ln=38;5;154:bn=38;5;141:se=38;5;81'
 export HISTCONTROL=ignoredups:ignorespace
-export HISTFILESIZE=15000
-export HISTSIZE=15000
+export HISTFILESIZE=50000
+export HISTSIZE=50000
 export PAGER='less'
 export PATH="$PATH:$DOTFILES/bin"
 export PS1="\u@\h:\w\$(git symbolic-ref HEAD 2>&- | sed 's|refs/heads/\(.*\)$| \1|')\\$ "
@@ -32,11 +32,11 @@ export PASSWORD_STORE_CLIP_TIME=15
 # Make glob match files starting with a '.'.
 # https://mywiki.wooledge.org/glob
 shopt -s dotglob
-# If a pattern fails to match, bash reports an expansion error.
-shopt -s failglob
 # https://www.gnu.org/software/bash/manual/html_node/Pattern-Matching.html
 # https://mywiki.wooledge.org/BashGuide/Patterns
 shopt -s extglob
+# If a pattern fails to match, bash reports an expansion error.
+shopt -s failglob
 shopt -s histappend
 
 # ##############################################################################
@@ -47,9 +47,6 @@ shopt -s histappend
 alias ..='cd ..'
 alias ...='cd ../..'
 alias grep='grep --color --line-number --with-filename'
-#alias fcd='cd "$(_fzy_find d)"'
-#alias f='fzy-open'
-#alias fv='vim $(_fzy_find f)'
 alias jj='journal open'
 alias ll='ls -l --classify --human-readable'
 alias ls='ls --almost-all --color=auto'
@@ -64,10 +61,9 @@ alias g='git'
 alias ga='git add'
 alias gap='git add --interactive --patch'
 alias gau='git add --update'
-alias gb='git branch --sort=committerdate'
+alias gb='git branch'
 alias gc='git commit'
 alias gcm='git commit -m'
-#alias gco='git checkout'
 alias gd='git diff'
 alias gdc='gd --cached'
 alias gf='git fetch'
@@ -92,7 +88,9 @@ alias gspsp='git stash && git pull --rebase && git stash pop'
 	fi
 }
 
-# Misc
+# ##############################################################################
+# Kubernetes
+# ##############################################################################
 
 if type 'kubectl' &>/dev/null; then
 	# TODO fzy pickers
@@ -100,6 +98,8 @@ if type 'kubectl' &>/dev/null; then
 	alias kg='kubectl get'
 	alias kgp='kubectl get pods'
 	#alias kl='kubectl logs'
+
+	# TODO move functions to bin/ scripts
 
 	# TODO: support filtering by service (e.g. `-l app=spsp`)
 	kl() {
@@ -122,19 +122,17 @@ if type 'kubectl' &>/dev/null; then
 	}
 
 	kdebug() {
+		local pod
 		if [[ $# == 0 ]]; then
-			echo 'usage: kdebug <pod>' >&2
-			echo 'Port-forward a Node.js debugger to the given pod.' >&2
-			return 1
+			pod=$(kubectl get pods -o name | fzy)
+			[[ $? != 0 ]] && return 1
+		else
+			pod=$1
 		fi
 		set -x
-		kubectl port-forward "$1" 9229:9229
+		kubectl port-forward "$pod" 9229:9229
 		set +x
 	}
-fi
-
-if type 'pacman' &>/dev/null; then
-	alias pacman-orphans='pacman -Qtdq'
 fi
 
 # ##############################################################################
@@ -155,6 +153,7 @@ f() {
 	fi
 }
 
+# TODO remove python2 dependency
 http() {
 	local port=$1
 	echo "python2 -m SimpleHTTPServer $port"
@@ -165,14 +164,6 @@ http() {
 		python2 -m SimpleHTTPServer "$port"
 	fi
 }
-
-# XXX
-#_fzy_find() {
-#	find -type d -name '.git' -prune -o \
-#		-type d -name 'node_modules' -prune -o \
-#		-type "$1" -print |
-#		fzy
-#}
 
 # ##############################################################################
 # Completion

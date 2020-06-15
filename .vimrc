@@ -80,6 +80,10 @@ set shortmess+=I " No startup message.
 " -----------------------------------------------------------------------------
 
 inoremap <Nul> <C-p>
+" Exit normal mode.
+inoremap jj <ESC>
+
+nnoremap <C-r> <C-r>:echo 'Use "U" to redo!!!!!!!!!!!!!!!!!!!!!!!!!!!'<CR>
 
 nnoremap <C-d> :qall<CR>
 nnoremap <TAB> gt
@@ -94,6 +98,13 @@ nnoremap Q @q
 nnoremap U <C-r>
 " Yank to end of line.
 nnoremap Y y$
+
+" Navigation improvements.
+nnoremap [ {
+nnoremap ] }
+nnoremap { [
+nnoremap } ]
+" TODO use {,} for something else?
 
 " Disable Page Up & Page Down.
 nnoremap <PageUp>   <Nop>
