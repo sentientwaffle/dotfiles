@@ -1,5 +1,0 @@
-firefox  firefox
-tmux     urxvt -e tmux
-terminal urxvt
-gimp     gimp
-chromium chromium

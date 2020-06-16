@@ -90,6 +90,7 @@ nnoremap <TAB> gt
 nnoremap <S-TAB> gT
 " Increment.
 nnoremap <C-\> <C-a>
+
 " Clear search highlight.
 nnoremap <silent> <C-l> :nohlsearch<CR>
 " Execute default macro, and disable Ex mode
@@ -225,8 +226,8 @@ augroup FTOptions
   autocmd BufNewFile,BufRead *.tf              set filetype=terraform
   autocmd BufNewFile,BufRead *.ts,*.tsx        set filetype=typescript
   autocmd BufNewFile,BufRead *.toml,Cargo.lock set filetype=toml
-  autocmd BufNewFile,BufRead ~/Code/mux/*.txt  set filetype=mux nospell
-  autocmd BufNewFile,BufRead ~/Code/bmux/*.txt set nospell
+  autocmd BufNewFile,BufRead ~/Bootstrap/data/mux/*.txt  set filetype=mux nospell
+  autocmd BufNewFile,BufRead ~/Bootstrap/data/bmux/*.txt set nospell
 
   " Folding
   autocmd FileType json,terraform,yaml setlocal foldmethod=indent

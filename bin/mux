@@ -2,6 +2,8 @@
 
 set -euo pipefail
 
+dir="$HOME/Bootstrap/data/mux"
+
 usage() {
 	cat <<-EOF
 	usage: ${0##*/} <project>
@@ -17,12 +19,12 @@ usage() {
 	  pane   <prev|next|{int}>    select a different pane
 	  layout <{even,main}-{horizontal,vertical}|tiled>
 
-	Project files are found in "~/Code/mux/**.txt".
+	Project files are found in "$dir/mux/**.txt".
 	EOF
 }
 
 if [[ -z ${1:-} ]]; then
-	project=$(_complete_files.sh ~/Code/mux txt | fzy)
+	project=$(_complete_files.sh "$dir" txt | fzy)
 elif [[ $1 == '-h' || $1 == '--help' || $1 == 'help' ]]; then
 	usage >&2
 	exit 1
@@ -66,4 +68,4 @@ while read -ra args; do
 			echo "Unknown project option: \"$cmd\"" >&2
 			exit 1 ;;
 	esac
-done < "$HOME/Code/mux/${project}.txt"
+done < "$dir/$project.txt"

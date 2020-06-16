@@ -188,9 +188,9 @@ complete -d cd pushd rmdir
 _complete() {
 	local words=()
 	case "$1" in
-		dm-bmux)      mapfile -t words < <(_complete_files.sh ~/Code/bmux       txt) ;;
+		dm-bmux)      mapfile -t words < <(_complete_files.sh ~/Bootstrap/data/bmux txt) ;;
 		jj)           mapfile -t words < <(_complete_files.sh "$JOURNAL_DIR"    jtxt) ;;
-		mux|mux-init) mapfile -t words < <(_complete_files.sh ~/Code/mux        txt) ;;
+		mux|mux-init) mapfile -t words < <(_complete_files.sh ~/Bootstrap/data/mux  txt) ;;
 		ssh)          mapfile -t words < <(grep '^Host' ~/.ssh/config | sed 's/^Host //') ;;
 	esac
 	mapfile -t COMPREPLY < <(compgen -W "${words[*]}" -- "$2")
