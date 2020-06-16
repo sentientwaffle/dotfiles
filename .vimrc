@@ -105,6 +105,15 @@ nnoremap [ {
 nnoremap ] }
 nnoremap { [
 nnoremap } ]
+" Motions (operator-pending mappings).
+onoremap [ {
+onoremap ] }
+onoremap { [
+onoremap } ]
+vnoremap [ {
+vnoremap ] }
+vnoremap { [
+vnoremap } ]
 " TODO use {,} for something else?
 
 " Disable Page Up & Page Down.

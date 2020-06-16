@@ -38,10 +38,10 @@ nnoremap <buffer> <silent> <BS> :call journal#GoBack()<CR>
 
 " Section navigation
 " (see http://learnvimscriptthehardway.stevelosh.com/chapters/51.html)
-nnoremap <buffer> <silent> [[ :call journal#FindLink('?')<CR>
-nnoremap <buffer> <silent> ]] :call journal#FindLink('/')<CR>
-vnoremap <buffer> <silent> [[ <Nop>
-vnoremap <buffer> <silent> ]] <Nop>
+nnoremap <buffer> <silent> {{ :call journal#FindLink('?')<CR>
+nnoremap <buffer> <silent> }} :call journal#FindLink('/')<CR>
+vnoremap <buffer> <silent> {{ <Nop>
+vnoremap <buffer> <silent> }} <Nop>
 
 " Document management
 nnoremap <buffer> <LocalLeader>R :call journal#RenameCurrentDocument()<CR>
