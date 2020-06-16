@@ -26,3 +26,8 @@ URxvt.saveLines: 0
 ! Disable perl extensions
 URxvt.perl-ext:
 URxvt.perl-ext-common:
+
+! Yellow: (normal)
+!URxvt.color2: 
+! Yellow (bright):
+!URxvt.color10: 
