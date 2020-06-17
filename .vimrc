@@ -88,8 +88,9 @@ nnoremap <C-r> <C-r>:echo 'Use "U" to redo!!!!!!!!!!!!!!!!!!!!!!!!!!!'<CR>
 nnoremap <C-d> :qall<CR>
 nnoremap <TAB> gt
 nnoremap <S-TAB> gT
-" Increment.
+" Increment/decrement.
 nnoremap <C-\> <C-a>
+nnoremap <C-]> <C-x>
 
 " Clear search highlight.
 nnoremap <silent> <C-l> :nohlsearch<CR>
