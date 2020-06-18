@@ -30,12 +30,12 @@ hi Cursor          ctermfg=16  ctermbg=253
 "let brown = '#AB7967'
 
 " Constants
-hi Boolean         ctermfg=176
+hi Boolean         ctermfg=139
 hi Character       ctermfg=221
-hi Number          ctermfg=176
+hi Number          ctermfg=139
 hi String          ctermfg=221
-hi Float           ctermfg=176
-hi Constant        ctermfg=176
+hi Float           ctermfg=139
+hi Constant        ctermfg=139
 hi Debug           ctermfg=225               cterm=bold
 hi Define          ctermfg=221
 hi Delimiter       ctermfg=241

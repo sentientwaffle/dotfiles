@@ -24,7 +24,7 @@ usage() {
 }
 
 if [[ -z ${1:-} ]]; then
-	project=$(_complete_files.sh "$dir" txt | fzy)
+	project=$(_complete_files "$dir" txt | fzy)
 elif [[ $1 == '-h' || $1 == '--help' || $1 == 'help' ]]; then
 	usage >&2
 	exit 1

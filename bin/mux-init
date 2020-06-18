@@ -8,7 +8,7 @@ usage() {
 
 	Initialize a mux project for the current directory.
 
-	Project files are found in "~/Code/mux/**.txt".
+	Project files are found in "~/Bootstrap/data/mux/**.txt".
 	EOF
 }
 
@@ -17,7 +17,7 @@ if [[ -z "${1:-}" ]]; then
 	exit 1
 fi
 
-file="$HOME/Code/mux/${1}.txt"
+file="$HOME/Bootstrap/data/mux/${1}.txt"
 if [[ -e "$file" ]]; then
 	echo "Project file \"$file\" already exists" >&2
 	exit 1

@@ -2,5 +2,5 @@
 
 # Run Go tests for the given package, and open an HTML presentation of the coverage.
 
-go test -coverprofile=/tmp/coverage.out $@ && \
+go test -coverprofile=/tmp/coverage.out "$@" && \
 	go tool cover -html=/tmp/coverage.out

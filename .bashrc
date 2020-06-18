@@ -73,7 +73,7 @@ alias gdc='gd --cached'
 alias gf='git fetch'
 alias gg='git grep --line-number'
 # TODO print, too
-alias gh='g rev-parse HEAD | copy'
+alias gh='g rev-parse HEAD | tr -d "\n" | copy'
 alias glog="git log --graph --pretty=format:'%C(81)%h%C(250) %an:%Creset %s - %Creset%C(81)%d%Creset%C(141)(%cd)%Creset' --abbrev-commit --date=relative"
 alias gm='git merge'
 alias gpr='git pull --rebase'
@@ -188,9 +188,9 @@ complete -d cd pushd rmdir
 _complete() {
 	local words=()
 	case "$1" in
-		dm-bmux)      mapfile -t words < <(_complete_files.sh ~/Bootstrap/data/bmux txt) ;;
-		jj)           mapfile -t words < <(_complete_files.sh "$JOURNAL_DIR"    jtxt) ;;
-		mux|mux-init) mapfile -t words < <(_complete_files.sh ~/Bootstrap/data/mux  txt) ;;
+		dm-bmux)      mapfile -t words < <(_complete_files ~/Bootstrap/data/bmux txt) ;;
+		jj)           mapfile -t words < <(_complete_files "$JOURNAL_DIR"    jtxt) ;;
+		mux|mux-init) mapfile -t words < <(_complete_files ~/Bootstrap/data/mux  txt) ;;
 		ssh)          mapfile -t words < <(grep '^Host' ~/.ssh/config | sed 's/^Host //') ;;
 	esac
 	mapfile -t COMPREPLY < <(compgen -W "${words[*]}" -- "$2")

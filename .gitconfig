@@ -24,7 +24,7 @@
 	meta = 81
 	frag = 213
 	new = 107
-	old = 160
+	old = 167
 [color "grep"]
 	context = 254
 	filename = 197
@@ -36,8 +36,8 @@
 [color "status"]
 	branch = 81
 	added = 107
-	changed = 160
-	untracked = 160
+	changed = 167
+	untracked = 137
 [color "interactive"]
 	# e.g. "Stage this hunk ..." in `git add -i --patch`.
 	prompt = 208
