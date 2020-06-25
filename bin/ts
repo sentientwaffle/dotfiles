@@ -1,34 +1,7 @@
-#!/usr/bin/env bash
+#!/bin/sh -eu
 
-usage() {
-	cat <<-EOF
-	usage: ${0##*/} <command>
-
-	Commands:
-	  unix              Print the current unix timestamp.
-	  unix [timestamp]  Parse the given unix timestamp.
-	  utc               Print the current 24-hour UTC time.
-	EOF
-}
-
-#echo -n "$ts" | dm-copy
-case "$1" in
-	iso)
-		date --iso-8601='seconds'
-		;;
-	unix)
-		if [[ -z "$2" ]]; then
-			NODE_DISABLE_COLORS=1 node -pe 'Date.now()'
-		else
-			num=${2//[^0-9]/}
-			NODE_DISABLE_COLORS=1 node -pe "new Date($num);"
-		fi
-		;;
-	utc)
-		date --utc '+%Y-%m-%d %H:%M:%S UTC'
-		;;
-	*)
-		usage >&2
-		exit 1
-		;;
-esac
+if [ $# -eq 0 ]; then
+	date '+%s'
+else
+	date --date="@$1"
+fi

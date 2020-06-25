@@ -83,7 +83,7 @@ inoremap <Nul> <C-p>
 " Exit normal mode.
 inoremap jj <ESC>
 
-nnoremap <C-r> <C-r>:echo 'Use "U" to redo!!!!!!!!!!!!!!!!!!!!!!!!!!!'<CR>
+nnoremap <C-r> <C-r>:echoerr 'Use "U" to redo!!!!!!!!!!!!!!!!!!!!!!!!!!!'<CR>
 
 nnoremap <C-d> :qall<CR>
 nnoremap <TAB> gt

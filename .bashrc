@@ -73,7 +73,7 @@ alias gdc='gd --cached'
 alias gf='git fetch'
 alias gg='git grep --line-number'
 # TODO print, too
-alias gh='g rev-parse HEAD | tr -d "\n" | copy'
+alias gh='g rev-parse HEAD | cut -c "-7" | tr -d "\n" | copy'
 alias glog="git log --graph --pretty=format:'%C(81)%h%C(250) %an:%Creset %s - %Creset%C(81)%d%Creset%C(141)(%cd)%Creset' --abbrev-commit --date=relative"
 alias gm='git merge'
 alias gpr='git pull --rebase'
@@ -120,8 +120,15 @@ if type 'kubectl' &>/dev/null; then
 	# TODO it would be nice if this would automatically fall back to /bin/sh
 	# when /bin/bash in unavailable.
 	kssh() {
+		local pod
+		if [ $# -eq 0 ]; then
+			pod=$(kubectl get pods -o name | fzy)
+			[ $? -ne 0 ] && return 1
+		else
+			pod=$1
+		fi
 		set -x
-		kubectl exec --stdin=true --tty=true "$@" -- /bin/bash
+		kubectl exec --stdin=true --tty=true "$pod" -- /bin/bash
 		set +x
 	}
 
@@ -154,18 +161,6 @@ f() {
 		cd "$file" || return 1
 	else
 		vim "$file"
-	fi
-}
-
-# TODO remove python2 dependency
-http() {
-	local port=$1
-	echo "python2 -m SimpleHTTPServer $port"
-	if [[ -z "$port" ]]; then
-		python2 -m SimpleHTTPServer
-	else
-		# Listen on the specified port.
-		python2 -m SimpleHTTPServer "$port"
 	fi
 }
 
