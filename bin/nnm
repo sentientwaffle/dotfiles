@@ -1,11 +1,12 @@
-#!/usr/bin/env bash
-
-set -euo pipefail
+#!/bin/sh -eu
 
 dir=$NNM_DIR
 arch=$(uname -m)
-arch=${arch/x86_64/x64}
-arch=${arch/i686/x86}
+case "$arch" in
+	x86_64) arch='x64' ;;
+	i686)   arch='x86' ;;
+	*)      ;;
+esac
 
 usage() {
 	cat <<-EOF
@@ -33,7 +34,7 @@ usage_node_dir() {
 }
 
 file_to_version() {
-	cut -d'-' -f2 <<<"$1"
+	printf "%s" "$1" | cut -d'-' -f2
 }
 
 version_to_dir() {
@@ -41,13 +42,14 @@ version_to_dir() {
 }
 
 cmd_list() {
-	local current=$(readlink "$dir/current")
-	[[ -n "$current" ]] && local current=$(basename "$current")
+	current=$(readlink "$dir/current")
+	[ -n "$current" ] \
+		&& current=$(basename "$current")
 	for path in "$dir"/*; do
 		test -e "$path" || continue
-		local file=${path##*/}
-		[[ "$file" == 'current' ]] && continue
-		if [[ "$file" == "$current" ]]; then
+		file=${path##*/}
+		[ "$file" = 'current' ] && continue
+		if [ "$file" = "$current" ]; then
 			echo "* $(file_to_version "$file")"
 		else
 			echo "  $(file_to_version "$file")"
@@ -56,8 +58,8 @@ cmd_list() {
 }
 
 cmd_use() {
-	local file=$(version_to_dir "$1")
-	if [[ -d $file ]]; then
+	file=$(version_to_dir "$1")
+	if [ -d "$file" ]; then
 		rm -f "$dir/current"
 		ln -s "$file" "$dir/current"
 	else
@@ -67,8 +69,11 @@ cmd_use() {
 }
 
 cmd_install() {
-	[[ -f $(version_to_dir "$1") ]] && echo 'already installed' && exit
-	local tar="$dir/node-v${1}.tar.gz"
+	if [ -f "$(version_to_dir "$1")" ]; then
+		echo 'already installed'
+		exit
+	fi
+	tar="$dir/node-v${1}.tar.gz"
 	curl -o "$tar" "https://nodejs.org/dist/v$1/node-v$1-linux-${arch}.tar.gz"
 	tar -xzf "$tar" -C "$dir"
 	rm "$tar"
@@ -76,18 +81,21 @@ cmd_install() {
 }
 
 cmd_uninstall() {
-	local vdir=$(version_to_dir "$1")
-	[[ ! -d "$vdir" ]] && echo 'already uninstalled' && exit
+	vdir=$(version_to_dir "$1")
+	if [ ! -d "$vdir" ]; then
+		echo 'already uninstalled'
+		exit
+	fi
 	rm -rf "$vdir"
 	echo "v$1 uninstalled"
 }
 
-if [[ "$arch" != 'x86' && "$arch" != 'x64' ]]; then
+if [ "$arch" != 'x86' ] && [ "$arch" != 'x64' ]; then
 	echo 'error identifying arch' >&2
 	exit 1
 fi
 
-if [[ -z "$dir" ]]; then
+if [ -z "$dir" ]; then
 	usage_node_dir >&2
 	exit 1
 fi
@@ -101,10 +109,16 @@ fail() {
 	exit 1
 }
 
+test_version() {
+	if [ -z "$version" ]; then
+		fail
+	fi
+}
+
 case "$command" in
 	list|ls)      cmd_list ;;
-	use|u)        [[ -n "$version" ]] && cmd_use       "$version" || fail ;;
-	install|i)    [[ -n "$version" ]] && cmd_install   "$version" || fail ;;
-	uninstall|rm) [[ -n "$version" ]] && cmd_uninstall "$version" || fail ;;
+	use|u)        test_version && cmd_use       "$version" ;;
+	install|i)    test_version && cmd_install   "$version" ;;
+	uninstall|rm) test_version && cmd_uninstall "$version" ;;
 	*)            fail ;;
 esac

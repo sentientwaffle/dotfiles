@@ -1,4 +1,4 @@
-#!/usr/bin/env bash
+#!/bin/sh -eu
 
 exec find . \
 	-type d -name '.git' -prune -o \

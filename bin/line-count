@@ -1,4 +1,4 @@
-#!/usr/bin/env bash
+#!/bin/sh -eu
 
 usage() {
 	cat <<-EOF
@@ -6,7 +6,7 @@ usage() {
 	EOF
 }
 
-if [[ -z "$1" ]]; then
+if [ $# -eq 0 ]; then
 	usage >&2
 	exit 1
 fi

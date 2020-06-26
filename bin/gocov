@@ -1,4 +1,4 @@
-#!/usr/bin/env bash
+#!/bin/sh -eu
 
 # Run Go tests for the given package, and open an HTML presentation of the coverage.
 

@@ -1,6 +1,4 @@
-#!/usr/bin/env bash
-
-set -euo pipefail
+#!/bin/sh -eu
 
 dir="$HOME/Bootstrap/data/mux"
 
@@ -23,9 +21,9 @@ usage() {
 	EOF
 }
 
-if [[ -z ${1:-} ]]; then
+if [ $# -eq 0 ]; then
 	project=$(_complete_files "$dir" txt | fzy)
-elif [[ $1 == '-h' || $1 == '--help' || $1 == 'help' ]]; then
+elif [ "$1" = '-h' ] || [ "$1" = '--help' ] || [ "$1" = 'help' ]; then
 	usage >&2
 	exit 1
 else
@@ -33,39 +31,42 @@ else
 fi
 
 tmux_split() {
-	if [[ -z $2 ]]; then
-		tmux split-window "$1" -c '#{pane_current_path}'
-	else
-		tmux split-window "$1" -c '#{pane_current_path}' -p "$2"
-	fi
+	#tmux split-window "$1" -p "${2:-50}" -c '#{pane_current_path}'
+	tmux split-window "$1" -p "${2:-50}" -c "$3"
 }
 
 tmux_pane() {
-	case $project in
-		next) local t=':.+' ;;
-		prev) local t=':.-' ;;
-		*)    local t="$1"  ;;
+	case "$project" in
+		next) t=':.+' ;;
+		prev) t=':.-' ;;
+		*)    t="$1"  ;;
 	esac
 	tmux select-pane -t "$t"
 }
 
-while read -ra args; do
-	cmd=${args[0]}
-	arg=${args[*]:1}
+cwd=$(pwd)
+while read -r cmd arg; do
 	case $cmd in
 		'#') ;; # ignore comments
 		title)  tmux rename-window "$arg" ;;
-		hsplit) tmux_split -h "$arg" ;;
-		vsplit) tmux_split -v "$arg" ;;
+		hsplit) tmux_split -h "$arg" "$cwd" ;;
+		vsplit) tmux_split -v "$arg" "$cwd" ;;
 		layout) tmux select-layout "$arg" ;;
 		pane)   tmux_pane "$arg" ;;
 		run)    tmux send-keys "$arg" C-m ;;
 		cd)
-			# cd and send-keys so that pane_current_path works.
-			cd "${arg/#\~/$HOME}"
-			tmux send-keys "cd $arg" C-m ;;
+			# Update `$cwd` to pass to `tmux_split` for new panes.
+			new_cwd=$(printf "%s" "$arg" | sed "s#~#$HOME#")
+			# `cd` into the old `$cwd` so `$new_cwd` resolves properly
+			# when it is a relative path.
+			cwd=$(cd "$cwd" && realpath "$new_cwd")
+			# send-keys ensures that the current pane changes
+			# directory.
+			tmux send-keys "cd $arg" C-m
+			;;
 		*)
 			echo "Unknown project option: \"$cmd\"" >&2
-			exit 1 ;;
+			exit 1
+			;;
 	esac
 done < "$dir/$project.txt"

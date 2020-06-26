@@ -1,4 +1,4 @@
-#!/usr/bin/env bash
+#!/bin/sh -eu
 
 usage() {
 	cat <<-EOF
@@ -8,22 +8,26 @@ usage() {
 	EOF
 }
 
-file=$1
-pages=$2
-if [[ -z "$file" || -z "$pages" ]]; then
+if [ $# -ne 2 ]; then
 	usage >&2
 	exit 1
 fi
 
+file=$1
+pages=$2
 totalpages=$(mutool pages "$file" | grep --count '^<page ')
+#for ((page = 0; page < totalpages; page += pages)); do
+
 index=1
-for ((page = 0; page < totalpages; page += pages)); do
-	dstfile="${file/%\.pdf/--${index}.pdf}"
-	if [[ "$file" == "$dstfile" ]]; then
+page=0
+while [ $(( page < totalpages )) -ne 0 ]; do
+	dstfile="${file%\.pdf}"
+	dstfile="$file--$index.pdf"
+	if [ "$file" = "$dstfile" ]; then
 		echo "'$file' is not a pdf" >&2
 		exit 1
 	fi
 	echo "Writing $dstfile"
 	mutool clean "$file" "$dstfile" "$page-$((page + pages))"
-	((index++))
+	: $((index += 1))
 done

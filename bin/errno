@@ -1,10 +1,8 @@
-#!/usr/bin/env bash
+#!/bin/sh -eu
 
-set -e
-
-if [[ -z $1 ]]; then
+if [ $# -eq 0 ]; then
 	echo "usage: ${0##*/} <errno>" >&2
 	exit 1
 fi
 
-\grep "	$1	" '/usr/include/asm-generic/errno.h'
+exec grep "	$1	" '/usr/include/asm-generic/errno.h'

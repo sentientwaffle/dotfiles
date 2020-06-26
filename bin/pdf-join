@@ -8,11 +8,12 @@ usage() {
 	EOF
 }
 
-if (( "$#" < 3 )); then
+if [ $# -lt 3 ]; then
 	usage >&2
 	exit 1
 fi
 
+# TODO maybe `shift` first argument?
 outfile=$1
 infiles="${@:2}"
 mutool merge -o "$outfile" $infiles

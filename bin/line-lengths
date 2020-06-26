@@ -1,2 +1,2 @@
-#!/usr/bin/env bash
+#!/bin/sh -eu
 exec awk '{ print length($0) " " $0; }'

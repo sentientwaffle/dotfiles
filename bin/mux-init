@@ -1,6 +1,4 @@
-#!/usr/bin/env bash
-
-set -euo pipefail
+#!/bin/sh -eu
 
 usage() {
 	cat <<-EOF
@@ -12,20 +10,25 @@ usage() {
 	EOF
 }
 
-if [[ -z "${1:-}" ]]; then
+if [ $# -eq 0 ]; then
 	usage >&2
 	exit 1
 fi
 
 file="$HOME/Bootstrap/data/mux/${1}.txt"
-if [[ -e "$file" ]]; then
+if [ -e "$file" ]; then
 	echo "Project file \"$file\" already exists" >&2
 	exit 1
 fi
 
+base_dir=$PWD
+case "$base_dir" in
+  "$HOME"*) base_dir="~${base_dir#$HOME}" ;;
+esac
+
 cat > "$file" <<EOF
 title  $1
-  cd   ${PWD/#$HOME/\~}
+  cd   $base_dir
 hsplit
 hsplit
   run  gs
