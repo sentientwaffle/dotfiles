@@ -4,9 +4,12 @@ dir="$HOME/Bootstrap/data/mux"
 
 usage() {
 	cat <<-EOF
-	usage: ${0##*/} <project>
+	usage: ${0##*/} [-e] [project]
 
 	Set up a tmux window. If no "project" is passed, use fzy to select one.
+
+	Arguments:
+	  -e  open project config in editor
 
 	Project options:
 	  title  <title>              set the window title
@@ -21,13 +24,23 @@ usage() {
 	EOF
 }
 
+if [ "${1:-}" = '-e' ]; then
+	edit=1
+	shift
+fi
+
 if [ $# -eq 0 ]; then
 	project=$(_complete_files "$dir" txt | fzy)
-elif [ "$1" = '-h' ] || [ "$1" = '--help' ] || [ "$1" = 'help' ]; then
+elif [ "$1" = '-h' ]; then
 	usage >&2
 	exit 1
 else
 	project=$1
+fi
+file="$dir/$project.txt"
+
+if [ $edit -eq 1 ]; then
+	exec "$EDITOR" "$file"
 fi
 
 tmux_split() {
@@ -69,4 +82,4 @@ while read -r cmd arg; do
 			exit 1
 			;;
 	esac
-done < "$dir/$project.txt"
+done < "$file"
