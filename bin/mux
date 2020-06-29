@@ -27,6 +27,8 @@ usage() {
 if [ "${1:-}" = '-e' ]; then
 	edit=1
 	shift
+else
+	edit=0
 fi
 
 if [ $# -eq 0 ]; then
