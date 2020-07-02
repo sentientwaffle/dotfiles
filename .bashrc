@@ -160,7 +160,7 @@ f() {
 	if [[ -d $file ]]; then
 		cd "$file" || return 1
 	else
-		vim "$file"
+		vim -- "$file"
 	fi
 }
 

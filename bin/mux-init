@@ -35,4 +35,4 @@ hsplit
 layout even-horizontal
 EOF
 
-"${EDITOR:-vim}" "$file"
+"${EDITOR:-vim}" -- "$file"
