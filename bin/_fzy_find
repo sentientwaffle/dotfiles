@@ -4,5 +4,6 @@ exec find . \
 	-type d -name '.git' -prune -o \
 	-type d -name 'node_modules' -prune -o \
 	-type d -name 'target' -prune -o \
-	-print |
-	fzy --query "${1:-}"
+	-print \
+	| sort \
+	| fzy --query "${1:-}"
