@@ -3,7 +3,7 @@ if exists('b:current_syntax')
 endif
 unlet! b:current_syntax
 
-syn region muxComment   matchgroup=muxComment    start='#'                         end='$' oneline
+syn region muxComment   matchgroup=muxComment    start='#'                         end='$' oneline contains=@Spell
 syn region muxString    matchgroup=muxCommand    start='^title'                    end='$' oneline
 syn region muxSplitCmd  matchgroup=muxCommand    start='^\(hsplit\|vsplit\|pane\)' end='$' oneline contains=muxSplitValue
 syn region muxLayoutCmd matchgroup=muxCommand    start='^layout '                  end='$' oneline contains=muxLayoutValue
