@@ -1,4 +1,11 @@
 #!/bin/sh -eu
+# usage:
+#
+# $ ts
+# Print the current unix timestamp (seconds).
+#
+# $ ts <timestamp>
+# Print the date/time of the unix timestamp.
 
 if [ $# -eq 0 ]; then
 	date '+%s'

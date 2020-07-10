@@ -1,0 +1,55 @@
+#!/bin/sh -eu
+
+usage() {
+	cat <<-EOF
+	usage: ${0##*/} [directory]
+
+	Open the Git repository's tracked, modified files in \$EDITOR. Only
+	files in or below the specified (or, by default: current working)
+	directory are opened.
+	EOF
+}
+
+if [ $# -eq 1 ] && [ "$1" = '-h' ]; then
+	usage >&2
+	exit 1
+fi
+
+# This escapes every character in the string with backslashes.
+#
+# Inspired by:
+# https://stackoverflow.com/questions/15783701/which-characters-need-to-be-escaped-when-using-bash/20053121#20053121
+shell_escape() {
+	sed -e 's/./\\&/g'
+}
+
+dir=${1:-.}
+cwd_prefix=$(git rev-parse --show-prefix)
+cwd_prefix_len=${#cwd_prefix}
+
+# TODO just get 'M ' and ' M'? Will this open deleted files?
+
+# - Exclude untracked files.
+# - Trim leading "MM ". (Note that `cut`'s offsets are 1-indexed!)
+# - Trim leading directory (when not in repository root).
+# - Trim leading "/".
+tracked_files=$(git status --porcelain "$dir" \
+	| grep -v '^??'                       \
+	| cut -c 4-                           \
+	| cut -c "$((cwd_prefix_len + 1))-"   \
+	| cut -c 1-                           \
+	| shell_escape)
+if [ -z "$tracked_files" ]; then
+	echo 'error: No tracked files to open.' >&2
+	exit 1
+fi
+
+# Load the files into the arguments array.
+#
+# Disable warning "Double quote to prevent globbing and word splitting."
+# because word splitting here is safe (the arguments are already escaped) and
+# intentional (the lines need to be split into separate arguments).
+#
+# shellcheck disable=2086
+set -- $tracked_files
+vim -p -- "$@"
