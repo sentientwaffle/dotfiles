@@ -175,6 +175,25 @@ function! <SID>ToggleSynStack()
   echo map(synstack(line('.'), col('.')), 'synIDattr(v:val, "name")')
 endfunction
 
+" Custom operator.
+" Insert spaces to align motion/selected lines over the given character.
+function! <SID>Align(visual_type)
+  let l:separator = nr2char(getchar())
+  let l:command = '!column -t'
+    \ . ' -s ' . shellescape(l:separator)
+    \ . ' -o ' . shellescape(l:separator)
+  if a:0
+    " Invoked from Visual mode.
+    execute "'<,'>" . l:command
+  else
+    " Invoked from Normal mode.
+    execute "'[,']" . l:command
+  endif
+endfunction
+" See `:help 'map-operator'`.
+nnoremap <silent> = :set opfunc=<SID>Align<CR>g@
+vnoremap <silent> = :<C-U>call <SID>Align(visualmode())<CR>
+
 " -----------------------------------------------------------------------------
 " Text wrapping
 " -----------------------------------------------------------------------------

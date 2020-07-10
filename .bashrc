@@ -114,7 +114,9 @@ if type 'kubectl' &>/dev/null; then
 		local pod
 		pod=$(kubectl get pods -o name | fzy)
 		[[ $? != 0 ]] && return 1
-		kubectl logs -f "$pod"
+		# Set `--all-containers` so that the command doesn't fail when
+		# there are multiple choices.
+		kubectl logs --all-containers=true -f "$pod"
 	}
 
 	# TODO it would be nice if this would automatically fall back to /bin/sh
