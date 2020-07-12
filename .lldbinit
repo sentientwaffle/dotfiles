@@ -1,0 +1,5 @@
+command unalias b
+command alias b breakpoint
+
+# Run as: bfl foo.c 12
+command alias bfl breakpoint set -f %1 -l %2
