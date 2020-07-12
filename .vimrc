@@ -177,12 +177,12 @@ endfunction
 
 " Custom operator.
 " Insert spaces to align motion/selected lines over the given character.
-function! <SID>Align(visual_type)
+function! <SID>Align(mode, is_visual)
   let l:separator = nr2char(getchar())
   let l:command = '!column -t'
     \ . ' -s ' . shellescape(l:separator)
     \ . ' -o ' . shellescape(l:separator)
-  if a:0
+  if a:is_visual
     " Invoked from Visual mode.
     execute "'<,'>" . l:command
   else
@@ -192,7 +192,7 @@ function! <SID>Align(visual_type)
 endfunction
 " See `:help 'map-operator'`.
 nnoremap <silent> = :set opfunc=<SID>Align<CR>g@
-vnoremap <silent> = :<C-U>call <SID>Align(visualmode())<CR>
+vnoremap <silent> = :<C-U>call <SID>Align(visualmode(), 1)<CR>
 
 " -----------------------------------------------------------------------------
 " Text wrapping
@@ -252,6 +252,7 @@ augroup FTOptions
   autocmd BufNewFile,BufRead go.sum            set filetype=text
   autocmd BufNewFile,BufRead *.graphql         set filetype=graphql
   autocmd BufNewFile,BufRead *.gyp,*.pod       set filetype=json
+  autocmd BufNewFile,BufRead *.h               set filetype=c
   autocmd BufNewFile,BufRead *.tf              set filetype=terraform
   autocmd BufNewFile,BufRead *.ts,*.tsx        set filetype=typescript
   autocmd BufNewFile,BufRead *.toml,Cargo.lock set filetype=toml
@@ -264,8 +265,9 @@ augroup FTOptions
   autocmd FileType json,terraform,yaml setlocal foldmethod=indent
 
   " Indentation
-  autocmd FileType python,rust                               setlocal   expandtab shiftwidth=4 softtabstop=4
-  autocmd FileType go,gomod,make,c,cpp,bash,sh,gitconfig,lua setlocal noexpandtab shiftwidth=8 softtabstop=8
+  autocmd FileType python,rust                    setlocal   expandtab shiftwidth=4 softtabstop=4
+  autocmd FileType c,cpp,go,gomod,make            setlocal noexpandtab shiftwidth=8 softtabstop=8
+  autocmd FileType bash,sh,gitconfig,html,css,lua setlocal noexpandtab shiftwidth=8 softtabstop=8
 
   " Spellchecking
   autocmd FileType mail,gitcommit,markdown,text setlocal spell
