@@ -16,7 +16,7 @@ set encoding=utf-8
 set history=500
 set lazyredraw " Faster macro repetition.
 set list
-set listchars=tab:→\ ,trail:·,nbsp:_ " Invisible characters
+set listchars=tab:→\ ,trail:·,nbsp:␣,extends:⋯,precedes:⋯
 set mouse=
 set modelines=0
 set nomodeline
