@@ -101,23 +101,8 @@ if type 'kubectl' &>/dev/null; then
 	alias kd='kubectl describe'
 	alias kg='kubectl get'
 	alias kgp='kubectl get pods'
-	#alias kl='kubectl logs'
 
 	# TODO move functions to bin/ scripts
-
-	# TODO: support filtering by service (e.g. `-l app=spsp`)
-	kl() {
-		if [[ $# != 0 ]]; then
-			kubectl logs "$@"
-			return $?
-		fi
-		local pod
-		pod=$(kubectl get pods -o name | fzy)
-		[[ $? != 0 ]] && return 1
-		# Set `--all-containers` so that the command doesn't fail when
-		# there are multiple choices.
-		kubectl logs --all-containers=true -f "$pod"
-	}
 
 	# TODO it would be nice if this would automatically fall back to /bin/sh
 	# when /bin/bash in unavailable.

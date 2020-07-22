@@ -1,0 +1,29 @@
+#!/bin/sh -eu
+
+# "kubectl log" helper.
+
+# Don't fail when there are multiple containers.
+all='--all-containers=true'
+# Don't fail when there are too many services.
+max='--max-log-requests=10'
+
+if [ $# != 0 ]; then
+	exec kubectl logs "$all" "$max" "$@"
+fi
+
+kube_app_labels() {
+	kubectl get pods -o \
+		jsonpath='{.items[*].metadata.labels.app}' \
+		| sed 's/ /\n/g' \
+		| sort \
+		| uniq
+}
+
+labels=$(kube_app_labels)
+pods=$(kubectl get pods -o name)
+pod_or_app=$(printf '%s%s' "$labels" "$pods" | fzy)
+
+case "$pod_or_app" in
+	pod/*) exec kubectl logs "$all" "$max" -f "$pod_or_app" ;;
+	*)     exec kubectl logs "$all" "$max" -f -lapp="$pod_or_app" ;;
+esac

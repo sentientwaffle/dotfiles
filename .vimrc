@@ -143,6 +143,7 @@ nnoremap <Leader>T :tabe .<CR>
 nnoremap <Leader>x :call <SID>ToggleHex()<CR>
 nnoremap <Leader>w :call <SID>ToggleWrap()<CR>
 
+" See `:help press-enter`.
 nnoremap <Leader>f :call <SID>FzyOpen('_fzy_find', ':tabedit')<CR>
 function! <SID>FzyOpen(choice_command, vim_command)
   try

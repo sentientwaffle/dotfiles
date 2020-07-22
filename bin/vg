@@ -30,10 +30,14 @@ cwd_prefix_len=${#cwd_prefix}
 # TODO just get 'M ' and ' M'? Will this open deleted files?
 
 # - Exclude untracked files.
+# - Exclude deleted files.
+# - Exclude moved files ("RM"). TODO: handle moved files.
 # - Trim leading "MM ". (Note that `cut`'s offsets are 1-indexed!)
 # - Trim leading directory (when not in repository root).
 # - Trim leading "/".
 tracked_files=$(git status --porcelain "$dir" \
+	| grep -v '^RM'                       \
+	| grep -v '^D '                       \
 	| grep -v '^??'                       \
 	| cut -c 4-                           \
 	| cut -c "$((cwd_prefix_len + 1))-"   \
