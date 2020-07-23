@@ -176,6 +176,16 @@ function! <SID>ToggleSynStack()
   echo map(synstack(line('.'), col('.')), 'synIDattr(v:val, "name")')
 endfunction
 
+function! <SID>SystemOperator(command, mode, is_visual)
+  if a:is_visual
+    " Invoked from Visual mode.
+    execute "'<,'>" . a:command
+  else
+    " Invoked from Normal mode.
+    execute "'[,']" . a:command
+  endif
+endfunction
+
 " Custom operator.
 " Insert spaces to align motion/selected lines over the given character.
 function! <SID>Align(mode, is_visual)
@@ -183,17 +193,20 @@ function! <SID>Align(mode, is_visual)
   let l:command = '!column -t'
     \ . ' -s ' . shellescape(l:separator)
     \ . ' -o ' . shellescape(l:separator)
-  if a:is_visual
-    " Invoked from Visual mode.
-    execute "'<,'>" . l:command
-  else
-    " Invoked from Normal mode.
-    execute "'[,']" . l:command
-  endif
+  call <SID>SystemOperator(l:command, a:mode, a:is_visual)
 endfunction
+
+" TODO support reformatting comments (i.e. with `//` prefix)
+function! <SID>Format(mode, is_visual)
+  let l:command = '!fmt -80 --goal=80'
+  call <SID>SystemOperator(l:command, a:mode, a:is_visual)
+endfunction
+
 " See `:help 'map-operator'`.
 nnoremap <silent> = :set opfunc=<SID>Align<CR>g@
 vnoremap <silent> = :<C-U>call <SID>Align(visualmode(), 1)<CR>
+nnoremap <silent> + :set opfunc=<SID>Format<CR>g@
+vnoremap <silent> + :<C-U>call <SID>Format(visualmode(), 1)<CR>
 
 " -----------------------------------------------------------------------------
 " Text wrapping
