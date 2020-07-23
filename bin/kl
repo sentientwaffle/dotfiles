@@ -1,5 +1,10 @@
 #!/bin/sh -eu
 
+# usage:
+# $ kl
+# $ kl -f <pod>
+# $ kl -f -lapp=<app>
+
 # "kubectl log" helper.
 
 # Don't fail when there are multiple containers.

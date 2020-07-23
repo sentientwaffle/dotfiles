@@ -97,40 +97,8 @@ alias gspsp='git stash && git pull --rebase && git stash pop'
 # ##############################################################################
 
 if type 'kubectl' &>/dev/null; then
-	# TODO fzy pickers
-	alias kd='kubectl describe'
 	alias kg='kubectl get'
 	alias kgp='kubectl get pods'
-
-	# TODO move functions to bin/ scripts
-
-	# TODO it would be nice if this would automatically fall back to /bin/sh
-	# when /bin/bash in unavailable.
-	kssh() {
-		local pod
-		if [ $# -eq 0 ]; then
-			pod=$(kubectl get pods -o name | fzy)
-			[ $? -ne 0 ] && return 1
-		else
-			pod=$1
-		fi
-		set -x
-		kubectl exec --stdin=true --tty=true "$pod" -- /bin/bash
-		set +x
-	}
-
-	kdebug() {
-		local pod
-		if [[ $# == 0 ]]; then
-			pod=$(kubectl get pods -o name | fzy)
-			[[ $? != 0 ]] && return 1
-		else
-			pod=$1
-		fi
-		set -x
-		kubectl port-forward "$pod" 9229:9229
-		set +x
-	}
 fi
 
 # ##############################################################################

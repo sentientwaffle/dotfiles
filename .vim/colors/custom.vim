@@ -153,7 +153,7 @@ hi DiffText        ctermfg=102 cterm=bold
 " filetype=diff
 hi diffAdded       ctermfg=107
 hi diffChanged     ctermfg=181
-hi diffRemoved     ctermfg=160
+hi diffRemoved     ctermfg=167
 hi diffIndexLine   ctermfg=117
 hi diffLine        ctermfg=176
 
@@ -161,12 +161,13 @@ hi diffLine        ctermfg=176
 " Git
 " -----------------------------------------------------------------------------
 
+hi gitcommitBranch        ctermfg=117
 hi gitcommitSelectedType  ctermfg=107
 hi gitcommitSelectedFile  ctermfg=107
-hi gitcommitDiscardedType ctermfg=160
-hi gitcommitDiscardedFile ctermfg=160
-hi gitcommitUntrackedType ctermfg=160
-hi gitcommitUntrackedFile ctermfg=160
+hi gitcommitDiscardedType ctermfg=167
+hi gitcommitDiscardedFile ctermfg=167
+hi gitcommitUntrackedType ctermfg=137
+hi gitcommitUntrackedFile ctermfg=137
 
 " -----------------------------------------------------------------------------
 " HTML / XML
