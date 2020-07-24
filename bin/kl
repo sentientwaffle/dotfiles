@@ -9,11 +9,12 @@
 
 # Don't fail when there are multiple containers.
 all='--all-containers=true'
-# Don't fail when there are too many services.
-max='--max-log-requests=10'
+# Don't fail when there are too many log streams (pods).
+max='--max-log-requests=14'
 
 if [ $# != 0 ]; then
-	exec kubectl logs "$all" "$max" "$@"
+	kubectl logs "$all" "$max" "$@" | cl
+	exit
 fi
 
 kube_app_labels() {
@@ -29,6 +30,6 @@ pods=$(kubectl get pods -o name)
 pod_or_app=$(printf '%s%s' "$labels" "$pods" | fzy)
 
 case "$pod_or_app" in
-	pod/*) exec kubectl logs "$all" "$max" -f "$pod_or_app" ;;
-	*)     exec kubectl logs "$all" "$max" -f -lapp="$pod_or_app" ;;
+	pod/*) kubectl logs "$all" "$max" -f       "$pod_or_app" | cl ;;
+	*)     kubectl logs "$all" "$max" -f -lapp="$pod_or_app" | cl ;;
 esac
