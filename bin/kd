@@ -1,8 +1,0 @@
-#!/bin/sh -eu
-
-if [ $# != 0 ]; then
-	exec kubectl describe "$@"
-fi
-
-pod=$(kubectl get pods -o name | fzy)
-exec kubectl describe "$pod"

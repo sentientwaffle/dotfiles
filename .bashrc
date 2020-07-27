@@ -92,6 +92,15 @@ alias gspsp='git stash && git pull --rebase && git stash pop'
 	fi
 }
 
+glg() {
+	if [ $# -eq 0 ]; then
+		echo 'usage: glg <query>'      >&2
+		echo 'Search commit messages.' >&2
+		return 1
+	fi
+	git log --all --grep="$1"
+}
+
 # ##############################################################################
 # Kubernetes
 # ##############################################################################
@@ -99,6 +108,11 @@ alias gspsp='git stash && git pull --rebase && git stash pop'
 if type 'kubectl' &>/dev/null; then
 	alias kg='kubectl get'
 	alias kgp='kubectl get pods'
+	alias kd='kctl describe'
+	alias kl='kctl logs'
+	alias kport='kctl port'
+	alias kssh='kctl ssh'
+	alias kw='kctl watch'
 fi
 
 # ##############################################################################

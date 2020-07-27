@@ -1,0 +1,129 @@
+#!/bin/sh -eu
+
+# "kubectl" wrapper.
+
+usage() {
+	cmd=${0##*/}
+	cat <<-EOF
+	usage:
+	  \$ $cmd describe
+	  \$ $cmd describe <kubectl-describe-args...>
+
+	  \$ $cmd logs
+	  \$ $cmd logs <kubectl-logs-args...>
+	  Pretty-print pod/app logs.
+
+	  \$ $cmd port
+	  \$ $cmd port <pod>
+	  \$ $cmd port <pod> <port>
+	  Port-forward to/from the specified (or chosen) pod.
+	  By default, use the Node.js debugger port (9229).
+
+	  \$ $cmd ssh
+	  \$ $cmd ssh <pod>
+	  Open a shell on a kubernetes pod for debugging.
+
+	  \$ $cmd watch
+	  \$ $cmd watch <interval-seconds>
+	  Run "kubectl get pods" on a loop.
+
+	Commands are run against the staging cluster by default.
+
+	Immediately following "$cmd <command>" (but before other arguments),
+	the flag "-P" indicates that the command should be run against the
+	production cluster.
+	EOF
+}
+
+_pods() {
+	$_kubectl get pods -o name
+}
+
+_app_labels() {
+	$_kubectl get pods -o \
+		jsonpath='{.items[*].metadata.labels.app}' \
+		| sed 's/ /\n/g' \
+		| sort \
+		| uniq
+}
+
+k_describe() {
+	if [ $# != 0 ]; then
+		$_kubectl describe "$@"
+	else
+		$_kubectl describe "$(_pods | fzy)"
+	fi
+}
+
+k_logs() {
+	# Don't fail when there are multiple containers.
+	all='--all-containers=true'
+	# Don't fail when there are too many log streams (pods).
+	max='--max-log-requests=14'
+
+	if [ $# != 0 ]; then
+		$_kubectl logs "$all" "$max" "$@" | cl
+		exit
+	fi
+
+	apps=$(_app_labels)
+	pods=$($_kubectl get pods -o name)
+	pod_or_app=$(printf '%s%s' "$apps" "$pods" | fzy)
+
+	case "$pod_or_app" in
+		pod/*) $_kubectl logs "$all" "$max" -f       "$pod_or_app" | cl ;;
+		*)     $_kubectl logs "$all" "$max" -f -lapp="$pod_or_app" | cl ;;
+	esac
+}
+
+k_port() {
+	pod=${1:-$(_pods | fzy)}
+	port=${2:-9229}
+	set -x
+	$_kubectl port-forward "$pod" "$port:$port"
+	set +x
+}
+
+k_ssh() {
+	# TODO it would be nice if this would automatically fall back to /bin/sh when
+	# /bin/bash in unavailable.
+	pod=${1:-$(_pods | fzy)}
+	set -x
+	$_kubectl exec --stdin=true --tty=true "$pod" -- /bin/bash
+	set +x
+}
+
+k_watch() {
+	watch -n"${1:-15}" "$_kubectl get pods"
+}
+
+if ! type 'kubectl' 2>/dev/null >/dev/null; then
+	echo 'kubectl is not installed' >&2
+	exit 1
+elif [ $# -eq 0 ]; then
+	usage >&2
+	exit 1
+fi
+
+cmd=$1
+shift
+
+if [ "${1-}" = '-P' ]; then
+	_cluster="--cluster=$KUBE_PROD"
+	shift
+else
+	_cluster="--cluster=$KUBE_STAGING"
+fi
+_kubectl="kubectl $_cluster"
+
+case "$cmd" in
+	describe) k_describe "$@" ;;
+	logs)     k_logs     "$@" ;;
+	port)     k_port     "$@" ;;
+	ssh)      k_ssh      "$@" ;;
+	watch)    k_watch    "$@" ;;
+	*)
+		usage >&2
+		exit 1
+		;;
+esac
