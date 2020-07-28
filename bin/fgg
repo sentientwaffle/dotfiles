@@ -10,11 +10,11 @@ fi
 results="$(git grep --line-number "$@")"
 
 # TODO: be smarter about parsing the query argument when there are >1 arguments
-if [ $# -eq 1 ]; then
-	query=$1
-else
-	query=''
-fi
+# Pre-fill `fzy`'s query -- with literal patterns only.
+case "$1" in
+	*[!0-9A-Za-z_-]*) query='' ;;
+	*)                query=$1 ;;
+esac
 
 while true; do
 	rows=$(($(tput lines) - 1))

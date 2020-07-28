@@ -102,34 +102,28 @@ nnoremap U <C-r>
 nnoremap Y y$
 
 " Navigation improvements.
-nnoremap [ {
-nnoremap ] }
-nnoremap { [
-nnoremap } ]
-" Motions (operator-pending mappings).
-onoremap [ {
-onoremap ] }
-onoremap { [
-onoremap } ]
-vnoremap [ {
-vnoremap ] }
-vnoremap { [
-vnoremap } ]
+" `onoremap` is for motions (operator-pending mappings).
 " TODO use {,} for something else?
+for mode in ['nnoremap', 'onoremap', 'vnoremap']
+  execute mode . ' [ {'
+  execute mode . ' ] }'
+  execute mode . ' { ['
+  execute mode . ' } ]'
+endfor
 
 " Disable Page Up & Page Down.
-nnoremap <PageUp>   <Nop>
-nnoremap <PageDown> <Nop>
-inoremap <PageUp>   <Nop>
-inoremap <PageDown> <Nop>
-vnoremap <PageUp>   <Nop>
-vnoremap <PageDown> <Nop>
+"nnoremap <PageUp>   <Nop>
+"nnoremap <PageDown> <Nop>
+"inoremap <PageUp>   <Nop>
+"inoremap <PageDown> <Nop>
+"vnoremap <PageUp>   <Nop>
+"vnoremap <PageDown> <Nop>
 
 " Leader
 let mapleader = ' '
 let maplocalleader = '\'
 
-nnoremap <Leader>  <Nop>
+nnoremap <Leader> <Nop>
 nnoremap <Leader>p :set paste!<CR>
 nnoremap <Leader>d :help digraphs<CR> :resize<CR>
 " Get current syntax token stack.
@@ -140,7 +134,6 @@ nnoremap <Leader>S :tabe $VIMRUNTIME/syntax/<CR>
 nnoremap <Leader>t :tabe %<CR>
 " Open to current directory.
 nnoremap <Leader>T :tabe .<CR>
-nnoremap <Leader>x :call <SID>ToggleHex()<CR>
 nnoremap <Leader>w :call <SID>ToggleWrap()<CR>
 
 " See `:help press-enter`.
@@ -190,7 +183,7 @@ endfunction
 " Insert spaces to align motion/selected lines over the given character.
 function! <SID>Align(mode, is_visual)
   let l:separator = nr2char(getchar())
-  let l:command = '!column -t'
+  let l:command = '!column -t -L'
     \ . ' -s ' . shellescape(l:separator)
     \ . ' -o ' . shellescape(l:separator)
   call <SID>SystemOperator(l:command, a:mode, a:is_visual)
@@ -213,10 +206,6 @@ vnoremap <silent> + :<C-U>call <SID>Format(visualmode(), 1)<CR>
 " -----------------------------------------------------------------------------
 
 function! <SID>ToggleWrap()
-  " set wrap!
-  " set linebreak!
-  " set breakindent!
-  " set showbreak=\|\ 
   if &wrap
     call <SID>WrapOff()
     echo 'Wrap OFF'
@@ -240,19 +229,19 @@ function! <SID>WrapOff()
   set showbreak=
 endfunction
 
-function! <SID>ToggleHex()
-  if exists('b:is_hex')
-    let &filetype = b:is_hex
-    unlet b:is_hex
-    %!xxd -r
-  else
-    let b:is_hex = &filetype
-    let &filetype = 'xxd'
-    %!xxd
-  endif
-endfunction
-
 call <SID>WrapOn()
+
+function! <SID>NavigateWrapped()
+  " Sane wrapped-text navigation.
+  for mode in ['nnoremap', 'vnoremap']
+    execute mode . ' <buffer> <silent> k      gk'
+    execute mode . ' <buffer> <silent> j      gj'
+    execute mode . ' <buffer> <silent> 0      g0'
+    execute mode . ' <buffer> <silent> $      g$'
+    execute mode . ' <buffer> <silent> <Home> g0'
+    execute mode . ' <buffer> <silent> <End>  g$'
+  endfor
+endfunction
 
 " -----------------------------------------------------------------------------
 " Autocommands
@@ -260,7 +249,7 @@ call <SID>WrapOn()
 augroup FTOptions
   autocmd!
   " ftdetect
-  autocmd BufNewFile,BufRead *.glsl,*.geom,*.vert,*.frag,*.gsh,*.vsh,*.fsh set filetype=glsl
+  autocmd BufNewFile,BufRead *.glsl,*.geom,*.vert,*.frag set filetype=glsl
 
   autocmd BufNewFile,BufRead go.mod            set filetype=gomod
   autocmd BufNewFile,BufRead go.sum            set filetype=text
@@ -285,7 +274,9 @@ augroup FTOptions
 
   " Spellchecking
   autocmd FileType mail,gitcommit,markdown,text setlocal spell
-  "| call <SID>WrapOn()
+
+  " Navigation
+  autocmd FileType markdown call <SID>NavigateWrapped()
 
   " Help (shift-K)
   autocmd FileType vim setlocal keywordprg=:help
@@ -293,17 +284,9 @@ augroup FTOptions
   autocmd FileType journal runtime! ftplugin/journal.vim
   autocmd FileType disasm  runtime! ftplugin/disasm.vim
 
-  " Disable undofile.
+  " Selectively disable undofile.
   " `pass` creates temporary files in /dev/shm/, so ignore those as well.
   autocmd BufWritePre /tmp/*,/dev/* setlocal noundofile
-augroup END
-
-augroup FTAbbreviations
-  autocmd!
-  " JavaScript
-  autocmd FileType javascript inoreabbrev pro prototype
-  " Go
-  "autocmd FileType go inoreabbrev qTest func Test(t *testing.T) {<CR><TAB><CR><BACKSPACE>}<ESC>kk$F(i
 augroup END
 
 " -----------------------------------------------------------------------------
@@ -346,9 +329,6 @@ command W w !sudo tee % >/dev/null
 
 " Reformat XML
 command PrettyXML %!xmllint --format -
-
-" Escape for JavaScript.
-command -range ToUTF16 <line1>,<line2>!toutf16
 
 " -----------------------------------------------------------------------------
 " Bracketed paste

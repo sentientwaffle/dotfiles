@@ -104,15 +104,13 @@ elif [ $# -eq 0 ]; then
 	usage >&2
 	exit 1
 fi
-
-cmd=$1
-shift
+cmd=$1; shift
 
 if [ "${1-}" = '-P' ]; then
-	_cluster="--cluster=$KUBE_PROD"
+	_cluster="--cluster=${KUBE_PROD:?}"
 	shift
 else
-	_cluster="--cluster=$KUBE_STAGING"
+	_cluster="--cluster=${KUBE_STAGING:?}"
 fi
 _kubectl="kubectl $_cluster"
 

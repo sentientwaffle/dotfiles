@@ -26,11 +26,11 @@ function journal#GoBack()
   call s:gotoLink(w:history[-1])
 endfunction
 
-function journal#FindLink(direction)
-  if !search('<' . s:link_pattern . '>', a:direction ==# '?' ? 'b' : '')
-    echomsg 'No links found'
-  endif
-endfunction
+"function journal#FindLink(direction)
+"  if !search('<' . s:link_pattern . '>', a:direction ==# '?' ? 'b' : '')
+"    echomsg 'No links found'
+"  endif
+"endfunction
 
 function journal#CompleteDocument(findstart, base)
   if a:findstart

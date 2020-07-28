@@ -1,6 +1,6 @@
 #!/bin/sh -eu
 
-dir=$NNM_DIR
+dir=${NNM_DIR:?}
 arch=$(uname -m)
 case "$arch" in
 	x86_64) arch='x64' ;;
