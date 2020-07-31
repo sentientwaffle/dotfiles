@@ -59,7 +59,7 @@ k_logs() {
 	# Don't fail when there are multiple containers.
 	all='--all-containers=true'
 	# Don't fail when there are too many log streams (pods).
-	max='--max-log-requests=14'
+	max='--max-log-requests=20'
 
 	if [ $# != 0 ]; then
 		$_kubectl logs "$all" "$max" "$@" | cl

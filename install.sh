@@ -1,8 +1,4 @@
-#!/usr/bin/env bash
-
-set -uo pipefail
-
-dotfiles="$(cd "$(dirname "${BASH_SOURCE[0]}")" && echo "$PWD")"
+#!/bin/sh -eu
 
 usage() {
 	cat <<-EOF
@@ -10,51 +6,54 @@ usage() {
 	EOF
 }
 
-symlink() {
-	local source="$dotfiles/$1"
-	local destination="$2"
-	if [[ -e "$destination" ]]; then
-		if [[ $(readlink -f "$source") == $(readlink -f "$destination") ]]; then
-			# The link already exists, and is correct.
-			return 0
-		fi
-		echo 'Warning: File '"$destination"' already exists; skipping.' >&2
-		return 1
-	fi
-	ln --symbolic "$source" "$destination"
-}
-
 role=${1:-}
-if [[ "$role" != 'desktop' && "$role" != 'server' ]]; then
+if [ "$role" != 'desktop' ] && [ "$role" != 'server' ]; then
 	usage >&2
 	exit 1
 fi
+dotfiles=$(CDPATH='' cd -- "$(dirname -- "$0")" && pwd)
 
-symlink '.bashrc'    "$HOME/.bashrc"
-symlink '.exrc'      "$HOME/.exrc"
-symlink '.gitconfig' "$HOME/.gitconfig"
-symlink '.inputrc'   "$HOME/.inputrc"
-symlink '.lldbinit'  "$HOME/.lldbinit"
-symlink '.tmux.conf' "$HOME/.tmux.conf"
-symlink '.vim'       "$HOME/.vim"
-symlink '.vimrc'     "$HOME/.vimrc"
+symlink() {
+	source="$dotfiles/$1"
+	destination="$HOME/$1"
+	if [ -e "$destination" ]; then
+		if [ "$(readlink -f "$source")" = "$(readlink -f "$destination")" ]; then
+			# The link already exists, and is correct.
+			return 0
+		fi
+		printf 'Warning: File %s already exists; skipping.\n' "$destination" >&2
+		return 1
+	fi
+	printf 'ln -s "%s" "%s"\n' "$source" "$destination"
+	ln -s "$source" "$destination"
+}
+
+symlink '.bashrc'
+symlink '.exrc'
+symlink '.gitconfig'
+symlink '.inputrc'
+symlink '.lldbinit'
+symlink '.tmux.conf'
+symlink '.vim'
+symlink '.vimrc'
 
 mkdir -p "$HOME/.gnupg"
-symlink '.gnupg/gpg.conf'       "$HOME/.gnupg/gpg.conf"
-symlink '.gnupg/gpg-agent.conf' "$HOME/.gnupg/gpg-agent.conf"
+symlink '.gnupg/gpg.conf'
+symlink '.gnupg/gpg-agent.conf'
 
-if [[ "$role" == 'desktop' ]]; then
-	symlink '.gtkrc-2.0'  "$HOME/.gtkrc-2.0"
-	symlink '.xinitrc'    "$HOME/.xinitrc"
-	symlink '.Xresources' "$HOME/.Xresources"
+if [ "$role" = 'desktop' ]; then
+	symlink '.gtkrc-2.0'
+	symlink '.xinitrc'
+	symlink '.Xresources'
 
 	mkdir -p "$HOME/.cmus"
-	symlink '.cmus/rc' "$HOME/.cmus/rc"
+	symlink '.cmus/rc'
 
+	# TODO just symlink the directory?
 	mkdir -p "$HOME/.config/fontconfig"
-	symlink '.config/fontconfig/fonts.conf' "$HOME/.config/fontconfig/fonts.conf"
+	symlink '.config/fontconfig/fonts.conf'
 	mkdir -p "$HOME/.config/gtk-3.0"
-	symlink '.config/gtk-3.0/settings.ini' "$HOME/.config/gtk-3.0/settings.ini"
+	symlink '.config/gtk-3.0/settings.ini'
 
-	symlink '.config/mimeapps.list' "$HOME/.config/mimeapps.list"
+	symlink '.config/mimeapps.list'
 fi

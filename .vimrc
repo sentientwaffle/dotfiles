@@ -310,7 +310,7 @@ set statusline+=%{&fileformat} " unix
 set statusline+=\ │\ %{&termencoding} " utf-8
 set statusline+=\ │\ %{strlen(&ft)?&ft:'none'} " file type, e.g.: vim
 set statusline+=\ │\ %3.p%% " 12%
-set statusline+=\ │\ %-(%l,%v%) " (line,column)
+set statusline+=\ │\ %-(%l:%v%) " (line:column)
 set statusline+=\ 
 
 " -----------------------------------------------------------------------------
