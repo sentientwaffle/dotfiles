@@ -7,7 +7,9 @@ usage() {
 	cat <<-EOF
 	usage:
 	  \$ $cmd describe
-	  \$ $cmd describe <kubectl-describe-args...>
+	  \$ $cmd describe <type>
+	  \$ $cmd describe <type>/<name> [args...]
+	  Show details of a resource.
 
 	  \$ $cmd logs
 	  \$ $cmd logs <kubectl-logs-args...>
@@ -48,11 +50,18 @@ _app_labels() {
 }
 
 k_describe() {
-	if [ $# != 0 ]; then
-		$_kubectl describe "$@"
+	case "${1:-}" in
+		"")  typ=$($_kubectl api-resources -o name | fzy) ;;
+		*/*) typ=''          ;; # "type/name"
+		*)   typ="$1"; shift ;; # "type"
+	esac
+
+	if [ $# -eq 0 ]; then
+		name=$($_kubectl get "$typ" -o name | fzy)
 	else
-		$_kubectl describe "$(_pods | fzy)"
+		name=$1; shift
 	fi
+	$_kubectl describe "$name" "$@"
 }
 
 k_logs() {

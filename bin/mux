@@ -42,7 +42,7 @@ fi
 file="$dir/$project.txt"
 
 if [ $edit -eq 1 ]; then
-	exec "$EDITOR" -- "$file"
+	exec "${EDITOR:?}" -- "$file"
 fi
 
 tmux_split() {

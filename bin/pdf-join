@@ -13,7 +13,6 @@ if [ $# -lt 3 ]; then
 	exit 1
 fi
 
-# TODO maybe `shift` first argument?
 outfile=$1
-infiles="${@:2}"
-mutool merge -o "$outfile" $infiles
+shift
+mutool merge -o "$outfile" "$@"

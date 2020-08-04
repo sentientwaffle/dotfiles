@@ -1,10 +1,10 @@
 #!/usr/bin/env bash
 
 if [[ $# != 2 ]]; then
-  echo 'Usage: gifcast <video.ogv> <video.gif>'
-  echo 'Usage: gifcast <video.ogv> <directory.jpg>'
-  echo 'Usage: gifcast <directory.jpg> <video.gif>'
-  exit 1
+	echo 'Usage: gifcast <video.ogv> <video.gif>'
+	echo 'Usage: gifcast <video.ogv> <directory.jpg>'
+	echo 'Usage: gifcast <directory.jpg> <video.gif>'
+	exit 1
 fi
 
 input="$1"
@@ -15,19 +15,19 @@ input_ext="${input##*.}"
 output_ext="${output##*.}"
 
 if [[ "$output_ext" == 'jpg' ]]; then
-  jpgdir="$output"
+	jpgdir="$output"
 elif [[ "$input_ext" == 'jpg' ]]; then
-  jpgdir="$input"
+	jpgdir="$input"
 fi
 
 if [[ ! -d "$jpgdir" ]]; then
-  mplayer -ao null $input -vo jpeg:outdir=$jpgdir
+	mplayer -ao null "$input" -vo jpeg:outdir="$jpgdir"
 fi
 
 if [[ "$output_ext" == 'gif' ]]; then
-  convert "$jpgdir/*" -fuzz 10% -layers Optimize "$output"
+	convert "$jpgdir/*" -fuzz 10% -layers Optimize "$output"
 fi
 
 if [[ "$input_ext" != 'jpg' && "$output_ext" != 'jpg' ]]; then
-  rm -rf "$jpgdir"
+	rm -rf "$jpgdir"
 fi

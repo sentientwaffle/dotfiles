@@ -1,2 +1,6 @@
 #!/bin/sh -eu
+
+# Disable "Expressions don't expand in single quotes, use double quotes for that."
+# -- the "$0"s aren't shell arguments.
+# shellcheck disable=SC2016
 exec awk '{ print length($0) " " $0; }'
