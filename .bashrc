@@ -109,6 +109,7 @@ glg() {
 if type 'kubectl' &>/dev/null; then
 	alias kg='kubectl get'
 	alias kgp='kubectl get pods'
+	alias kcp='kctl cp'
 	alias kd='kctl describe'
 	alias kl='kctl logs'
 	alias kport='kctl port'

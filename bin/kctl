@@ -2,36 +2,39 @@
 
 # "kubectl" wrapper.
 
+c=${0##*/}
 usage() {
-	cmd=${0##*/}
 	cat <<-EOF
 	usage:
-	  \$ $cmd describe
-	  \$ $cmd describe <type>
-	  \$ $cmd describe <type>/<name> [args...]
+	  \$ $c cp <file> [pod]
+	  Copy a file over from the pod.
+
+	  \$ $c describe
+	  \$ $c describe <type>
+	  \$ $c describe <type>/<name> [args...]
 	  Show details of a resource.
 
-	  \$ $cmd logs
-	  \$ $cmd logs <kubectl-logs-args...>
+	  \$ $c logs
+	  \$ $c logs <kubectl-logs-args...>
 	  Pretty-print pod/app logs.
 
-	  \$ $cmd port
-	  \$ $cmd port <pod>
-	  \$ $cmd port <pod> <port>
+	  \$ $c port
+	  \$ $c port <pod>
+	  \$ $c port <pod> <port>
 	  Port-forward to/from the specified (or chosen) pod.
 	  By default, use the Node.js debugger port (9229).
 
-	  \$ $cmd ssh
-	  \$ $cmd ssh <pod>
+	  \$ $c ssh
+	  \$ $c ssh <pod>
 	  Open a shell on a kubernetes pod for debugging.
 
-	  \$ $cmd watch
-	  \$ $cmd watch <interval-seconds>
+	  \$ $c watch
+	  \$ $c watch <interval-seconds>
 	  Run "kubectl get pods" on a loop.
 
 	Commands are run against the staging cluster by default.
 
-	Immediately following "$cmd <command>" (but before other arguments),
+	Immediately following "$c <command>" (but before other arguments),
 	the flag "-P" indicates that the command should be run against the
 	production cluster.
 	EOF
@@ -106,6 +109,19 @@ k_watch() {
 	watch -n"${1:-15}" "$_kubectl get pods"
 }
 
+k_cp() {
+	if [ $# -eq 0 ]; then
+		printf 'usage: %s cp <file> [pod]\n' "$c" >&2
+		exit 1
+	fi
+	src=$1
+	pod=${2:-$(_pods | fzy)}
+	pod=${pod#pod/} # Remove "pod/" prefix.
+	dst=$(mktemp -p '/tmp' "$(basename "$src").XXXXXX")
+	$_kubectl cp "$pod:$src" "$dst"
+	printf '%s\n' "$dst"
+}
+
 if ! type 'kubectl' 2>/dev/null >/dev/null; then
 	echo 'kubectl is not installed' >&2
 	exit 1
@@ -124,6 +140,7 @@ fi
 _kubectl="kubectl $_cluster"
 
 case "$cmd" in
+	cp)       k_cp       "$@" ;;
 	describe) k_describe "$@" ;;
 	logs)     k_logs     "$@" ;;
 	port)     k_port     "$@" ;;
