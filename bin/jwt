@@ -1,0 +1,20 @@
+#!/bin/sh -eu
+
+usage() {
+	cat <<-EOF
+	usage: ${0##*/} <jwt>
+	Decode (but don't verify) a JSON web token.
+	EOF
+}
+
+if [ $# -eq 0 ]; then
+	usage >&2
+	exit 1
+fi
+
+jwt=$1
+# TODO for some reason "base64" reports "invalid input" every time. Possibly due to the newline in the input?
+printf 'Header:\n'
+printf '%s' "$jwt" | cut -d'.' -f1 | base64 -d - | json
+printf 'Payload:\n'
+printf '%s' "$jwt" | cut -d'.' -f2 | base64 -d - | json
