@@ -19,8 +19,8 @@ usage() {
 	  Pretty-print pod/app logs.
 
 	  \$ $c port
-	  \$ $c port <pod>
-	  \$ $c port <pod> <port>
+	  \$ $c port <port>
+	  \$ $c port <port> <pod>
 	  Port-forward to/from the specified (or chosen) pod.
 	  By default, use the Node.js debugger port (9229).
 
@@ -89,8 +89,8 @@ k_logs() {
 }
 
 k_port() {
-	pod=${1:-$(_pods | fzy)}
-	port=${2:-9229}
+	port=${1:-9229}
+	pod=${2:-$(_pods | fzy)}
 	set -x
 	$_kubectl port-forward "$pod" "$port:$port"
 	set +x
