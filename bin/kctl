@@ -54,9 +54,9 @@ _app_labels() {
 
 k_describe() {
 	case "${1:-}" in
-		"")  typ=$($_kubectl api-resources -o name | fzy) ;;
+		"")  typ="$($_kubectl api-resources -o name | fzy)/" ;;
 		*/*) typ=''          ;; # "type/name"
-		*)   typ="$1"; shift ;; # "type"
+		*)   typ="$1/"; shift ;; # "type"
 	esac
 
 	if [ $# -eq 0 ]; then
@@ -64,7 +64,7 @@ k_describe() {
 	else
 		name=$1; shift
 	fi
-	$_kubectl describe "$name" "$@"
+	$_kubectl describe "$typ$name" "$@"
 }
 
 k_logs() {
@@ -101,7 +101,7 @@ k_ssh() {
 	# /bin/bash in unavailable.
 	pod=${1:-$(_pods | fzy)}
 	set -x
-	$_kubectl exec --stdin=true --tty=true "$pod" -- /bin/bash
+	$_kubectl exec --stdin=true --tty=true "$pod" -- /bin/sh
 	set +x
 }
 
