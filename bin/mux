@@ -62,7 +62,7 @@ tmux_pane() {
 cwd=$(pwd)
 while read -r cmd arg; do
 	case $cmd in
-		'#') ;; # ignore comments
+		'#'*) ;; # ignore comments
 		title)  tmux rename-window "$arg" ;;
 		hsplit) tmux_split -h "$arg" "$cwd" ;;
 		vsplit) tmux_split -v "$arg" "$cwd" ;;
