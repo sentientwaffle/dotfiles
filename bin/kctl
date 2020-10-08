@@ -53,18 +53,21 @@ _app_labels() {
 }
 
 k_describe() {
+	res=''; typ='' # res is type/name
 	case "${1:-}" in
-		"")  typ="$($_kubectl api-resources -o name | fzy)/" ;;
-		*/*) typ=''          ;; # "type/name"
-		*)   typ="$1/"; shift ;; # "type"
+		"")  typ="$($_kubectl api-resources -o name | fzy)" ;;
+		*/*) res=$1;   shift ;; # "type/name"
+		*)   typ="$1"; shift ;; # "type"
 	esac
 
-	if [ $# -eq 0 ]; then
-		name=$($_kubectl get "$typ" -o name | fzy)
-	else
-		name=$1; shift
+	if [ -n "$typ" ]; then
+		if [ $# -eq 0 ]; then
+			res=$($_kubectl get "$typ" -o name | fzy)
+		else
+			res="$typ/$1"; shift
+		fi
 	fi
-	$_kubectl describe "$typ$name" "$@"
+	$_kubectl describe "$res" "$@"
 }
 
 k_logs() {
