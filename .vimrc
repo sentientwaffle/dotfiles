@@ -280,6 +280,7 @@ augroup FTOptions
 
   " Help (shift-K)
   autocmd FileType vim setlocal keywordprg=:help
+  autocmd FileType rust,typescript setlocal keywordprg=git\ grep
 
   autocmd FileType journal runtime! ftplugin/journal.vim
   autocmd FileType disasm  runtime! ftplugin/disasm.vim
