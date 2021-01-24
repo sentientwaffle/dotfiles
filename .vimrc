@@ -66,6 +66,13 @@ set incsearch " search as characters are entered
 set ignorecase " ignore search case
 set smartcase " strict case when upper in search term
 
+" make n always search forward and N backward
+nnoremap <expr> n 'Nn'[v:searchforward]
+nnoremap <expr> N 'nN'[v:searchforward]
+" make ; always "find" forward and , backward
+"nnoremap <expr> ; getcharsearch().forward ? ';' : ','
+"nnoremap <expr> , getcharsearch().forward ? ',' : ';'
+
 " Theming
 set t_Co=256 " 256 colors
 colorscheme custom
