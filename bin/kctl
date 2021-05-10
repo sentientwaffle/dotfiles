@@ -14,6 +14,9 @@ usage() {
 	  \$ $c describe <type>/<name> [args...]
 	  Show details of a resource.
 
+	  \$ $c get
+	  \$ $c get <type>
+
 	  \$ $c logs
 	  \$ $c logs <kubectl-logs-args...>
 	  Pretty-print pod/app logs.
@@ -68,6 +71,14 @@ k_describe() {
 		fi
 	fi
 	$_kubectl describe "$res" "$@"
+}
+
+k_get() {
+	case "${1:-}" in
+		"") res="$($_kubectl api-resources -o name | fzy)" ;;
+		*)  res=$1; shift ;;
+	esac
+	$_kubectl get "$res" "$@"
 }
 
 k_logs() {
@@ -145,6 +156,7 @@ _kubectl="kubectl $_cluster"
 case "$cmd" in
 	cp)       k_cp       "$@" ;;
 	describe) k_describe "$@" ;;
+	get)      k_get      "$@" ;;
 	logs)     k_logs     "$@" ;;
 	port)     k_port     "$@" ;;
 	ssh)      k_ssh      "$@" ;;
