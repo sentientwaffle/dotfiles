@@ -35,7 +35,7 @@ set nowb
 if has('folding')
   set foldignore=
   set foldopen-=block
-  set foldtext=FoldText()
+  "set foldtext=FoldText()
   set nofoldenable
 endif
 if has('persistent_undo') && isdirectory($HOME . "/.vim/undodir")
@@ -89,8 +89,9 @@ set shortmess+=I " No startup message.
 inoremap <Nul> <C-p>
 " Exit normal mode.
 inoremap jj <ESC>
+vnoremap Y :'<,'>!copy<CR>
 
-nnoremap <C-r> <C-r>:echoerr 'Use "U" to redo!!!!!!!!!!!!!!!!!!!!!!!!!!!'<CR>
+nnoremap <C-r> <C-r>:echoerr 'Use "U" to redo!'<CR>
 
 nnoremap <C-d> :qall<CR>
 nnoremap <TAB> gt
@@ -157,17 +158,17 @@ function! <SID>FzyOpen(choice_command, vim_command)
   endif
 endfunction
 
-function! FoldText()
-  let l:line = getline(v:foldstart)
-  let l:count = v:foldend - v:foldstart + 1
-  let l:info = ' ' . l:count . ' lines'
-  let l:gutter_width = getwinvar(0, '&number') * getwinvar(0, '&numberwidth')
-    \ + getwinvar(0, '&foldcolumn')
-  let l:snip_width = winwidth(0) - l:gutter_width - 1 - strlen(l:info)
-  let l:snip = strpart(l:line, 0, l:snip_width)
-  let l:pad = repeat(' ', l:snip_width - strlen(l:line))
-  return l:snip . l:pad . l:info
-endfunction
+"function! FoldText()
+"  let l:line = getline(v:foldstart)
+"  let l:count = v:foldend - v:foldstart + 1
+"  let l:info = ' ' . l:count . ' lines'
+"  let l:gutter_width = getwinvar(0, '&number') * getwinvar(0, '&numberwidth')
+"    \ + getwinvar(0, '&foldcolumn')
+"  let l:snip_width = winwidth(0) - l:gutter_width - 1 - strlen(l:info)
+"  let l:snip = strpart(l:line, 0, l:snip_width)
+"  let l:pad = repeat(' ', l:snip_width - strlen(l:line))
+"  return l:snip . l:pad . l:info
+"endfunction
 
 function! <SID>ToggleSynStack()
   if !exists('*synstack')
