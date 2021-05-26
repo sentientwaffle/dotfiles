@@ -148,7 +148,7 @@ nnoremap <Leader>w :call <SID>ToggleWrap()<CR>
 nnoremap <Leader>f :call <SID>FzyOpen('_fzy_find', ':tabedit')<CR>
 function! <SID>FzyOpen(choice_command, vim_command)
   try
-    let output = system(a:choice_command . ' | fzy ')
+    let output = system(a:choice_command)
   catch /Vim:Interrupt/
     " Swallow errors from ^C, allow redraw! below
   endtry
