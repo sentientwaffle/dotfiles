@@ -2,7 +2,8 @@
 
 if git rev-parse --is-inside-work-tree >/dev/null 2>&1; then
 	# In a git repo: use ls-files so that the gitignore is heeded.
-	exec git ls-files | fzy --query "${1:-}"
+	exec git ls-files --cached --others --exclude-standard \
+		| fzy --query "${1:-}"
 else
 	exec find . \
 		-type d -name '.git' -prune -o \
