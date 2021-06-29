@@ -4,56 +4,29 @@ usage() {
 	cat <<-EOF
 	usage: ${0##*/} [directory]
 
-	Open the Git repository's tracked, modified files in \$EDITOR. Only
+	Open the Git repository's tracked, modified files in vim. Only
 	files in or below the specified (or, by default: current working)
 	directory are opened.
 	EOF
 }
 
-if [ $# -eq 1 ] && [ "$1" = '-h' ]; then
+dir=${1:-.}
+if [ $# -gt 1 ] || [ "$dir" = '-h' ]; then
 	usage >&2
 	exit 1
 fi
 
-# This escapes every character in the string with backslashes.
-#
-# Inspired by:
-# https://stackoverflow.com/questions/15783701/which-characters-need-to-be-escaped-when-using-bash/20053121#20053121
-shell_escape() {
-	sed -e 's/./\\&/g'
-}
-
-dir=${1:-.}
-cwd_prefix=$(git rev-parse --show-prefix)
-cwd_prefix_len=${#cwd_prefix}
-
-# TODO just get 'M ' and ' M'? Will this open deleted files?
-
-# - Exclude untracked files.
-# - Exclude deleted files.
-# - Exclude moved files ("RM"). TODO: handle moved files.
-# - Trim leading "MM ". (Note that `cut`'s offsets are 1-indexed!)
-# - Trim leading directory (when not in repository root).
-# - Trim leading "/".
-tracked_files=$(git status --porcelain "$dir" \
-	| grep -v '^RM'                       \
-	| grep -v '^D '                       \
-	| grep -v '^??'                       \
-	| cut -c 4-                           \
-	| cut -c "$((cwd_prefix_len + 1))-"   \
-	| cut -c 1-                           \
-	| shell_escape)
-if [ -z "$tracked_files" ]; then
-	echo 'error: No tracked files to open.' >&2
+files=$(git diff --relative --name-only HEAD "$dir")
+if [ -z "$files" ]; then
+	echo 'error: No modified files.' >&2
 	exit 1
 fi
 
-# Load the files into the arguments array.
-#
-# Disable warning "Double quote to prevent globbing and word splitting."
-# because word splitting here is safe (the arguments are already escaped) and
-# intentional (the lines need to be split into separate arguments).
-#
+# Use a subshell so that the IFS change doesn't propagate to the parent env.
+(IFS='
+'
+# Disable file globbing: a file named "*" should open "*", not wildcard.
+set -f
+# Disable "Double quote to prevent globbing and word splitting.": word splitting is intentionally on newlines.
 # shellcheck disable=2086
-set -- $tracked_files
-vim -p -- "$@"
+exec vim -p -- $files)
