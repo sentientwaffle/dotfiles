@@ -1,0 +1,11 @@
+#!/bin/sh -eu
+
+# Don't use git ls-tree, since it doesn't include untracked files.
+exec find . \
+	-type d -name '.git' -prune -o \
+	-type d -name 'node_modules' -prune -o \
+	-type d -name 'target' -prune -o \
+	-type d \
+	-print \
+	| sort \
+	| fzy --query "${1:-}"

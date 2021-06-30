@@ -135,6 +135,13 @@ f() {
 	fi
 }
 
+c() {
+	local dir
+	dir=$(_fzy_dirs "${1:-}")
+	[[ $? != 0 || ! -d $dir ]] && return 1
+	cd "$dir" || return 1
+}
+
 # ##############################################################################
 # Completion
 # ##############################################################################
@@ -149,7 +156,7 @@ complete -a alias unalias
 complete -b builtin
 complete -c command hash type watch which
 complete -cf sudo
-complete -d cd pushd rmdir
+complete -d cd pushd rmdir c
 
 _complete() {
 	local words=()
@@ -195,7 +202,6 @@ complete -F _lazy_complete \
 	#pacman-key \
 
 if [[ -r /usr/share/bash-completion/completions/git ]]; then
-	# This might be slow.
 	source /usr/share/bash-completion/completions/git
 	__git_complete g   __git_main
 	__git_complete ga  _git_add

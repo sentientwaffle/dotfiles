@@ -111,8 +111,6 @@ k_port() {
 }
 
 k_ssh() {
-	# TODO it would be nice if this would automatically fall back to /bin/sh when
-	# /bin/bash in unavailable.
 	pod=${1:-$(_pods | fzy)}
 	set -x
 	$_kubectl exec --stdin=true --tty=true "$pod" -- /bin/sh
