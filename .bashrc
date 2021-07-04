@@ -193,7 +193,6 @@ complete -F _lazy_complete \
 	journalctl \
 	kubectl \
 	makepkg \
-	mtr \
 	pass \
 	rustup \
 	systemctl \
@@ -205,16 +204,22 @@ if [[ -r /usr/share/bash-completion/completions/git ]]; then
 	source /usr/share/bash-completion/completions/git
 	__git_complete g   __git_main
 	__git_complete ga  _git_add
+	__git_complete gap _git_add
+	__git_complete gau _git_add
 	__git_complete gb  _git_branch
 	__git_complete gc  _git_commit
 	__git_complete gco _git_checkout
+	__git_complete gcp _git_cherry_pick
 	__git_complete gd  _git_diff
 	__git_complete gdc _git_diff
 	__git_complete gf  _git_fetch
 	__git_complete gg  _git_grep
+	__git_complete glog _git_log
 	__git_complete gm  _git_merge
 	__git_complete gpr _git_pull
+	__git_complete grs _git_restore
 	__git_complete gs  _git_status
+	__git_complete gsl _git_stash
 fi
 
 # ##############################################################################
