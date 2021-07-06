@@ -125,8 +125,8 @@ fi
 # can change the working directory.
 f() {
 	local file
-	file=$(_fzy_find "${1:-}")
-	[[ $? != 0 || ! -e $file ]] && return 1
+	file=$(_fzy_find "${1:-}") || return 1
+	[[ ! -e $file ]] && return 1
 
 	if [[ -d $file ]]; then
 		cd "$file" || return 1
@@ -137,9 +137,15 @@ f() {
 
 c() {
 	local dir
-	dir=$(_fzy_dirs "${1:-}")
-	[[ $? != 0 || ! -d $dir ]] && return 1
+	dir=$(_fzy_dirs "${1:-}") || return 1
+	[[ ! -d $dir ]] && return 1
 	cd "$dir" || return 1
+}
+
+h() {
+	eval "$(\grep -v '^#' ~/.bash_history \
+		| tac \
+		| fzy --query "${1:-}")"
 }
 
 # ##############################################################################
