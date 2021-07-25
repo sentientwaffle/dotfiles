@@ -59,6 +59,10 @@ alias v='vim -p'
 alias vt='vim "+set filetype=text"'
 alias winfo='xwininfo -display :0'
 
+alias lstar='tar -ztvf'
+alias mktar='tar -cvzf'
+alias untar='tar -zxvf'
+
 # Git
 
 alias g='git'
