@@ -134,7 +134,7 @@ k_cp() {
 	printf '%s\n' "$dst"
 }
 
-if ! type 'kubectl' 2>/dev/null >/dev/null; then
+if ! type 'kubectl' >/dev/null 2>&1; then
 	echo 'kubectl is not installed' >&2
 	exit 1
 elif [ $# -eq 0 ]; then

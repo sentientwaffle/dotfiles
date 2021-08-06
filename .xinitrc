@@ -25,7 +25,7 @@ eval "$(gpg-agent --daemon)"
 start-pulseaudio-x11
 
 _exists() {
-	type "$1" &>/dev/null
+	type "$1" >/dev/null 2>&1
 }
 
 # Udiskie/udisks: auto-mount USB

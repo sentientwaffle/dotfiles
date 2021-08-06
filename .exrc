@@ -14,4 +14,4 @@ set showmode
 " Run ':set all' to show current settings.
 
 " This comment is at the bottom of the file because 'vi' doesn't seem
-" to load the settings when its at the top.
+" to load the settings when it is at the top.

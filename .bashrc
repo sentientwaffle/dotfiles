@@ -111,7 +111,7 @@ glg() {
 # Kubernetes
 # ##############################################################################
 
-if type 'kubectl' &>/dev/null; then
+if type 'kubectl' >/dev/null 2>&1; then
 	alias kg='kctl get'
 	alias kcp='kctl cp'
 	alias kd='kctl describe'
@@ -194,7 +194,7 @@ complete -F _complete_man man
 _lazy_complete() {
 	complete -r "$1"
 	local file="/usr/share/bash-completion/completions/$1"
-	if [[ -r "$file" ]] && type "$1" &>/dev/null; then
+	if [[ -r "$file" ]] && type "$1" >/dev/null 2>&1; then
 		source "$file"
 	fi
 }
@@ -251,10 +251,10 @@ fi
 
 # ##############################################################################
 
-[[ -e ~/Bootstrap/.bashrc ]] && source ~/Bootstrap/.bashrc
+[[ -r ~/Bootstrap/.bashrc ]] && source ~/Bootstrap/.bashrc
 
 # Start X at login.
 # https://wiki.archlinux.org/index.php/Start_X_at_Login
 if [[ "$XDG_VTNR" -eq 1 && -z "$DISPLAY" && -e ~/.xinitrc ]]; then
-	exec startx &>~/.startx.log
+	exec startx >~/.startx.log 2>&1
 fi

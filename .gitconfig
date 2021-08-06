@@ -1,7 +1,7 @@
 # Colors are `foreground[ background]`.
 [blame]
 	coloring = highlightRecent
-	date = local
+	date = iso
 [branch]
 	sort = committerdate
 [commit]
