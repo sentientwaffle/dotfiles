@@ -264,6 +264,8 @@ augroup FTOptions
   autocmd BufNewFile,BufRead *.graphql         set filetype=graphql
   autocmd BufNewFile,BufRead *.gyp,*.pod       set filetype=json
   autocmd BufNewFile,BufRead *.h               set filetype=c
+  autocmd BufNewFile,BufRead *.i               set filetype=i
+  autocmd BufNewFile,BufRead *.k               set filetype=k
   autocmd BufNewFile,BufRead *.tf              set filetype=terraform
   autocmd BufNewFile,BufRead *.ts,*.tsx        set filetype=typescript
   autocmd BufNewFile,BufRead *.toml,Cargo.lock set filetype=toml
