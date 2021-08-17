@@ -80,7 +80,7 @@ alias gf='git fetch'
 alias gg='git grep --line-number'
 # TODO print, too
 alias gh='g rev-parse HEAD | cut -c "-7" | tr -d "\n" | copy'
-alias glog="git log --graph --pretty=format:'%C(81)%h%C(250) %an:%Creset %s - %Creset%C(81)%d%Creset%C(141)(%cd)%Creset' --abbrev-commit --date=relative"
+alias gl="git log --graph --pretty=format:'%C(81)%h%C(250) %an:%Creset %s - %Creset%C(81)%d%Creset%C(141)(%cd)%Creset' --abbrev-commit --date=relative"
 alias gm='git merge'
 alias gpr='git pull --rebase'
 alias grs='git restore --staged'
