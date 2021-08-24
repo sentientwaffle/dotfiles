@@ -166,3 +166,11 @@ endfunction
 function s:linkParts(link)
   return split(a:link, '\.')
 endfunction
+
+" ------------------------------------------------------------------------------
+" Flashcards
+" ------------------------------------------------------------------------------
+
+function journal#InsertFlashcardId()
+  call append(line('.'), strftime("/.id %s"))
+endfunction

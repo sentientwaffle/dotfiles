@@ -1,4 +1,5 @@
 # Colors are `foreground[ background]`.
+# For per-project configs, see https://utf9k.net/blog/conditional-gitconfig/
 [blame]
 	coloring = highlightRecent
 	date = iso

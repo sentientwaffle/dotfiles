@@ -46,3 +46,6 @@ nnoremap <buffer> <silent> <BS> :call journal#GoBack()<CR>
 " Document management
 nnoremap <buffer> <LocalLeader>R :call journal#RenameCurrentDocument()<CR>
 nnoremap <buffer> <LocalLeader>D :call journal#DeleteCurrentDocument()<CR>
+
+" Flashcards
+nnoremap <buffer> <LocalLeader>f :call journal#InsertFlashcardId()<CR>
