@@ -38,10 +38,12 @@ if has('folding')
   "set foldtext=FoldText()
   set nofoldenable
 endif
-if has('persistent_undo') && isdirectory($HOME . "/.vim/undodir")
-  set undodir=~/.vim/undodir " Persistent undo
+if has('persistent_undo') && isdirectory($HOME . "/.config/vim/undodir")
+  set undodir=~/.config/vim/undodir " Persistent undo
   set undofile
 endif
+
+let g:netrw_home=$HOME . "/.config/vim"
 
 " -----------------------------------------------------------------------------
 " Indentation
@@ -99,6 +101,8 @@ nnoremap <S-TAB> gT
 " Increment/decrement.
 nnoremap <C-\> <C-a>
 nnoremap <C-]> <C-x>
+" Follow help link.
+nnoremap <C-p> <C-]>
 
 " Clear search highlight.
 nnoremap <silent> <C-l> :nohlsearch<CR>
