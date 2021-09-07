@@ -1,4 +1,4 @@
-call pathogen#infect()
+call pathogen#infect('bundle/{}', '~/Bootstrap/config/vim/bundle/{}')
 
 " -----------------------------------------------------------------------------
 " General
