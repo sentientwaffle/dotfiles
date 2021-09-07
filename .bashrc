@@ -182,11 +182,12 @@ _complete() {
 		dm-bmux)      mapfile -t words < <(_complete_files ~/Bootstrap/data/bmux txt) ;;
 		jj)           mapfile -t words < <(_complete_files "$JOURNAL_DIR"    jtxt) ;;
 		mux|mux-init) mapfile -t words < <(_complete_files ~/Bootstrap/data/mux  txt) ;;
+		pash)         mapfile -t words < <(_complete_files "$PASH_DIR" gpg) ;;
 		ssh)          mapfile -t words < <(grep '^Host' ~/.ssh/config | sed 's/^Host //') ;;
 	esac
 	mapfile -t COMPREPLY < <(compgen -W "${words[*]}" -- "$2")
 }
-complete -F _complete dm-bmux jj mux mux-init ssh
+complete -F _complete dm-bmux jj mux mux-init pash ssh
 
 _complete_man() {
 	mapfile -t COMPREPLY < <(apropos "$2" 2>/dev/null | awk '
