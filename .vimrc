@@ -38,12 +38,13 @@ if has('folding')
   "set foldtext=FoldText()
   set nofoldenable
 endif
-if has('persistent_undo') && isdirectory($HOME . "/.config/vim/undodir")
-  set undodir=~/.config/vim/undodir " Persistent undo
+if has('persistent_undo') && isdirectory($HOME . "/.cache/vim/undodir")
+  set undodir=~/.cache/vim/undodir " Persistent undo
   set undofile
 endif
 
-let g:netrw_home=$HOME . "/.config/vim"
+" Location for '.netrwhist'.
+let g:netrw_home=$HOME . "/.cache/vim"
 
 " -----------------------------------------------------------------------------
 " Indentation
