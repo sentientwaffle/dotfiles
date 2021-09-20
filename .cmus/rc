@@ -1,3 +1,0 @@
-set status_display_program=~/Code/dotfiles/.cmus/current-track.sh
-set smart_artist_sort=false
-colorscheme solarized-dark

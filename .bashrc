@@ -6,28 +6,11 @@
 # ##############################################################################
 # Environment
 # ##############################################################################
-export DOTFILES="$HOME/Code/dotfiles"
-export EDITOR='vim'
 # https://dom111.github.io/grep-colors/
 export GREP_COLORS='sl=97;48;5;236:cx=37;40:mt=30;48;5;186:fn=38;5;197:ln=38;5;154:bn=38;5;141:se=38;5;81'
-export HISTCONTROL=ignoredups:ignorespace
-export HISTFILESIZE=50000
-export HISTSIZE=50000
-export HISTTIMEFORMAT='%F %T '
-export PAGER='less'
-export PATH="$PATH:$DOTFILES/bin"
-export PS1="\u@\h:\w\$(git symbolic-ref HEAD 2>&- | sed 's|refs/heads/\(.*\)$| \1|')\\$ "
 export TZ='America/Los_Angeles'
-export VISUAL='vim'
-
 # python2 for node-gyp
 export PYTHON='python2'
-# nnm setup
-export NNM_DIR="$HOME/Code/node"
-export PATH="$PATH:$NNM_DIR/current/bin"
-
-export JOURNAL_DIR="$HOME/Documents/journal"
-export PASSWORD_STORE_CLIP_TIME=15
 
 # http://www.gnu.org/software/bash/manual/html_node/The-Shopt-Builtin.html
 # Transform multiline commands into single-lines.
@@ -47,118 +30,10 @@ shopt -s histappend
 # Aliases
 # ##############################################################################
 
-# To run without the alias: e.g. "\grep".
-alias ..='cd ..'
-alias ...='cd ../..'
-alias grep='grep --color --line-number --with-filename'
-alias jj='journal open'
-alias ll='ls -l --classify --human-readable'
-alias ls='ls --almost-all --color=auto'
-alias ssh='ssh-add -l > /dev/null || ssh-add && TERM=screen-256color ssh'
-alias v='vim -p'
-alias vt='vim "+set filetype=text"'
 alias winfo='xwininfo -display :0'
-
 alias lstar='tar -ztvf'
 alias mktar='tar -cvzf'
 alias untar='tar -zxvf'
-
-# Git
-
-alias g='git'
-alias ga='git add'
-alias gap='git add --interactive --patch'
-alias gau='git add --update'
-alias gb='git branch'
-alias gbl='git blame -- $(_fzy_find)'
-alias gc='git commit'
-alias gcm='git commit -m'
-alias gcp='git cherry-pick'
-alias gd='git diff'
-alias gdc='gd --cached'
-alias gf='git fetch'
-alias gg='git grep --line-number'
-# TODO print, too
-alias gh='g rev-parse HEAD | cut -c "-7" | tr -d "\n" | copy'
-alias gl="git log --graph --pretty=format:'%C(81)%h%C(250) %an:%Creset %s - %Creset%C(81)%d%Creset%C(141)(%cd)%Creset' --abbrev-commit --date=relative"
-alias gm='git merge'
-alias gpr='git pull --rebase'
-alias grs='git restore --staged'
-alias gs='git status'
-alias gsl='git stash list'
-alias gspsp='git stash && git pull --rebase && git stash pop'
-
-# cd to the current git repo's root directory.
-..g() {
-	local root
-	if root=$(git rev-parse --show-toplevel); then
-		cd "$root" || return 1
-	else
-		return 1
-	fi
-}
-
-glg() {
-	if [ $# -eq 0 ]; then
-		echo 'usage: glg <query>'      >&2
-		echo 'Search commit messages.' >&2
-		return 1
-	fi
-	git log --all --grep="$1"
-}
-
-# ##############################################################################
-# Kubernetes
-# ##############################################################################
-
-if type 'kubectl' >/dev/null 2>&1; then
-	alias kg='kctl get'
-	alias kcp='kctl cp'
-	alias kd='kctl describe'
-	alias kl='kctl logs'
-	alias kport='kctl port'
-	alias kssh='kctl ssh'
-	alias kw='kctl watch'
-fi
-
-# ##############################################################################
-# Functions
-# ##############################################################################
-
-# This must be a function and not a separate script in `bin/` so that `cd`
-# can change the working directory.
-f() {
-	local file
-	file=$(_fzy_find "${1:-}") || return 1
-	[[ ! -e $file ]] && return 1
-
-	if [[ -d $file ]]; then
-		cd "$file" || return 1
-	else
-		vim -- "$file"
-	fi
-}
-
-c() {
-	local dir
-	dir=$(_fzy_dirs "${1:-}") || return 1
-	[[ ! -d $dir ]] && return 1
-	cd "$dir" || return 1
-}
-
-h() {
-	eval "$(\grep -v '^#' ~/.bash_history \
-		| tac \
-		| fzy --query "${1:-}")"
-}
-
-p() {
-	# TODO `pash list`
-	pass "$(cd ~/.password-store \
-		&& find . -type f -name \*.gpg \
-		| sed 's/..//; s/\.gpg$//' \
-		| fzy)"
-}
 
 # ##############################################################################
 # Completion
@@ -212,7 +87,6 @@ complete -F _lazy_complete \
 	journalctl \
 	kubectl \
 	makepkg \
-	pass \
 	rustup \
 	systemctl \
 	# Requires the bash-completion package to work:
@@ -260,7 +134,7 @@ fi
 
 # ##############################################################################
 
-[[ -r ~/Bootstrap/.bashrc ]] && source ~/Bootstrap/.bashrc
+#[[ -r ~/Bootstrap/.bashrc ]] && source ~/Bootstrap/.bashrc
 
 # Start X at login.
 # https://wiki.archlinux.org/index.php/Start_X_at_Login

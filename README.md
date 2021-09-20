@@ -2,8 +2,6 @@
 
     $ git clone git@github.com:sentientwaffle/dotfiles.git ~/Code/dotfiles
     $ cd ~/Code/dotfiles
-    $ git submodule init
-    $ git submodule update
     $ ./install.sh
 
 ### Configs

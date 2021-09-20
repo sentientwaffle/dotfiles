@@ -35,9 +35,11 @@ syn match  journalUList "\(^\|\/\)\@<= *\* "
 syn match  journalOList "\(^\|\/\)\@<= *# "
 "syn match  journalUList " \* "
 
-syn match  journalFlashcard           "^/"
-syn match  journalFlashcardProperties contained "\(create_time\|difficulty\|interval\|last_review_time\|reviews\)"
-syn match  journalFlashcardProperty   "^/\." nextgroup=journalFlashcardProperties
+"syn region journalFlashcard start="^/\." end="$" oneline contains=journalFlashcardProperties
+syn match  journalFlashcard "^/"
+syn region journalFlashcardProperties matchgroup=journalFlashcard start="^/\." end="$" oneline
+"syn match  journalFlashcardProperties contained "\(id\)"
+"syn match  journalFlashcardProperty   "^/\." nextgroup=journalFlashcardProperties
 
 " ------------------------------------------------------------------------------
 " Groups
@@ -60,7 +62,7 @@ hi def link journalURLTitle      String
 hi def link journalURLHref       Float
 
 hi def link journalFlashcard           Function
-hi def link journalFlashcardProperty   Function
+"hi def link journalFlashcardProperty   Function
 hi def link journalFlashcardProperties Comment
 
 let b:current_syntax = 'journal'

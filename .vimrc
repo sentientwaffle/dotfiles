@@ -1,4 +1,4 @@
-call pathogen#infect('bundle/{}', '~/Bootstrap/config/vim/bundle/{}')
+call pathogen#infect('bundle/{}', '~/Bootstrap/src/vim/{}')
 
 " -----------------------------------------------------------------------------
 " General
@@ -22,7 +22,7 @@ set modelines=0
 set nomodeline
 set nrformats-=octal
 set termencoding=utf-8
-set thesaurus=$HOME/Bootstrap/data/mthesaur.txt
+set thesaurus=$HOME/.cache/vim/thesaurus.txt " C-x C-t
 set title " show filename in window titlebar
 set wildmenu " command-line completion
 set wildmode=longest:full " Better autocompletion
