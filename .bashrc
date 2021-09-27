@@ -3,10 +3,10 @@
 # If not running interactively, don't do anything
 [ -z "$PS1" ] && return
 
-# ##############################################################################
+################################################################################
 # Environment
-# ##############################################################################
 # https://dom111.github.io/grep-colors/
+
 export GREP_COLORS='sl=97;48;5;236:cx=37;40:mt=30;48;5;186:fn=38;5;197:ln=38;5;154:bn=38;5;141:se=38;5;81'
 export TZ='America/Los_Angeles'
 # python2 for node-gyp
@@ -26,18 +26,16 @@ shopt -s failglob
 # Append to bash history, don't overwrite.
 shopt -s histappend
 
-# ##############################################################################
+################################################################################
 # Aliases
-# ##############################################################################
 
 alias winfo='xwininfo -display :0'
 alias lstar='tar -ztvf'
 alias mktar='tar -cvzf'
 alias untar='tar -zxvf'
 
-# ##############################################################################
+################################################################################
 # Completion
-# ##############################################################################
 # https://www.gnu.org/software/bash/manual/html_node/Programmable-Completion-Builtins.html
 
 complete -A binding bind
@@ -115,9 +113,8 @@ if [[ -r /usr/share/bash-completion/completions/git ]]; then
 	__git_complete gsl _git_stash
 fi
 
-# ##############################################################################
+################################################################################
 # Terminal colors
-# ##############################################################################
 
 if [[ -n "$DISPLAY" && "$TERM" == 'xterm' ]]; then
 	if [[ -f /usr/share/terminfo/t/tmux-256color ]]; then
@@ -132,9 +129,7 @@ if [[ -x /usr/bin/dircolors ]]; then
 	eval "$(TERM=screen-256color dircolors --sh "$DOTFILES/.dircolors")"
 fi
 
-# ##############################################################################
-
-#[[ -r ~/Bootstrap/.bashrc ]] && source ~/Bootstrap/.bashrc
+################################################################################
 
 # Start X at login.
 # https://wiki.archlinux.org/index.php/Start_X_at_Login
