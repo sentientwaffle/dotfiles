@@ -92,6 +92,9 @@ set shortmess+=I " No startup message.
 inoremap <Nul> <C-p>
 " Exit normal mode.
 inoremap jj <ESC>
+" By default <C-u> erases the current line.
+" If some text has been written (but not 'committed' by exiting to Normal mode) then the in-progress text is lost, and not recoverable by undo/redo. Which is inconvenient.
+inoremap <C-u> <Nop>
 vnoremap Y :'<,'>!copy<CR>
 
 nnoremap <C-r> <C-r>:echoerr 'Use "U" to redo!'<CR>
