@@ -21,12 +21,12 @@ symlink() {
 	if [ -e "$_dst" ]; then
 		if [ "$(readlink -f "$_src")" = "$(readlink -f "$_dst")" ]; then
 			# The link already exists, and is correct.
-			return
+			return 0
 		fi
 		echo "warning: Target $_dst already exists; skipping." >&2
 		# This is technically an error, but with "set -e" we don't actually
 		# want to exit.
-		return
+		return 0
 	fi
 	printf 'ln -s "%s" "%s"\n' "$_src" "$_dst"
 	ln -s "$_src" "$_dst"

@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 # If not running interactively, don't do anything
-[ -z "$PS1" ] && return
+[ -z "$PS1" ] && return 0
 
 ################################################################################
 # Environment
