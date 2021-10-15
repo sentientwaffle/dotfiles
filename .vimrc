@@ -277,6 +277,7 @@ augroup FTOptions
   autocmd BufNewFile,BufRead *.tf              set filetype=terraform
   autocmd BufNewFile,BufRead *.ts,*.tsx        set filetype=typescript
   autocmd BufNewFile,BufRead *.toml,Cargo.lock set filetype=toml
+  autocmd BufNewFile,BufRead *.zig             set filetype=zig
   autocmd BufNewFile,BufRead ~/Bootstrap/data/mux/*.txt    set filetype=mux
   autocmd BufNewFile,BufRead ~/Bootstrap/data/bmux/*.txt   set filetype=feeds
   autocmd BufNewFile,BufRead ~/Bootstrap/data/feeds.txt    set filetype=feeds
