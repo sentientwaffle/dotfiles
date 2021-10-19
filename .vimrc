@@ -78,7 +78,7 @@ nnoremap <expr> N 'nN'[v:searchforward]
 
 " Theming
 set t_Co=256 " 256 colors
-colorscheme custom
+colorscheme custom_grey
 
 set cursorline " highlight current line
 set display+=lastline
