@@ -203,13 +203,17 @@ hi journalMetadataKey ctermfg=243
 hi journalBold        cterm=bold
 hi journalItalic      cterm=italic
 "hi journalFlashcardProperty  ctermfg=
+"hi journalURLDelimiter  
+hi journalURLTitle      ctermfg=254
+hi journalURLHref       ctermfg=248 cterm=italic
 
 " -----------------------------------------------------------------------------
 " Markdown
 " -----------------------------------------------------------------------------
 
-hi markdownCode      ctermfg=243
-hi markdownCodeBlock ctermfg=243
+hi markdownCode          ctermfg=243
+hi markdownCodeBlock     ctermfg=243
+hi markdownAutomaticLink ctermfg=248 cterm=italic
 
 " -----------------------------------------------------------------------------
 " Rust
