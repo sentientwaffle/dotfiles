@@ -16,7 +16,6 @@ fi
 file=$1
 pages=$2
 totalpages=$(mutool pages "$file" | grep --count '^<page ')
-#for ((page = 0; page < totalpages; page += pages)); do
 
 index=1
 page=0
@@ -30,4 +29,5 @@ while [ $(( page < totalpages )) -ne 0 ]; do
 	echo "Writing $dstfile"
 	mutool clean "$file" "$dstfile" "$page-$((page + pages))"
 	: $((index += 1))
+	: $((page += pages))
 done
