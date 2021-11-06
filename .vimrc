@@ -78,7 +78,7 @@ nnoremap <expr> N 'nN'[v:searchforward]
 
 " Theming
 set t_Co=256 " 256 colors
-colorscheme custom_grey
+colorscheme custom_soft
 
 set cursorline " highlight current line
 set display+=lastline
@@ -287,7 +287,7 @@ augroup FTOptions
   autocmd FileType json,terraform,yaml setlocal foldmethod=indent
 
   " Indentation
-  autocmd FileType python,rust                    setlocal   expandtab shiftwidth=4 softtabstop=4
+  autocmd FileType python,rust,zig                setlocal   expandtab shiftwidth=4 softtabstop=4
   autocmd FileType c,cpp,go,gomod,make            setlocal noexpandtab shiftwidth=8 softtabstop=8
   autocmd FileType bash,sh,gitconfig,html,css,lua setlocal noexpandtab shiftwidth=8 softtabstop=8
 
