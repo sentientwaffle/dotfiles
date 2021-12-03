@@ -211,6 +211,11 @@ function! <SID>Format(mode, is_visual)
   call <SID>SystemOperator(l:command, a:mode, a:is_visual)
 endfunction
 
+function! <SID>DiffSyntax()
+  syn match diffAdded   "^+.*" containedin=ALL
+  syn match diffRemoved "^-.*" containedin=ALL
+endfunction
+
 " See `:help 'map-operator'`.
 nnoremap <silent> = :set opfunc=<SID>Align<CR>g@
 vnoremap <silent> = :<C-U>call <SID>Align(visualmode(), 1)<CR>
@@ -298,11 +303,14 @@ augroup FTOptions
   autocmd FileType markdown call <SID>NavigateWrapped()
 
   " Help (shift-K)
-  autocmd FileType vim setlocal keywordprg=:help
+  autocmd FileType vim             setlocal keywordprg=:help
   autocmd FileType rust,typescript setlocal keywordprg=git\ grep
 
   autocmd FileType journal runtime! ftplugin/journal.vim
   autocmd FileType disasm  runtime! ftplugin/disasm.vim
+
+  " Syntax
+  autocmd BufNewFile,BufRead /tmp/git-review-*/* call <SID>DiffSyntax()
 
   " Selectively disable undofile.
   " `pass` creates temporary files in /dev/shm/, so ignore those as well.

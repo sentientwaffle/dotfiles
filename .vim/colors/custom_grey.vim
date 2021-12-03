@@ -39,14 +39,14 @@ hi Constant        ctermfg=252 cterm=italic
 hi Debug           ctermfg=225               cterm=bold
 hi Define          ctermfg=243
 hi Delimiter       ctermfg=241
-hi Include         ctermfg=250
+hi Include         ctermfg=247
 
-hi Function        ctermfg=250
+hi Function        ctermfg=247 cterm=italic
 " json object key
-hi Label           ctermfg=250
-hi Special         ctermfg=252 cterm=italic
+hi Label           ctermfg=247 cterm=italic
+hi Special         ctermfg=247 cterm=italic
 " js regexp
-hi SpecialChar     ctermfg=250
+hi SpecialChar     ctermfg=247
 
 hi Ignore          ctermfg=244 ctermbg=232
 
@@ -63,12 +63,12 @@ hi Keyword         ctermfg=250 cterm=bold
 hi Conditional     ctermfg=250 cterm=bold
 hi Repeat          ctermfg=250 cterm=bold
 hi Operator        ctermfg=255
-hi Exception       ctermfg=250
-hi Statement       ctermfg=250
+hi Exception       ctermfg=247 cterm=italic
+hi Statement       ctermfg=247 cterm=italic
 "hi Tag            ctermfg=166
 
-hi Question        ctermfg=250
-hi Search          ctermfg=232   ctermbg=244   cterm=none
+hi Question        ctermfg=247   cterm=italic
+hi Search          ctermfg=232   ctermbg=250   cterm=none
 hi IncSearch       ctermfg=232   ctermbg=255   cterm=none
 
 " marks column
@@ -121,7 +121,7 @@ endif
 hi Pmenu           ctermfg=253 ctermbg=235
 hi PmenuSel        ctermfg=255 ctermbg=242   cterm=bold
 hi PmenuSbar                   ctermbg=232
-hi PmenuThumb      ctermfg=250
+hi PmenuThumb      ctermfg=247
 hi WildMenu        ctermfg=255 ctermbg=242
 "hi WildMenu        ctermfg=250  ctermbg=16
 

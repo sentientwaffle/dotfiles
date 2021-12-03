@@ -83,15 +83,16 @@ k_get() {
 
 k_logs() {
 	# Don't fail when there are multiple containers.
-	all='--all-containers=true'
+	local all='--all-containers=true'
 	# Don't fail when there are too many log streams (pods).
-	max='--max-log-requests=20'
+	local max='--max-log-requests=20'
 
 	if [ $# != 0 ]; then
 		$_kubectl logs "$all" "$max" "$@" | cl
 		exit
 	fi
 
+	local apps pods pod_or_app
 	apps=$(_app_labels)
 	pods=$($_kubectl get pods -o name)
 	pod_or_app=$(printf '%s%s' "$apps" "$pods" | fzy)
@@ -103,15 +104,15 @@ k_logs() {
 }
 
 k_port() {
-	port=${1:-9229}
-	pod=${2:-$(_pods | fzy)}
+	local port=${1:-9229}
+	local pod=${2:-$(_pods | fzy)}
 	set -x
 	$_kubectl port-forward "$pod" "$port:$port"
 	set +x
 }
 
 k_ssh() {
-	pod=${1:-$(_pods | fzy)}
+	local pod=${1:-$(_pods | fzy)}
 	set -x
 	$_kubectl exec --stdin=true --tty=true "$pod" -- /bin/sh
 	set +x
