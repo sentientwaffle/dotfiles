@@ -61,6 +61,7 @@ set tabstop=8 " number of visual spaces per tab
 " ------------------------------------------------------------------------------
 set ruler " show cursor position
 set number " line numbers
+set relativenumber
 set fillchars=vert:│ " vsplit character
 
 " Search
@@ -315,6 +316,15 @@ augroup FTOptions
   " Selectively disable undofile.
   " `pass` creates temporary files in /dev/shm/, so ignore those as well.
   autocmd BufWritePre /tmp/*,/dev/* setlocal noundofile
+augroup END
+
+" https://jeffkreeftmeijer.com/vim-number/
+" https://stackoverflow.com/questions/10757020/vim-insertleave-event-doesnt-occur-when-using-ctrl-c-instead-of-esc
+inoremap <C-C> <Esc>
+augroup numbertoggle
+  autocmd!
+  autocmd BufEnter,FocusGained,InsertLeave,WinEnter * if &nu && mode() != "i" | set relativenumber   | endif
+  autocmd BufLeave,FocusLost,InsertEnter,WinLeave   * if &nu                  | set norelativenumber | endif
 augroup END
 
 " -----------------------------------------------------------------------------
