@@ -100,6 +100,7 @@ vnoremap Y :'<,'>!copy<CR>
 
 nnoremap <C-r> <C-r>:echoerr 'Use "U" to redo!'<CR>
 
+nnoremap <silent> <C-S> :update<CR>
 nnoremap <C-d> :qall<CR>
 nnoremap <TAB> gt
 nnoremap <S-TAB> gT
