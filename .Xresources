@@ -17,6 +17,7 @@ URxvt.font:         xft:Inconsolata:size=12,\
 URxvt.background:   #000000
 URxvt.foreground:   #ffffff
 URxvt.cursorBlink:  true
+URxvt.cursorColor:  #62de84
 URxvt.iso14755:     false
 URxvt.pointerBlank: true
 
@@ -27,7 +28,20 @@ URxvt.saveLines: 0
 URxvt.perl-ext:
 URxvt.perl-ext-common:
 
-! Yellow: (normal)
-!URxvt.color2: 
-! Yellow (bright):
-!URxvt.color10: 
+URxvt.color0:  #292d3e
+URxvt.color1:  #f07178
+URxvt.color2:  #62de84
+URxvt.color3:  #ffcb6b
+URxvt.color4:  #75a1ff
+URxvt.color5:  #f580ff
+URxvt.color6:  #60baec
+URxvt.color7:  #abb2bf
+
+URxvt.color8:  #959dcb
+URxvt.color9:  #f07178
+URxvt.color10: #c3e88d
+URxvt.color11: #ffcb6b
+URxvt.color12: #82aaff
+URxvt.color13: #ff5572
+URxvt.color14: #676e95
+URxvt.color15: #fffefe
